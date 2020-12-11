@@ -2,6 +2,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,12 +12,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
 
-public class registerFrame {
+public class loginFrame {
 
 	private JFrame frame;
 	private JTextField id;
 	private JPasswordField password;
-	private JTextField name;
 
 	/**
 	 * Launch the application.
@@ -24,7 +25,7 @@ public class registerFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					registerFrame window = new registerFrame();
+					loginFrame window = new loginFrame();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +37,7 @@ public class registerFrame {
 	/**
 	 * Create the application.
 	 */
-	public registerFrame() {
+	public loginFrame() {
 		initialize();
 	}
 
@@ -47,36 +48,35 @@ public class registerFrame {
 		frame = new JFrame();
 		
 		// 패널에 이미지 설정
-		ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_registerFrame.jpg").getImage());
-		// ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
+		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_loginFrame.jpg").getImage());
+		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
 		// 이미지 크기를 가져와서 이미지 크기만큼 패널을 만들도록 설정
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
 		
 		id = new JTextField();
-		id.setBounds(519, 387, 313, 45);
+		id.setBounds(519, 312, 313, 45);
 		bgPanel.add(id);
 		id.setColumns(10);
 		
 		password = new JPasswordField();
-		password.setBounds(519, 495, 313, 45);
+		password.setBounds(519, 421, 313, 45);
 		bgPanel.add(password);
 		
 		JButton btn_register = new JButton("New button");
+		btn_register.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btn_register.setBackground(Color.LIGHT_GRAY);
 		btn_register.setForeground(Color.WHITE);
-		//btn_register.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\register1.jpg"));
-		//btn_register.setRolloverIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\register2.jpg"));
-		btn_register.setIcon(new ImageIcon("./image/register1.jpg"));
-		btn_register.setRolloverIcon(new ImageIcon("./image/register2.jpg"));
-		btn_register.setBounds(519, 586, 313, 57);
+		//btn_register.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\login1.jpg"));
+		//btn_register.setRolloverIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\login2.jpg"));
+		btn_register.setIcon(new ImageIcon("./image/login1.jpg"));
+		btn_register.setRolloverIcon(new ImageIcon("./image/login2.jpg"));
+		btn_register.setBounds(519, 518, 313, 57);
 		bgPanel.add(btn_register);
-		
-		name = new JTextField();
-		name.setBounds(519, 279, 313, 45);
-		bgPanel.add(name);
-		name.setColumns(10);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);

@@ -1,27 +1,21 @@
-package test;
-
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
 
-public class loginFrame {
+public class registerFrame {
 
 	private JFrame frame;
 	private JTextField id;
 	private JPasswordField password;
+	private JTextField name;
 
 	/**
 	 * Launch the application.
@@ -30,7 +24,7 @@ public class loginFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					loginFrame window = new loginFrame();
+					registerFrame window = new registerFrame();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -42,7 +36,7 @@ public class loginFrame {
 	/**
 	 * Create the application.
 	 */
-	public loginFrame() {
+	public registerFrame() {
 		initialize();
 	}
 
@@ -53,46 +47,36 @@ public class loginFrame {
 		frame = new JFrame();
 		
 		// 패널에 이미지 설정
-		ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:/0_dowon/Playdata/Project/Java_GUI/GUI/test/image/loginFrame.jpg").getImage());
+		ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_registerFrame.jpg").getImage());
+		// ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
 		// 이미지 크기를 가져와서 이미지 크기만큼 패널을 만들도록 설정
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
 		
 		id = new JTextField();
-		id.setBounds(519, 311, 326, 52);
+		id.setBounds(519, 387, 313, 45);
 		bgPanel.add(id);
 		id.setColumns(10);
 		
 		password = new JPasswordField();
-		password.setBounds(519, 419, 326, 52);
+		password.setBounds(519, 495, 313, 45);
 		bgPanel.add(password);
 		
-		JButton btn_login = new JButton("New button");
-		btn_login.setBackground(Color.GRAY);
-		btn_login.setForeground(Color.WHITE);
-		btn_login.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\test\\image\\login.jpg"));
-		btn_login.setRolloverIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\test\\image\\login_click.jpg"));
-		btn_login.setBounds(519, 520, 316, 57);
-		bgPanel.add(btn_login);
+		JButton btn_register = new JButton("New button");
+		btn_register.setBackground(Color.LIGHT_GRAY);
+		btn_register.setForeground(Color.WHITE);
+		//btn_register.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\register1.jpg"));
+		//btn_register.setRolloverIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\register2.jpg"));
+		btn_register.setIcon(new ImageIcon("./image/register1.jpg"));
+		btn_register.setRolloverIcon(new ImageIcon("./image/register2.jpg"));
+		btn_register.setBounds(519, 586, 313, 57);
+		bgPanel.add(btn_register);
 		
-		// 로그인 버튼을 눌렀을 때 아이디, 비번을 확인하도록
-		btn_login.addActionListener(new ActionListener() {
-					
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(id.getText().equals("dowon")&&Arrays.equals(password.getPassword(), "1234".toCharArray())) {
-					System.out.println("Welcome Dowon");
-//					bgPanel.setVisible(false);
-					System.exit(0);
-				} else {
-					JOptionPane.showMessageDialog(null, "아이디가 존재하지 않거나 비밀번호가 틀립니다.");
-				}
-			}
-		});
-				
-		bgPanel.add(btn_login);
-		
+		name = new JTextField();
+		name.setBounds(519, 279, 313, 45);
+		bgPanel.add(name);
+		name.setColumns(10);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
@@ -125,4 +109,3 @@ public class loginFrame {
 		}
 		
 	}
-

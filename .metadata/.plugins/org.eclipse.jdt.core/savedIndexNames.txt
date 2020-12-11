@@ -1,0 +1,2 @@
+INDEX VERSION 1.131+C:\0_dowon\Playdata\Project\Java_GUI\.metadata\.plugins\org.eclipse.jdt.core
+495363174.index

@@ -50,8 +50,8 @@ public class loginFrame {
 		frame = new JFrame();
 		
 		// 패널에 이미지 설정
-		ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_loginFrame.jpg").getImage());
-		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
+		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_loginFrame.jpg").getImage());
+		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
 		// 이미지 크기를 가져와서 이미지 크기만큼 패널을 만들도록 설정
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
@@ -80,11 +80,11 @@ public class loginFrame {
 		btn_register.setBounds(519, 518, 313, 57);
 		bgPanel.add(btn_register);
 		
-		JLabel lblNewLabel = new JLabel("Sign Up");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 17));
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setBounds(760, 585, 72, 25);
-		bgPanel.add(lblNewLabel);
+		JLabel signUp = new JLabel("Sign Up");
+		signUp.setFont(new Font("Arial", Font.BOLD, 17));
+		signUp.setForeground(Color.WHITE);
+		signUp.setBounds(760, 585, 72, 25);
+		bgPanel.add(signUp);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);

@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class loginFrame {
 
@@ -48,8 +50,8 @@ public class loginFrame {
 		frame = new JFrame();
 		
 		// 패널에 이미지 설정
-		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_loginFrame.jpg").getImage());
-		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
+		ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_loginFrame.jpg").getImage());
+		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
 		// 이미지 크기를 가져와서 이미지 크기만큼 패널을 만들도록 설정
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
@@ -69,14 +71,20 @@ public class loginFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btn_register.setBackground(Color.LIGHT_GRAY);
-		btn_register.setForeground(Color.WHITE);
-		//btn_register.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\login1.jpg"));
-		//btn_register.setRolloverIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\login2.jpg"));
+		//btn_register.setBackground(Color.LIGHT_GRAY);
+		//btn_register.setForeground(Color.WHITE);
+		btn_register.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\login1.jpg"));
+		btn_register.setRolloverIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\login2.jpg"));
 		btn_register.setIcon(new ImageIcon("./image/login1.jpg"));
 		btn_register.setRolloverIcon(new ImageIcon("./image/login2.jpg"));
 		btn_register.setBounds(519, 518, 313, 57);
 		bgPanel.add(btn_register);
+		
+		JLabel lblNewLabel = new JLabel("Sign Up");
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 17));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(760, 585, 72, 25);
+		bgPanel.add(lblNewLabel);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);

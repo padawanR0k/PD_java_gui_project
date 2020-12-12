@@ -1,9 +1,14 @@
+import DB.DB;
+
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Map;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,6 +17,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 
 public class loginFrame {
@@ -19,6 +26,7 @@ public class loginFrame {
 	private JFrame frame;
 	private JTextField id;
 	private JPasswordField password;
+	private DB db;
 
 	/**
 	 * Launch the application.
@@ -41,6 +49,7 @@ public class loginFrame {
 	 */
 	public loginFrame() {
 		initialize();
+		db = new DB();
 	}
 
 	/**
@@ -48,72 +57,100 @@ public class loginFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		
-		// ÆĞ³Î¿¡ ÀÌ¹ÌÁö ¼³Á¤
-		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_loginFrame.jpg").getImage());
+
+		// ï¿½Ğ³Î¿ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// ImagePanel bgPanel = new ImagePanel(new
+		// ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_loginFrame.jpg").getImage());
 		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
-		// ÀÌ¹ÌÁö Å©±â¸¦ °¡Á®¿Í¼­ ÀÌ¹ÌÁö Å©±â¸¸Å­ ÆĞ³ÎÀ» ¸¸µéµµ·Ï ¼³Á¤
+		// ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½â¸¸Å­ ï¿½Ğ³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½éµµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
-		
+
 		id = new JTextField();
 		id.setBounds(519, 312, 313, 45);
 		bgPanel.add(id);
 		id.setColumns(10);
-		
+
 		password = new JPasswordField();
 		password.setBounds(519, 421, 313, 45);
 		bgPanel.add(password);
-		
+
 		JButton btn_register = new JButton("New button");
-		btn_register.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		//btn_register.setBackground(Color.LIGHT_GRAY);
-		//btn_register.setForeground(Color.WHITE);
-		btn_register.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\login1.jpg"));
-		btn_register.setRolloverIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\login2.jpg"));
-		btn_register.setIcon(new ImageIcon("./image/login1.jpg"));
-		btn_register.setRolloverIcon(new ImageIcon("./image/login2.jpg"));
+		btn_register.setIcon(new ImageIcon("./image/btn/login1.jpg"));
+		btn_register.setRolloverIcon(new ImageIcon("./image/btn/login2.jpg"));
 		btn_register.setBounds(519, 518, 313, 57);
+
+		btn_register.addActionListener(new btnAction());
 		bgPanel.add(btn_register);
-		
+
 		JLabel signUp = new JLabel("Sign Up");
 		signUp.setFont(new Font("Arial", Font.BOLD, 17));
 		signUp.setForeground(Color.WHITE);
 		signUp.setBounds(760, 585, 72, 25);
 		bgPanel.add(signUp);
-		
+
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	}
+
+
+	class btnAction implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String ID = id.getText();
+			String PW = password.getText();
+			db = new DB();
+			String query = String.format("""
+					SELECT
+						(SELECT count(*) FROM heroku_dcf5f8a801138d1.account WHERE id = '%s' and pw = MD5('%s')) as isAllValid,
+						(SELECT count(*) FROM heroku_dcf5f8a801138d1.account WHERE id = '%s') as isIdValid;
+					""", ID, PW, ID);
+			List<Map<String, Object>> response = db.query(query);
+			Map<String, Object> result = response.get(0);
+			Long isIdValid = (Long) result.get("isIdValid");
+			Long isAllValid = (Long)result.get("isAllValid");
+			String  message = "";
+			if (isIdValid == 0) {
+				message = "ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ì•„ì´ë””ì…ë‹ˆë‹¤.";
+			} else {
+				if (isAllValid == 1) {
+					message = "ë¡œê·¸ì¸ë˜ì—ˆìŠµë‹ˆë‹¤..";
+				} else {
+					message = "ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.";
+				}
+			}
+
+			JOptionPane.showMessageDialog(null, message);
+			System.out.println(response);
+
+		}
 	}
 }
 
-	class ImagePanel extends JPanel{
-		private Image img;
-		
-		public ImagePanel(Image img){
-			this.img = img;
-			setSize(new Dimension(img.getWidth(null),img.getHeight(null))); // »çÀÌÁî ÃÖ´ë
-			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null))); // ÀÌ¹ÌÁö Å©±â·Î »çÀÌÁî ¼³Á¤
-			setLayout(null);
-		}
-		
-		// ÀÌ¹ÌÁö Å©±â¸¦ °¡Á®¿Àµµ·Ï
-		public int getWidth() {
-			return img.getWidth(null);
-		}
-		
-		public int getHeight() {
-			return img.getHeight(null);
-		}
-		
-		// ÀÌ¹ÌÁö¸¦ ¾÷·ÎµåÇÏ´Â ÇÔ¼ö
-		public void paintComponent(Graphics g){
-			g.drawImage(img, 0, 0, null);
-		}
-		
+class ImagePanel extends JPanel {
+	private Image img;
+
+	public ImagePanel(Image img) {
+		this.img = img;
+		setSize(new Dimension(img.getWidth(null), img.getHeight(null))); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½
+		setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null))); // ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		setLayout(null);
 	}
+
+	// ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public int getWidth() {
+		return img.getWidth(null);
+	}
+
+	public int getHeight() {
+		return img.getHeight(null);
+	}
+
+	// ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
+	public void paintComponent(Graphics g) {
+		g.drawImage(img, 0, 0, null);
+	}
+
+}

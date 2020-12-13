@@ -58,11 +58,8 @@ public class loginFrame {
 	private void initialize() {
 		frame = new JFrame();
 
-		// �гο� �̹��� ����
-		// ImagePanel bgPanel = new ImagePanel(new
 		// ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_loginFrame.jpg").getImage());
 		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
-		// �̹��� ũ�⸦ �����ͼ� �̹��� ũ�⸸ŭ �г��� ���鵵�� ����
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
@@ -76,19 +73,29 @@ public class loginFrame {
 		password.setBounds(519, 421, 313, 45);
 		bgPanel.add(password);
 
-		JButton btn_register = new JButton("New button");
-		btn_register.setIcon(new ImageIcon("./image/btn/login1.jpg"));
-		btn_register.setRolloverIcon(new ImageIcon("./image/btn/login2.jpg"));
-		btn_register.setBounds(519, 518, 313, 57);
+		JButton btn_login = new JButton("New button");
+		btn_login.setIcon(new ImageIcon("./image/btn/login1.jpg"));
+		btn_login.setRolloverIcon(new ImageIcon("./image/btn/login2.jpg"));
+		btn_login.setBounds(519, 518, 313, 57);
 
-		btn_register.addActionListener(new btnAction());
-		bgPanel.add(btn_register);
+		btn_login.addActionListener(new btnAction());
+		bgPanel.add(btn_login);
 
-		JLabel signUp = new JLabel("Sign Up");
-		signUp.setFont(new Font("Arial", Font.BOLD, 17));
-		signUp.setForeground(Color.WHITE);
-		signUp.setBounds(760, 585, 72, 25);
-		bgPanel.add(signUp);
+		JButton btn_signUp = new JButton("Sign Up");
+		btn_signUp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				registerFrame r = new registerFrame();
+				r.setVisible(true);
+				frame.dispose();
+			}
+		});
+		btn_signUp.setFont(new Font("Arial", Font.BOLD, 17));
+		btn_signUp.setBorderPainted(false);
+		btn_signUp.setFocusPainted(false);
+		btn_signUp.setForeground(Color.WHITE);
+		btn_signUp.setBackground(Color.BLACK);
+		btn_signUp.setBounds(734, 585, 123, 29);
+		bgPanel.add(btn_signUp);
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
@@ -134,12 +141,11 @@ class ImagePanel extends JPanel {
 
 	public ImagePanel(Image img) {
 		this.img = img;
-		setSize(new Dimension(img.getWidth(null), img.getHeight(null))); // ������ �ִ�
-		setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null))); // �̹��� ũ��� ������ ����
+		setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
+		setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null))); 
 		setLayout(null);
 	}
 
-	// �̹��� ũ�⸦ ����������
 	public int getWidth() {
 		return img.getWidth(null);
 	}
@@ -148,7 +154,6 @@ class ImagePanel extends JPanel {
 		return img.getHeight(null);
 	}
 
-	// �̹����� ���ε��ϴ� �Լ�
 	public void paintComponent(Graphics g) {
 		g.drawImage(img, 0, 0, null);
 	}

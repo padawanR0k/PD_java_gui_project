@@ -46,10 +46,10 @@ public class registerFrame {
 	private void initialize() {
 		frame = new JFrame();
 		
-		// ÆÐ³Î¿¡ ÀÌ¹ÌÁö ¼³Á¤
-		ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_registerFrame.jpg").getImage());
-		// ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
-		// ÀÌ¹ÌÁö Å©±â¸¦ °¡Á®¿Í¼­ ÀÌ¹ÌÁö Å©±â¸¸Å­ ÆÐ³ÎÀ» ¸¸µéµµ·Ï ¼³Á¤
+		// ï¿½Ð³Î¿ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_registerFrame.jpg").getImage());
+		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_registerFrame.jpg").getImage());
+		// ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½â¸¸Å­ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½éµµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
@@ -82,6 +82,14 @@ public class registerFrame {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+
+	public void setVisible(boolean b) {
+		frame.setVisible(b);
+	}
+	
+	public void dispose() {
+		frame.dispose();
+	}
 }
 
 	class ImagePanel extends JPanel{
@@ -89,12 +97,12 @@ public class registerFrame {
 		
 		public ImagePanel(Image img){
 			this.img = img;
-			setSize(new Dimension(img.getWidth(null),img.getHeight(null))); // »çÀÌÁî ÃÖ´ë
-			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null))); // ÀÌ¹ÌÁö Å©±â·Î »çÀÌÁî ¼³Á¤
+			setSize(new Dimension(img.getWidth(null),img.getHeight(null))); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½
+			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null))); // ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			setLayout(null);
 		}
 		
-		// ÀÌ¹ÌÁö Å©±â¸¦ °¡Á®¿Àµµ·Ï
+		// ï¿½Ì¹ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public int getWidth() {
 			return img.getWidth(null);
 		}
@@ -103,7 +111,7 @@ public class registerFrame {
 			return img.getHeight(null);
 		}
 		
-		// ÀÌ¹ÌÁö¸¦ ¾÷·ÎµåÇÏ´Â ÇÔ¼ö
+		// ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
 		public void paintComponent(Graphics g){
 			g.drawImage(img, 0, 0, null);
 		}

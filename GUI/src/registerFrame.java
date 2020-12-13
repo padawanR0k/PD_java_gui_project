@@ -46,10 +46,10 @@ public class registerFrame {
 	private void initialize() {
 		frame = new JFrame();
 		
-		// �гο� �̹��� ����
-		// ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_registerFrame.jpg").getImage());
+		// 패널에 이미지 설정
+		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_registerFrame.jpg").getImage());
 		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_registerFrame.jpg").getImage());
-		// �̹��� ũ�⸦ �����ͼ� �̹��� ũ�⸸ŭ �г��� ���鵵�� ����
+		// 이미지 크기를 가져와서 이미지 크기만큼 패널을 만들도록 설정
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
@@ -97,12 +97,12 @@ public class registerFrame {
 		
 		public ImagePanel(Image img){
 			this.img = img;
-			setSize(new Dimension(img.getWidth(null),img.getHeight(null))); // ������ �ִ�
-			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null))); // �̹��� ũ��� ������ ����
+			setSize(new Dimension(img.getWidth(null),img.getHeight(null))); // 사이즈 최대
+			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null))); // 이미지 크기로 사이즈 설정
 			setLayout(null);
 		}
 		
-		// �̹��� ũ�⸦ ����������
+		// 이미지 크기를 가져오도록
 		public int getWidth() {
 			return img.getWidth(null);
 		}
@@ -111,7 +111,7 @@ public class registerFrame {
 			return img.getHeight(null);
 		}
 		
-		// �̹����� ���ε��ϴ� �Լ�
+		// 이미지를 업로드하는 함수
 		public void paintComponent(Graphics g){
 			g.drawImage(img, 0, 0, null);
 		}

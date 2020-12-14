@@ -1,6 +1,5 @@
 package DB;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -140,7 +139,6 @@ public class DB {
 
 			this.connect.close();
 		} catch (SQLException e) {
-			// TODO: handle exception
 			System.out.println("close시 에러발생");
 
 		}

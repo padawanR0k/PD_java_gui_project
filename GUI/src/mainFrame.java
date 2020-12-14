@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -46,65 +47,107 @@ public class mainFrame {
 	private void initialize() {
 		frame = new JFrame();
 		
-		// ÆĞ³Î¿¡ ÀÌ¹ÌÁö ¼³Á¤
-		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_mainFrame.jpg").getImage());
+		// íŒ¨ë„ì— ì´ë¯¸ì§€ ì„¤ì •
+		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\bg_mainFrame.jpg").getImage());
 		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_mainFrame.jpg").getImage());
-		// ÀÌ¹ÌÁö Å©±â¸¦ °¡Á®¿Í¼­ ÀÌ¹ÌÁö Å©±â¸¸Å­ ÆĞ³ÎÀ» ¸¸µéµµ·Ï ¼³Á¤
+		// ì´ë¯¸ì§€ í¬ê¸°ë¥¼ ê°€ì ¸ì™€ì„œ ì´ë¯¸ì§€ í¬ê¸°ë§Œí¼ íŒ¨ë„ì„ ë§Œë“¤ë„ë¡ ì„¤ì •
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
 		
 		JButton btn_myPage = new JButton("");
-		btn_myPage.setBackground(Color.WHITE);
+		btn_myPage.setBackground(Color.BLACK);
 		btn_myPage.setBorderPainted(false);
 		btn_myPage.setFocusPainted(false);
-		//btn_myPage.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\user_btn.png"));
-		btn_myPage.setIcon(new ImageIcon("./image/user_btn.png"));
+		//btn_myPage.setIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\user.png"));
+		btn_myPage.setIcon(new ImageIcon("./image/user.png"));
 		btn_myPage.setBounds(1245, 15, 85, 85);
 		bgPanel.add(btn_myPage);
 		
 		JButton poster1 = new JButton("");
-		poster1.setBounds(130, 255, 253, 328);
+		poster1.setBackground(Color.BLACK);
+		//poster1.setIcon(resizeIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\test.jfif"), 230, 328));
+		poster1.setBorderPainted(false);
+		poster1.setFocusPainted(false);
+		poster1.setBounds(50, 221, 230, 328);
 		bgPanel.add(poster1);
 		
 		JButton poster2 = new JButton("");
-		poster2.setBounds(411, 255, 253, 328);
+		//poster2.setIcon(resizeIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\test2.jfif"), 230, 328));
+		poster2.setBackground(Color.BLACK);
+		poster2.setBorderPainted(false);
+		poster2.setFocusPainted(false);
+		poster2.setBounds(306, 221, 230, 328);
 		bgPanel.add(poster2);
 		
 		JButton poster3 = new JButton("");
-		poster3.setBounds(692, 255, 253, 328);
+		//poster3.setIcon(resizeIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\test3.jfif"), 230, 328));
+		poster3.setBackground(Color.BLACK);
+		poster3.setBorderPainted(false);
+		poster3.setFocusPainted(false);
+		poster3.setBounds(563, 221, 230, 328);
 		bgPanel.add(poster3);
 		
 		JButton poster4 = new JButton("");
-		poster4.setBounds(971, 255, 253, 328);
+		//poster4.setIcon(resizeIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\test4.jpg"), 230, 328));
+		poster4.setBackground(Color.BLACK);
+		poster4.setBorderPainted(false);
+		poster4.setFocusPainted(false);
+		poster4.setBounds(818, 221, 230, 328);
 		bgPanel.add(poster4);
 		
+		JButton poster5 = new JButton("");
+		poster5.setBackground(Color.BLACK);
+		//poster5.setIcon(resizeIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\test5.jfif"), 230, 328));
+		poster5.setBorderPainted(false);
+		poster5.setFocusPainted(false);
+		poster5.setBounds(1075, 221, 230, 328);
+		bgPanel.add(poster5);
+		
+		
 		JButton btn_previous = new JButton("");
-		btn_previous.setBackground(Color.WHITE);
+		btn_previous.setBackground(Color.BLACK);
 		btn_previous.setBorderPainted(false);
 		btn_previous.setFocusPainted(false);
-		//btn_previous.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\previous1.png"));
-		//btn_previous.setRolloverIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\previous2.png"));
+		//btn_previous.setIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\previous1.png"));
+		//btn_previous.setRolloverIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\previous2.png"));
 		btn_previous.setIcon(new ImageIcon("./image/previous1.png"));
 		btn_previous.setRolloverIcon(new ImageIcon("./image/previous2.png"));
-		btn_previous.setBounds(15, 382, 90, 90);
+		btn_previous.setBounds(563, 631, 90, 90);
 		bgPanel.add(btn_previous);
 		
 		JButton btn_next = new JButton("");
-		//btn_next.setIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\next1.png"));
-		//btn_next.setRolloverIcon(new ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\next2.png"));
+		//btn_next.setIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\next1.png"));
+		//btn_next.setRolloverIcon(new ImageIcon("C:\\Users\\Playdata\\Desktop\\mainFrame\\GUI\\image\\next2.png"));
 		btn_next.setIcon(new ImageIcon("./image/next1.png"));
 		btn_next.setRolloverIcon(new ImageIcon("./image/next2.png"));
-		btn_next.setBackground(Color.WHITE);
+		btn_next.setBackground(Color.BLACK);
 		btn_next.setBorderPainted(false);
 		btn_next.setFocusPainted(false);
-		btn_next.setBounds(1245, 382, 90, 90);
+		btn_next.setBounds(703, 631, 90, 90);
 		bgPanel.add(btn_next);
 		
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	// í¬ìŠ¤í„° ì´ë¯¸ì§€ë¥¼ ë¦¬ì‚¬ì´ì¦ˆí•˜ëŠ” ë©”ì„œë“œ
+	// resizedHeight = 230, resizedHeight = 328
+	private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
+	       Image img = icon.getImage();  
+	       Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
+	       return new ImageIcon(resizedImage);
+	}
+	
+	// ë‹¤ë¥¸ í´ë˜ìŠ¤ì—ì„œ ì ‘ê·¼í•  ìˆ˜ ìˆë„ë¡
+	public void setVisible(boolean b) {
+		frame.setVisible(b);
+	}
+	
+	public void dispose() {
+		frame.dispose();
 	}
 }
 
@@ -113,12 +156,12 @@ public class mainFrame {
 		
 		public ImagePanel(Image img){
 			this.img = img;
-			setSize(new Dimension(img.getWidth(null),img.getHeight(null))); // »çÀÌÁî ÃÖ´ë
-			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null))); // ÀÌ¹ÌÁö Å©±â·Î »çÀÌÁî ¼³Á¤
+			setSize(new Dimension(img.getWidth(null),img.getHeight(null))); // ì‚¬ì´ì¦ˆ ìµœëŒ€
+			setPreferredSize(new Dimension(img.getWidth(null),img.getHeight(null))); // ì´ë¯¸ì§€ í¬ê¸°ë¡œ ì‚¬ì´ì¦ˆ ì„¤ì •
 			setLayout(null);
 		}
 		
-		// ÀÌ¹ÌÁö Å©±â¸¦ °¡Á®¿Àµµ·Ï
+		// ì´ë¯¸ì§€ í¬ê¸°ë¥¼ ê°€ì ¸ì˜¤ë„ë¡
 		public int getWidth() {
 			return img.getWidth(null);
 		}
@@ -127,7 +170,7 @@ public class mainFrame {
 			return img.getHeight(null);
 		}
 		
-		// ÀÌ¹ÌÁö¸¦ ¾÷·ÎµåÇÏ´Â ÇÔ¼ö
+		//  ì´ë¯¸ì§€ë¥¼ ì—…ë¡œë“œí•˜ëŠ” í•¨ìˆ˜
 		public void paintComponent(Graphics g){
 			g.drawImage(img, 0, 0, null);
 		}

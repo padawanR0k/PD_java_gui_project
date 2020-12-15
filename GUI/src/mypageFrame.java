@@ -51,8 +51,8 @@ public class mypageFrame {
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
 
+		this.drawInfoButton(bgPanel);
 		this.drawCheckButton(bgPanel);
-		this.drawCancelButton(bgPanel);
 
 		DB db = new DB();
 		// TODO - 로그인시 회원 고유값을 저장한 후 그 값을 AccountId 부분에 넣는 로직필요 함
@@ -75,28 +75,32 @@ public class mypageFrame {
 		bgPanel.add(btn);
 	}
 
-	public void drawCheckButton(ImagePanel bgPanel) {
-		JButton button = this.makeImageButton("check1.jpg", "check2.jpg");
-		button.setBounds(100, 360, 225, 60);
+	public void drawInfoButton(ImagePanel bgPanel) {
+		JButton button = this.makeImageButton("info1.jpg", "info2.jpg");
+		button.setBounds(100, 360, 225, 54);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
 
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Check Reservation");
+				JOptionPane.showMessageDialog(null, "My Information");
 			}
 		});
 
 		bgPanel.add(button);
 	}
 
-	public void drawCancelButton(ImagePanel bgPanel) {
-		JButton button = this.makeImageButton("cancel1.jpg", "cancel2.jpg");
-		button.setBounds(100, 450, 225, 60);
+	public void drawCheckButton(ImagePanel bgPanel) {
+		JButton button = this.makeImageButton("check1.jpg", "check2.jpg");
+		button.setBounds(100, 450, 225, 54);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
 
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "cancela Reservation");
+				JOptionPane.showMessageDialog(null, "Check Reservation");
 			}
 		});
 

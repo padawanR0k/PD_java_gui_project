@@ -47,6 +47,7 @@ public class reservationCancelFrame {
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
 
+		this.drawInfoButton(bgPanel);
 		this.drawCheckButton(bgPanel);
 		this.drawCancelButton(bgPanel);
 
@@ -55,9 +56,27 @@ public class reservationCancelFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	public void drawInfoButton(ImagePanel bgPanel) {
+		JButton button = this.makeImageButton("info1.jpg", "info2.jpg");
+		button.setBounds(100, 360, 225, 54);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
+
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "My Information");
+			}
+		});
+
+		bgPanel.add(button);
+	}
+
 	public void drawCheckButton(ImagePanel bgPanel) {
 		JButton button = this.makeImageButton("check1.jpg", "check2.jpg");
-		button.setBounds(100, 360, 225, 60);
+		button.setBounds(100, 450, 225, 54);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
 
 		button.addActionListener(new ActionListener() {
 			@Override
@@ -68,15 +87,17 @@ public class reservationCancelFrame {
 
 		bgPanel.add(button);
 	}
-
+	
 	public void drawCancelButton(ImagePanel bgPanel) {
 		JButton button = this.makeImageButton("cancel1.jpg", "cancel2.jpg");
-		button.setBounds(100, 450, 225, 60);
+		button.setBounds(765, 570, 225, 54);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
 
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "cancel Reservation");
+				JOptionPane.showMessageDialog(null, "Check Reservation");
 			}
 		});
 

@@ -10,7 +10,7 @@
 |Play Data 자율주행반|**마가진**
 |Play Data 자율주행반|**이도원**
 |Play Data 자율주행반|**이유록**
-|Play Data 자율주행반|****
+|Play Data 자율주행반|**신지환**
 
 </br>
 </br>

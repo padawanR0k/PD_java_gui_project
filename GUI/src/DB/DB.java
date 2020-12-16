@@ -110,6 +110,41 @@ public class DB {
 	}
 
 	/**
+	 * update, create문 실행
+	 * @param query
+	 * @return
+	 */
+	public int update(String query) {
+		try {
+			connect = this.getConnection();
+			PreparedStatement pstmt = connect.prepareStatement(query);
+			System.out.println(query);
+
+			try {
+				int res = pstmt.executeUpdate(query);
+
+				return res;
+			} catch (SQLException e) {
+				System.out.println(e);
+				System.out.println("쿼리전달 시 오류발생");
+				return -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		} finally {
+			try {
+				if (connect != null && !connect.isClosed()) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
 	 * 쿼리를 날려 받아온 결과값을 ArrayList로 사람이 보기 쉬운 형태로 변환함
 	 * @param rs
 	 * @return

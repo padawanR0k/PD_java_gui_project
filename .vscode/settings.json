@@ -1,0 +1,11 @@
+{
+	"java.project.referencedLibraries": {
+		"include": [
+			"lib/**/*.jar",
+			"GUI/lib/mysql-connector-java-8.0.22/mysql-connector-java-8.0.22.jar"
+		],
+		"exclude": [
+			"/GUI/lib/mysql-connector-java-8.0.22.jar"
+		]
+	}
+}

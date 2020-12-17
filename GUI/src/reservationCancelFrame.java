@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -50,6 +51,7 @@ public class reservationCancelFrame {
 		this.drawInfoButton(bgPanel);
 		this.drawCheckButton(bgPanel);
 		this.drawCancelButton(bgPanel);
+		this.drawBackButton(bgPanel);
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
@@ -103,6 +105,25 @@ public class reservationCancelFrame {
 
 		bgPanel.add(button);
 	}
+	
+	public void drawBackButton(ImagePanel bgPanel) {
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon("./image/back_btn.png"));
+		button.setBounds(1245, 10, 85, 85);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
+		button.setBackground(Color.WHITE);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainFrame m = new mainFrame();
+				m.setVisible(true);
+				frame.dispose();
+			}
+		});
+		
+		bgPanel.add(button);
+	}
 
 	/**
 	 * 이미지 버튼 생성
@@ -121,6 +142,7 @@ public class reservationCancelFrame {
 
 		return btn;
 	}
+	
 
 	public void setVisible(boolean b) {
 		frame.setVisible(b);

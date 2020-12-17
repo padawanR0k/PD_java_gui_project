@@ -1,4 +1,6 @@
 import DB.DB;
+
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -53,6 +55,7 @@ public class mypageFrame {
 
 		this.drawInfoButton(bgPanel);
 		this.drawCheckButton(bgPanel);
+		this.drawBackButton(bgPanel);
 
 		DB db = new DB();
 		// TODO - 로그인시 회원 고유값을 저장한 후 그 값을 AccountId 부분에 넣는 로직필요 함
@@ -104,6 +107,25 @@ public class mypageFrame {
 			}
 		});
 
+		bgPanel.add(button);
+	}
+	
+	public void drawBackButton(ImagePanel bgPanel) {
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon("./image/back_btn.png"));
+		button.setBounds(1245, 10, 85, 85);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
+		button.setBackground(Color.WHITE);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mainFrame m = new mainFrame();
+				m.setVisible(true);
+				frame.dispose();
+			}
+		});
+		
 		bgPanel.add(button);
 	}
 

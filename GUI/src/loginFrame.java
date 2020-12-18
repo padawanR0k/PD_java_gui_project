@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,7 +23,6 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 
 public class loginFrame {
-
 	private JFrame frame;
 	private JTextField id;
 	private JPasswordField password;
@@ -57,52 +57,27 @@ public class loginFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-
-		// ImageIcon("C:\\0_dowon\\Playdata\\Project\\Java_GUI\\GUI\\image\\bg_loginFrame.jpg").getImage());
+		
 		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
-
-		id = new JTextField();
-		id.setBounds(519, 312, 313, 45);
-		bgPanel.add(id);
-		id.setColumns(10);
-
-		password = new JPasswordField();
-		password.setBounds(519, 421, 313, 45);
-		bgPanel.add(password);
-
-		JButton btn_login = new JButton("New button");
-		btn_login.setIcon(new ImageIcon("./image/btn/login1.jpg"));
-		btn_login.setRolloverIcon(new ImageIcon("./image/btn/login2.jpg"));
+		
+		this.drawText(bgPanel, new int[]{519, 312, 313, 45}); // ID
+		this.drawPassword(bgPanel, new int[]{519, 421, 313, 45}); // password
+		this.drawSignupButton(bgPanel);
+		
+		JButton btn_login = this.makeImageButton("login1.jpg", "login2.jpg");
 		btn_login.setBounds(519, 518, 313, 57);
 
 		btn_login.addActionListener(new btnAction());
 		bgPanel.add(btn_login);
-
-		JButton btn_signUp = new JButton("Sign Up");
-		btn_signUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				registerFrame r = new registerFrame();
-				r.setVisible(true);
-				frame.dispose();
-			}
-		});
-		btn_signUp.setFont(new Font("Arial", Font.BOLD, 17));
-		btn_signUp.setBorderPainted(false);
-		btn_signUp.setFocusPainted(false);
-		btn_signUp.setForeground(Color.WHITE);
-		btn_signUp.setBackground(Color.BLACK);
-		btn_signUp.setBounds(734, 585, 123, 29);
-		bgPanel.add(btn_signUp);
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
-
 
 	class btnAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -134,28 +109,47 @@ public class loginFrame {
 
 		}
 	}
-}
-
-class ImagePanel extends JPanel {
-	private Image img;
-
-	public ImagePanel(Image img) {
-		this.img = img;
-		setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-		setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null))); 
-		setLayout(null);
+	
+	public void drawText(ImagePanel bgPanel, int[] bounds) {
+		JTextField btn = new JTextField();
+		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		bgPanel.add(btn);
 	}
-
-	public int getWidth() {
-		return img.getWidth(null);
+	
+	public void drawPassword(ImagePanel bgPanel, int[] bounds) {
+		JPasswordField btn = new JPasswordField();
+		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		bgPanel.add(btn);
 	}
-
-	public int getHeight() {
-		return img.getHeight(null);
+	
+	public void drawSignupButton(ImagePanel bgPanel) {
+		JButton button = new JButton("Sign Up");
+		button.setBounds(734, 585, 123, 29);
+		button.setFont(new Font("Arial", Font.BOLD, 17));
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
+		button.setForeground(Color.WHITE);
+		button.setBackground(Color.BLACK);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				registerFrame r = new registerFrame();
+				r.setVisible(true);
+				frame.dispose();
+			}
+		});
+		
+		bgPanel.add(button);
 	}
+	
+	public JButton makeImageButton(String img, String hoverImg) {
+		Icon IMG = new ImageIcon("./image/btn/" + img);
+		Icon IMG_HOVER = new ImageIcon("./image/btn/" + hoverImg);
+		JButton btn = new JButton();
 
-	public void paintComponent(Graphics g) {
-		g.drawImage(img, 0, 0, null);
+		btn.setIcon(IMG);
+		btn.setRolloverIcon(IMG_HOVER);
+
+		return btn;
 	}
-
 }

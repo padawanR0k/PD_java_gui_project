@@ -56,7 +56,7 @@ public class mainFrame {
 		this.drawPreviousButton(bgPanel);
 		this.drawNextButton(bgPanel);		
 		
-		this.drawPosterButton(bgPanel, new int[]{50, 221, 230, 328}, "test.jfif");
+		this.drawPosterButton(bgPanel, new int[]{50, 221, 230, 328}, "test.jpg");
 		this.drawPosterButton(bgPanel, new int[]{306, 221, 230, 328}, "test2.jfif");
 		this.drawPosterButton(bgPanel, new int[]{563, 221, 230, 328}, "test3.jfif");
 		this.drawPosterButton(bgPanel, new int[]{818, 221, 230, 328}, "test4.jpg");
@@ -85,7 +85,7 @@ public class mainFrame {
 	}
 	
 	public JButton makePosterButton(String img) {
-		Icon IMG = resizeIcon(new ImageIcon("./image/" + img), 230, 328);
+		Icon IMG = resizeIcon(new ImageIcon("./image/poster/" + img), 230, 328);
 		JButton btn = new JButton();
 
 		btn.setIcon(IMG);

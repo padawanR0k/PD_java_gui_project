@@ -3,7 +3,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -56,7 +57,7 @@ public class mainFrame {
 		this.drawPreviousButton(bgPanel);
 		this.drawNextButton(bgPanel);		
 		
-		this.drawPosterButton(bgPanel, new int[]{50, 221, 230, 328}, "test.jpg");
+		this.drawPosterButton(bgPanel, new int[]{50, 221, 230, 328}, "test.jfif");
 		this.drawPosterButton(bgPanel, new int[]{306, 221, 230, 328}, "test2.jfif");
 		this.drawPosterButton(bgPanel, new int[]{563, 221, 230, 328}, "test3.jfif");
 		this.drawPosterButton(bgPanel, new int[]{818, 221, 230, 328}, "test4.jpg");
@@ -67,7 +68,7 @@ public class mainFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	// Æ÷½ºÅÍ ÀÌ¹ÌÁö¸¦ ¸®»çÀÌÁîÇÏ´Â ¸Ş¼­µå
+	// í¬ìŠ¤í„° ì´ë¯¸ì§€ë¥¼ ë¦¬ì‚¬ì´ì¦ˆí•˜ëŠ” ë©”ì„œë“œ
 	// resizedHeight = 230, resizedHeight = 328
 	private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
 	       Image img = icon.getImage();  
@@ -87,9 +88,17 @@ public class mainFrame {
 	public JButton makePosterButton(String img) {
 		Icon IMG = resizeIcon(new ImageIcon("./image/poster/" + img), 230, 328);
 		JButton btn = new JButton();
-
+		btn.addMouseListener(new MouseAdapter() {
+			@Override  
+			public void mouseClicked(MouseEvent e) {
+				JButton button = (JButton)e.getSource();
+				
+				reserveFrame s = new reserveFrame(button.getIcon());
+				s.setVisible(true);
+				frame.dispose();
+			}
+		});
 		btn.setIcon(IMG);
-
 		return btn;
 	}
 	

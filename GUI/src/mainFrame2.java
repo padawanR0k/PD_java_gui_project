@@ -193,7 +193,9 @@ public class mainFrame2 {
 					}
 					else {
 						page = page + 5;
-						jb[0].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page)), 230, 328));
+						for(int i=0;i<5;i++){
+							jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
+						}
 						System.out.println(page);
 					}
 				}

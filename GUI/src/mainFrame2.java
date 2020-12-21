@@ -32,6 +32,7 @@ public class mainFrame2 {
 	int page_max;
 	int poster_num;
 	ArrayList fileList;
+	ImageIcon[] posterList;
 	/**
 	 * Launch the application.
 	 */
@@ -77,10 +78,11 @@ public class mainFrame2 {
 		System.out.println(path.list().length);
 		String[] fileNames = path.list();
 		fileList = new ArrayList();
-		
+		posterList = new ImageIcon[fileNames.length];
 		for (int i = 0; i < fileNames.length; i++) {
 			fileList.add(fileNames[i]);
 			System.out.println(fileNames[i]);
+			posterList[i] = new ImageIcon("./image/poster/" + fileNames[i]);
 		}
 		System.out.println(fileList);
 		
@@ -110,7 +112,7 @@ public class mainFrame2 {
 	public void drawPosterButton(ImagePanel bgPanel,int i, int[] bounds, Object object) {
 		jb[i] = this.makePosterButton(object);
 		jb[i].setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
-		jb[i].setBackground(Color.BLACK);
+		jb[i].setBackground(Color.WHITE);
 		jb[i].setBorderPainted(false);
 		jb[i].setFocusPainted(false);
 		bgPanel.add(jb[i]);
@@ -165,16 +167,35 @@ public class mainFrame2 {
 		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (page == 0) {
-					//button.setEnabled(false);
-				}
-				else {
-					page = page - 5;
-					System.out.println(page);
+				if (button.hasFocus()) {
+					if (page == 0) {
+						System.out.println("a");
+					}
+					else {
+						page = page - 5;
+						if((posterList.length-page)<5){
+							int a = posterList.length-page;
+							System.out.println(a);
+							int i;
+							for(i=0;i<a;i++){
+								//jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
+								jb[i].setIcon(resizeIcon(posterList[page+i],230,328));
+							}
+							
+							for(int j=a;j<5;j++){
+								jb[j].setIcon(new ImageIcon());
+							}
+							return;
+						}
+						for(int i=0;i<5;i++){
+							//jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
+							jb[i].setIcon(resizeIcon(posterList[page+i],230,328));
+						}
+						System.out.println(page);
+					}
 				}
 			}
 		});
-		
 		bgPanel.add(button);
 	}
 	
@@ -193,8 +214,23 @@ public class mainFrame2 {
 					}
 					else {
 						page = page + 5;
+						if((posterList.length-page)<5){
+							int a = posterList.length-page;
+							System.out.println(a);
+							int i;
+							for(i=0;i<a;i++){
+								//jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
+								jb[i].setIcon(resizeIcon(posterList[page+i],230,328));
+							}
+							
+							for(int j=a;j<5;j++){
+								jb[j].setIcon(new ImageIcon());
+							}
+							return;
+						}
 						for(int i=0;i<5;i++){
-							jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
+							//jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
+							jb[i].setIcon(resizeIcon(posterList[page+i],230,328));
 						}
 						System.out.println(page);
 					}

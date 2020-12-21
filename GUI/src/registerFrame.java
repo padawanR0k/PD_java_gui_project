@@ -92,8 +92,8 @@ public class registerFrame {
 		JButton btn_register = new JButton("New button");
 		btn_register.setBackground(Color.LIGHT_GRAY);
 		btn_register.setForeground(Color.WHITE);
-		btn_register.setIcon(new ImageIcon("./image/btn/register1.jpg"));
-		btn_register.setRolloverIcon(new ImageIcon("./image/btn/register2.jpg"));
+		btn_register.setIcon(new ImageIcon("./image/register1.jpg"));
+		btn_register.setRolloverIcon(new ImageIcon("./image/register2.jpg"));
 		btn_register.setBounds(519, 586, 313, 57);
 		btn_register.addActionListener(new RegisterAction());
 		bgPanel.add(btn_register);

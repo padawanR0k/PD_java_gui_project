@@ -9,6 +9,7 @@
 			<item value="C:\0_dowon\Playdata\Project\Java_GUI\GUI"/>
 		</list>
 	</section>
+<<<<<<< HEAD
 	<section name="ChooseWorkspaceDialogSettings">
 		<item key="DIALOG_X_ORIGIN" value="1362"/>
 		<item key="DIALOG_Y_ORIGIN" value="458"/>
@@ -17,4 +18,6 @@
 		<list key="ENABLED_TRANSFERS">
 		</list>
 	</section>
+=======
+>>>>>>> feature/mainFrame
 </section>

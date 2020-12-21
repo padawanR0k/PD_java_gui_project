@@ -26,11 +26,12 @@ import javax.swing.JLayeredPane;
 
 public class mainFrame2 {
 	private JFrame frame;
+	JButton[] jb;
 	ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_mainFrame.jpg").getImage());
 	int page = 0;
 	int page_max;
 	int poster_num;
-
+	ArrayList fileList;
 	/**
 	 * Launch the application.
 	 */
@@ -59,22 +60,27 @@ public class mainFrame2 {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		jb = new JButton[5];
+		for(int i=0;i<5;i++){
+			jb[i]=new JButton();
+		}
 		//ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_mainFrame.jpg").getImage());
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
-		
 		this.drawMypageButton(bgPanel);
 		this.drawPreviousButton(bgPanel);
 		this.drawNextButton(bgPanel);		
 		
-		// poster µð·ºÅä¸® ÆÄÀÏ ÀüÃ¼ ¸ñ·Ï °¡Á®¿À´Â ¸Þ¼­µå
+		// poster ï¿½ï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 		File path = new File("./image/poster/");
+		System.out.println(path.list().length);
 		String[] fileNames = path.list();
-		ArrayList fileList = new ArrayList();
+		fileList = new ArrayList();
 		
 		for (int i = 0; i < fileNames.length; i++) {
 			fileList.add(fileNames[i]);
+			System.out.println(fileNames[i]);
 		}
 		System.out.println(fileList);
 		
@@ -82,18 +88,18 @@ public class mainFrame2 {
 		page_max = (int) Math.ceil((double) poster_num / 5);
 		System.out.println(page_max);
 		
-		this.drawPosterButton(bgPanel, new int[]{50, 221, 230, 328}, fileList.get(page));
-		this.drawPosterButton(bgPanel, new int[]{306, 221, 230, 328}, fileList.get(page+1));
-		this.drawPosterButton(bgPanel, new int[]{563, 221, 230, 328}, fileList.get(page+2));
-		this.drawPosterButton(bgPanel, new int[]{818, 221, 230, 328}, fileList.get(page+3));
-		this.drawPosterButton(bgPanel, new int[]{1075, 221, 230, 328}, fileList.get(page+4));
+		this.drawPosterButton(bgPanel,0, new int[]{50, 221, 230, 328}, fileList.get(page));
+		this.drawPosterButton(bgPanel,1, new int[]{306, 221, 230, 328}, fileList.get(page+1));
+		this.drawPosterButton(bgPanel,2, new int[]{563, 221, 230, 328}, fileList.get(page+2));
+		this.drawPosterButton(bgPanel,3, new int[]{818, 221, 230, 328}, fileList.get(page+3));
+		this.drawPosterButton(bgPanel,4, new int[]{1075, 221, 230, 328}, fileList.get(page+4));
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	// Æ÷½ºÅÍ ÀÌ¹ÌÁö¸¦ ¸®»çÀÌÁîÇÏ´Â ¸Þ¼­µå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 	// resizedHeight = 230, resizedHeight = 328
 	private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
 	       Image img = icon.getImage();  
@@ -101,13 +107,13 @@ public class mainFrame2 {
 	       return new ImageIcon(resizedImage);
 	}
 	
-	public void drawPosterButton(ImagePanel bgPanel, int[] bounds, Object object) {
-		JButton poster = this.makePosterButton(object);
-		poster.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
-		poster.setBackground(Color.BLACK);
-		poster.setBorderPainted(false);
-		poster.setFocusPainted(false);
-		bgPanel.add(poster);
+	public void drawPosterButton(ImagePanel bgPanel,int i, int[] bounds, Object object) {
+		jb[i] = this.makePosterButton(object);
+		jb[i].setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		jb[i].setBackground(Color.BLACK);
+		jb[i].setBorderPainted(false);
+		jb[i].setFocusPainted(false);
+		bgPanel.add(jb[i]);
 	}
 	
 	public JButton makePosterButton(Object object) {
@@ -183,10 +189,11 @@ public class mainFrame2 {
 			public void actionPerformed(ActionEvent e) {
 				if (button.hasFocus()) {
 					if (page == (page_max-1) * 5) {
-						//button.setEnabled(false);
+						System.out.println("a");
 					}
 					else {
 						page = page + 5;
+						jb[0].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page)), 230, 328));
 						System.out.println(page);
 					}
 				}

@@ -1,6 +1,5 @@
 package DB;
 
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,15 +16,18 @@ public class DB {
 	public Connection connect = null;
 	public Statement stmt = null;
 
-	private String DB_URL = "jdbc:mysql://us-cdbr-east-02.cleardb.com";
+	private String DB_URL = "jdbc:mysql://13.125.168.104:57761";
 	private String DB_PW = null;
 	private String DB_USERNAME = null;
 
 	public static void main(String[] args) throws Exception {
 		// 연결 테스트를 위한 코드
-		// DB db = new DB();
-		// List response = db.query("select * FROM heroku_dcf5f8a801138d1.account");
-		// System.out.println(response);
+
+		/*
+			DB db = new DB();
+			List response = db.query("select Host FROM mysql.user ");
+			System.out.println(response);
+		*/
 	}
 
 	public DB() {
@@ -175,7 +177,6 @@ public class DB {
 
 			this.connect.close();
 		} catch (SQLException e) {
-			// TODO: handle exception
 			System.out.println("close시 에러발생");
 
 		}

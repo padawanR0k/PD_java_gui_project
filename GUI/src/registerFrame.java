@@ -110,7 +110,7 @@ public class registerFrame {
 	class RegisterAction implements ActionListener {
 		public boolean checkDuplicatedId(String Id) {
 			DB db = new DB();
-			List<Map<String, Object>> response = db.query(String.format("select IF(EXISTs(select * from heroku_dcf5f8a801138d1.account where id = '%s'), true, false) as result", id));
+			List<Map<String, Object>> response = db.query(String.format("select IF(EXISTs(select * from theater.account where id = '%s'), true, false) as result", id));
 			Map<String, Object> responseRow = response.get(0);
 			long result = (long)(responseRow.get("result"));
 			return result == 1 ? true : false;
@@ -135,7 +135,7 @@ public class registerFrame {
 				JOptionPane.showMessageDialog(null, "중복된 아이디입니다.");
 			} else {
 				DB db = new DB();
-				int response = db.update(String.format("insert into heroku_dcf5f8a801138d1.account (id, pw, nick) values('%s', MD5('%s'), '%s')", ID, PW, NICK));
+				int response = db.update(String.format("insert into theater.account (id, pw, nick) values('%s', MD5('%s'), '%s')", ID, PW, NICK));
 				System.out.println(response);
 				JOptionPane.showMessageDialog(null, "회원가입 되었습니다.");
 				if (response > 0) {

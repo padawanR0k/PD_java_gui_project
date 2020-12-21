@@ -57,16 +57,16 @@ public class loginFrame {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		
+
 		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
-		
+
 		this.drawText(bgPanel, new int[]{519, 312, 313, 45}); // ID
 		this.drawPassword(bgPanel, new int[]{519, 421, 313, 45}); // password
 		this.drawSignupButton(bgPanel);
-		
+
 		JButton btn_login = this.makeImageButton("login1.jpg", "login2.jpg");
 		btn_login.setBounds(519, 518, 313, 57);
 
@@ -86,8 +86,8 @@ public class loginFrame {
 			db = new DB();
 			String query = String.format("""
 					SELECT
-						(SELECT count(*) FROM heroku_dcf5f8a801138d1.account WHERE id = '%s' and pw = MD5('%s')) as isAllValid,
-						(SELECT count(*) FROM heroku_dcf5f8a801138d1.account WHERE id = '%s') as isIdValid;
+						(SELECT count(*) FROM theater.account WHERE id = '%s' and pw = MD5('%s')) as isAllValid,
+						(SELECT count(*) FROM theater.account WHERE id = '%s') as isIdValid;
 					""", ID, PW, ID);
 			List<Map<String, Object>> response = db.query(query);
 			Map<String, Object> result = response.get(0);
@@ -109,19 +109,19 @@ public class loginFrame {
 
 		}
 	}
-	
+
 	public void drawText(ImagePanel bgPanel, int[] bounds) {
 		JTextField btn = new JTextField();
 		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		bgPanel.add(btn);
 	}
-	
+
 	public void drawPassword(ImagePanel bgPanel, int[] bounds) {
 		JPasswordField btn = new JPasswordField();
 		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		bgPanel.add(btn);
 	}
-	
+
 	public void drawSignupButton(ImagePanel bgPanel) {
 		JButton button = new JButton("Sign Up");
 		button.setBounds(734, 585, 123, 29);
@@ -130,7 +130,7 @@ public class loginFrame {
 		button.setFocusPainted(false);
 		button.setForeground(Color.WHITE);
 		button.setBackground(Color.BLACK);
-		
+
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				registerFrame r = new registerFrame();
@@ -138,10 +138,10 @@ public class loginFrame {
 				frame.dispose();
 			}
 		});
-		
+
 		bgPanel.add(button);
 	}
-	
+
 	public JButton makeImageButton(String img, String hoverImg) {
 		Icon IMG = new ImageIcon("./image/btn/" + img);
 		Icon IMG_HOVER = new ImageIcon("./image/btn/" + hoverImg);

@@ -30,6 +30,8 @@ public class reservationCancelFrame {
 	private JLabel count;
 	private JLabel seats;
 	private JLabel poster;
+	private int groupId;
+	private long canceled = 0;
 
 	/**
 	 * Launch the application.
@@ -52,7 +54,14 @@ public class reservationCancelFrame {
 	 */
 	public reservationCancelFrame() {
 		initialize();
-		this.getResverationInfo();
+		this.getResverationInfo(1);
+		this.groupId = 1;
+	}
+
+	public reservationCancelFrame(int groupId) {
+		initialize();
+		this.getResverationInfo(this.groupId);
+		this.groupId = groupId;
 	}
 
 	/**
@@ -77,30 +86,48 @@ public class reservationCancelFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	private void getResverationInfo() {
+	private void getResverationInfo(int groupId) {
 		DB db = new DB();
-		String query = """
-		select * from heroku_dcf5f8a801138d1.reservation as res
-			join heroku_dcf5f8a801138d1.screening as scr ON scr.ScreeningId = res.ScreeningId
-    	join heroku_dcf5f8a801138d1.movie as mv ON mv.Movieid = scr.MovieId
-		where
-			groupId = 1
-		""";
+		String query = String.format("""
+				SELECT
+						mov.title,
+						mov.openDate,
+						res.date,
+						scr.time,
+						scr.ScreeningId AS ScreeningId,
+						res.groupId,
+						res.AccountId,
+						res.cancled,
+						res.seatId
+				FROM
+						theater.reservation AS res
+								JOIN
+						theater.screening AS scr ON res.ScreeningId = scr.ScreeningId
+								JOIN
+						theater.movie AS mov ON mov.MovieId = scr.MovieId
+				WHERE
+						groupId = %s
+				""", groupId);
+
 		List<Map<String, Object>> res = db.query(query);
-		Map movie =  res.get(0);
+
+		Map movie = res.get(0);
 		String title = (String) movie.get("title");
 		String time = (String) movie.get("time");
 		String openDate = (String) movie.get("openDate");
 		Integer count = res.size();
 		String seats = "";
-		for(Map<String, Object> m: res) {
-			String s =  (String)m.get("seatId");
+		for (Map<String, Object> m : res) {
+			String s = (String) m.get("seatId");
 			seats += s + ", ";
 		}
 		this.title.setText(title);
 		this.detail.setText(openDate + " | " + time);
 		this.count.setText(count.toString());
 		this.seats.setText(seats);
+
+		this.canceled = (Integer) movie.get("cancled");
+
 	}
 
 	public void drawInfoButton(ImagePanel bgPanel) {
@@ -112,7 +139,9 @@ public class reservationCancelFrame {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "My Information");
+				frame.dispose();
+				mypageFrame mypageframe = new mypageFrame();
+				mypageframe.setVisible(true);
 			}
 		});
 
@@ -128,7 +157,9 @@ public class reservationCancelFrame {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Check Reservation");
+				frame.dispose();
+				checkFrame checkframe = new checkFrame();
+				checkframe.setVisible(true);
 			}
 		});
 
@@ -136,7 +167,10 @@ public class reservationCancelFrame {
 	}
 
 	public void drawCancelButton(ImagePanel bgPanel) {
-		JButton button = this.makeImageButton("cancel1.jpg", "cancel2.jpg");
+		System.out.println(this.canceled);
+		String btnOff = "cancel1.jpg";
+		String btnOn = "cancel2.jpg";
+		JButton button = this.makeImageButton(btnOff, btnOn);
 		button.setBounds(765, 570, 225, 54);
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
@@ -144,10 +178,18 @@ public class reservationCancelFrame {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Check Reservation");
+				if (canceled == 1) {
+					JOptionPane.showMessageDialog(bgPanel, "이미 예매취소되었습니다.");
+				} else {
+					int res = JOptionPane.showConfirmDialog(bgPanel, "정말 취소하시겠습니까?");
+					if (res == JOptionPane.OK_OPTION) {
+						// 예매취소
+						cancel(groupId);
+					}
+
+				}
 			}
 		});
-
 		bgPanel.add(button);
 	}
 
@@ -232,6 +274,21 @@ public class reservationCancelFrame {
 		btn.setRolloverIcon(IMG_HOVER);
 
 		return btn;
+	}
+
+	public void cancel(int groupId) {
+		DB db = new DB();
+		int result = db.update(String.format("""
+					UPDATE theater.reservation
+						SET
+							cancled=1
+					WHERE groupId = %s
+				""", groupId));
+		if (result == 1) {
+			JOptionPane.showMessageDialog(null, "취소되었습니다.");
+		} else {
+			JOptionPane.showMessageDialog(null, "취소실패");
+		}
 	}
 
 	public void setVisible(boolean b) {

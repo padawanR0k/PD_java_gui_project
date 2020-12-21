@@ -16,15 +16,18 @@ public class DB {
 	public Connection connect = null;
 	public Statement stmt = null;
 
-	private String DB_URL = "jdbc:mysql://us-cdbr-east-02.cleardb.com";
+	private String DB_URL = "jdbc:mysql://13.125.168.104:57761";
 	private String DB_PW = null;
 	private String DB_USERNAME = null;
 
 	public static void main(String[] args) throws Exception {
 		// 연결 테스트를 위한 코드
-		// DB db = new DB();
-		// List response = db.query("select * FROM heroku_dcf5f8a801138d1.account");
-		// System.out.println(response);
+
+		/*
+			DB db = new DB();
+			List response = db.query("select Host FROM mysql.user ");
+			System.out.println(response);
+		*/
 	}
 
 	public DB() {
@@ -97,6 +100,42 @@ public class DB {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return list;
+		} finally {
+			try {
+				if (connect != null && !connect.isClosed()) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * update, create문 실행
+	 *
+	 * @param query
+	 * @return
+	 */
+	public int update(String query) {
+		try {
+			connect = this.getConnection();
+			PreparedStatement pstmt = connect.prepareStatement(query);
+			System.out.println(query);
+
+			try {
+				int res = pstmt.executeUpdate(query);
+
+				return res;
+			} catch (SQLException e) {
+				System.out.println(e);
+				System.out.println("쿼리전달 시 오류발생");
+				return -1;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
 		} finally {
 			try {
 				if (connect != null && !connect.isClosed()) {

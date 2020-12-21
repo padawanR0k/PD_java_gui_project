@@ -111,8 +111,8 @@ public class loginFrame {
 			db = new DB();
 			String query = String.format("""
 					SELECT
-						(SELECT count(*) FROM heroku_dcf5f8a801138d1.account WHERE id = '%s' and pw = MD5('%s')) as isAllValid,
-						(SELECT count(*) FROM heroku_dcf5f8a801138d1.account WHERE id = '%s') as isIdValid;
+						(SELECT count(*) FROM theater.account WHERE id = '%s' and pw = MD5('%s')) as isAllValid,
+						(SELECT count(*) FROM theater.account WHERE id = '%s') as isIdValid;
 					""", ID, PW, ID);
 			List<Map<String, Object>> response = db.query(query);
 			Map<String, Object> result = response.get(0);
@@ -142,7 +142,7 @@ class ImagePanel extends JPanel {
 	public ImagePanel(Image img) {
 		this.img = img;
 		setSize(new Dimension(img.getWidth(null), img.getHeight(null)));
-		setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null))); 
+		setPreferredSize(new Dimension(img.getWidth(null), img.getHeight(null)));
 		setLayout(null);
 	}
 

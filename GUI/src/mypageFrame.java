@@ -59,7 +59,7 @@ public class mypageFrame {
 
 		DB db = new DB();
 		// TODO - 로그인시 회원 고유값을 저장한 후 그 값을 AccountId 부분에 넣는 로직필요 함
-		List response = db.query("select * from heroku_dcf5f8a801138d1.account where AccountId = 1");
+		List response = db.query("select * from theater.account where AccountId = 1");
 		Map<String, ?> user = (Map)response.get(0);
 		String nick = (String)user.get("nick");
 		String id = (String)user.get("id");
@@ -109,7 +109,7 @@ public class mypageFrame {
 
 		bgPanel.add(button);
 	}
-	
+
 	public void drawBackButton(ImagePanel bgPanel) {
 		JButton button = new JButton("");
 		button.setIcon(new ImageIcon("./image/back_btn.png"));
@@ -117,7 +117,7 @@ public class mypageFrame {
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 		button.setBackground(Color.WHITE);
-		
+
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mainFrame m = new mainFrame();
@@ -125,7 +125,7 @@ public class mypageFrame {
 				frame.dispose();
 			}
 		});
-		
+
 		bgPanel.add(button);
 	}
 

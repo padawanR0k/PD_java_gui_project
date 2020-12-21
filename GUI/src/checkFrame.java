@@ -34,6 +34,7 @@ import javax.swing.JButton;
 public class checkFrame {
 	private final Image BG_IMAGE = new ImageIcon("./image/bg_checkFrame.jpg").getImage();
 	private JFrame frame;
+	private List<Map<String, Object>> data = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -80,17 +81,30 @@ public class checkFrame {
 	}
 
 	public void drawTable(ImagePanel bgPanel) {
-		Object[][] data = this.getData();
+		Object[][] bookList = this.getData();
 		String[] header = { "영화 제목", "시작시간", "날짜" };
+		JTable table = new JTable(bookList, header);
+		short gap = 50;
 
-		JTable table = new JTable(data, header);
 
+		table.setDefaultEditor(Object.class, null);
 		table.setPreferredScrollableViewportSize(new Dimension(450, 63));
 		table.setFillsViewportHeight(true);
-
-		short gap = 50;
 		table.setFont(new Font("Sans-serif", Font.BOLD, 20));
 		table.setRowHeight(table.getRowHeight() + gap);
+		table.addMouseListener(new java.awt.event.MouseAdapter() {
+				@Override
+				public void mouseClicked(java.awt.event.MouseEvent evt) {
+						int row = table.rowAtPoint(evt.getPoint());
+						int col = table.columnAtPoint(evt.getPoint());
+						if (row >= 0 && col >= 0) {
+							System.out.println(data.get(row));
+							dispose();
+							reservationCancelFrame detailFrame = new reservationCancelFrame();
+							detailFrame.setVisible(true);
+						}
+				}
+		});
 
 		this.setHeaderConfig(table);
 		JScrollPane sp = new JScrollPane(table);
@@ -100,27 +114,38 @@ public class checkFrame {
 
 	public Object[][] getData() {
 		DB db = new DB();
-		List<Map<String, Object>> ls = db.query("""
-		SELECT
-					mov.title as title,
-				    res.date as date,
-				    scr.time as time
-				FROM heroku_dcf5f8a801138d1.reservation as res
-					join heroku_dcf5f8a801138d1.screening as scr
-				    ON res.ScreeningId = scr.ScreeningId
-				    join heroku_dcf5f8a801138d1.movie as mov
-				    ON mov.MovieId = mov.MovieId
-				    where AccountId = 1
-				    group by res.groupId
-				;
-		""");
 
-		Object[][] movieList = new Object[ls.size()][3];
+		ArrayList<Integer> screenList = new ArrayList<>();
+		this.data = db.query("""
+				SELECT
+						mov.title AS title,
+						res.date AS date,
+						scr.time AS time,
+						scr.ScreeningId,
+						res.groupId,
+						res.AccountId,
+						res.cancled
+				FROM
+						theater.reservation AS res
+								JOIN
+						theater.screening AS scr ON res.ScreeningId = scr.ScreeningId
+								JOIN
+						theater.movie AS mov ON mov.MovieId = scr.MovieId
+				WHERE
+						AccountId = 1
+						;
+				""");
+
+		Object[][] movieList = new Object[this.data.size()][3];
 		int i = 0;
-		for (Map<String, Object> s : ls) {
-			Object[] movie = { s.get("title"), s.get("time"), s.get("date") };
-			movieList[i] = movie;
-			i++;
+		for (Map<String, Object> s : this.data) {
+			Integer ScreeningId = (Integer) s.get("ScreeningId");
+			if (screenList.indexOf(ScreeningId) == -1) {
+				Object[] movie = { s.get("title"), s.get("time"), s.get("date") };
+				movieList[i] = movie;
+				i++;
+				screenList.add(ScreeningId);
+			}
 		}
 		return movieList;
 	}
@@ -151,7 +176,9 @@ public class checkFrame {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "My Information");
+				frame.dispose();
+				mypageFrame mypageframe = new mypageFrame();
+				mypageframe.setVisible(true);
 			}
 		});
 
@@ -159,18 +186,10 @@ public class checkFrame {
 	}
 
 	public void drawCheckButton(ImagePanel bgPanel) {
-		JButton button = this.makeImageButton("check1.jpg", "check2.jpg");
+		JButton button = this.makeImageButton("check2.jpg", "check2.jpg");
 		button.setBounds(100, 450, 225, 54);
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
-
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Check Reservation");
-			}
-		});
-
 		bgPanel.add(button);
 	}
 

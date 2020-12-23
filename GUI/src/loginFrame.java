@@ -84,11 +84,11 @@ public class loginFrame {
 			String ID = id.getText();
 			String PW = password.getText();
 			db = new DB();
-			String query = String.format("""
-					SELECT
-						(SELECT count(*) FROM theater.account WHERE id = '%s' and pw = MD5('%s')) as isAllValid,
-						(SELECT count(*) FROM theater.account WHERE id = '%s') as isIdValid;
-					""", ID, PW, ID);
+			String query = String.format(
+					"SELECT" +
+						"(SELECT count(*) FROM theater.account WHERE id = '%s' and pw = MD5('%s')) as isAllValid," +
+						"(SELECT count(*) FROM theater.account WHERE id = '%s') as isIdValid;"
+					, ID, PW, ID);
 			List<Map<String, Object>> response = db.query(query);
 			Map<String, Object> result = response.get(0);
 			Long isIdValid = (Long) result.get("isIdValid");
@@ -148,8 +148,8 @@ public class loginFrame {
 	}
 
 	public JButton makeImageButton(String img, String hoverImg) {
-		Icon IMG = new ImageIcon("./image/btn/" + img);
-		Icon IMG_HOVER = new ImageIcon("./image/btn/" + hoverImg);
+		Icon IMG = new ImageIcon("./image/" + img);
+		Icon IMG_HOVER = new ImageIcon("./image/" + hoverImg);
 		JButton btn = new JButton();
 
 		btn.setIcon(IMG);

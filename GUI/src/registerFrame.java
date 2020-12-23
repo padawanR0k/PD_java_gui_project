@@ -108,12 +108,16 @@ public class registerFrame {
 	}
 
 	class RegisterAction implements ActionListener {
-		public boolean checkDuplicatedId(String Id) {
+		public boolean checkDuplicatedId(String ID) {
 			DB db = new DB();
-			List<Map<String, Object>> response = db.query(String.format("select IF(EXISTs(select * from theater.account where id = '%s'), true, false) as result", id));
+			List<Map<String, Object>> response = db.query(String.format("select IF(EXISTs(select * from theater.account where id = '%s'), true, false) as result", ID));
 			Map<String, Object> responseRow = response.get(0);
+			System.out.println(responseRow.get("result"));
+			System.out.println((long)responseRow.get("result") == 1);
 			long result = (long)(responseRow.get("result"));
-			return result == 1 ? true : false;
+			System.out.println(result);
+
+			return result == 1;
 		}
 
 		@Override
@@ -139,8 +143,9 @@ public class registerFrame {
 				System.out.println(response);
 				JOptionPane.showMessageDialog(null, "회원가입 되었습니다.");
 				if (response > 0) {
+					loginFrame frame = new loginFrame();
+					frame.setVisible(true);
 					dispose();
-					// TODO mainFrame 이동시키는 코드 추가 필요!
 				}
 			}
 		}

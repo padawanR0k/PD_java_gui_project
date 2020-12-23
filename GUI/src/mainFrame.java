@@ -1,4 +1,5 @@
-import main;
+
+// import main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -15,7 +16,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 import java.awt.event.ActionEvent;
 
 public class mainFrame {
@@ -28,6 +35,24 @@ public class mainFrame {
 	ArrayList fileList;
 	ImageIcon[] posterList;
 
+	final int POSTER_GUTTER = 256;
+	final int POSTER_WIDTH = 230;
+	final int POSTER_HEIGHT = 328;
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					new main();
+					mainFrame window = new mainFrame();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	public mainFrame() {
 		initialize();
 	}
@@ -35,81 +60,134 @@ public class mainFrame {
 	private void initialize() {
 		frame = new JFrame();
 		jb = new JButton[5];
-		for(int i=0;i<5;i++){
-			jb[i]=new JButton();
+		for (int i = 0; i < 5; i++) {
+			jb[i] = new JButton();
 		}
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
+
 		this.drawMypageButton(bgPanel);
 		this.drawPreviousButton(bgPanel);
-		this.drawNextButton(bgPanel);		
-		
-		File path = new File("./image/poster/");
+		this.drawNextButton(bgPanel);
+
+		String folderPath = "./image/poster/";
+		File path = new File(folderPath);
 		String[] fileNames = path.list();
 
-		posterList = new ImageIcon[main.posterList.length];
-		posterList =  main.posterList;
-		for (int i = 0; i < fileNames.length; i++) {
-			System.out.println(fileNames[i]);
-		}
-		System.out.println(fileList);
-		
+		// int count = main.posterList == null ? 0 : main.posterList.length;
+
+		List movies = this.getMovies();
+		saveImg s = new saveImg();
+
+		Consumer<Map<String, Object>> downloadImages = n -> {
+			String poster = (String) n.get("poster");
+			int MovieId = (int) n.get("MovieId");
+			String filename = "poster_" + ((Integer)MovieId).toString() + ".jpg";
+
+			File file = new File(folderPath + filename);
+
+			if (file.exists()) {
+
+			} else {
+				try {
+					int result = s.saveImgFromUrlToLocal(poster, MovieId);
+					if (result == 1) {
+						System.out.println(filename);
+						ImageIcon img = main.resizeIcon(new ImageIcon("./image/poster/" + filename),230,328);
+						main.posterList.put(MovieId, img);
+						// main.posterList.set(MovieId, img);
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+
+		movies.stream().forEach(downloadImages);
+
+		// posterList = new ImageIcon[count];
+		this.posterList = main.posterList.values().toArray(new ImageIcon[main.posterList.size()]);
+
 		poster_num = new File("./image/poster/").listFiles().length;
 		page_max = (int) Math.ceil((double) poster_num / 5);
-		System.out.println(page_max);
-		
-		this.drawPosterButton(bgPanel,0, new int[]{50, 221, 230, 328}, fileNames[page]);
-		this.drawPosterButton(bgPanel,1, new int[]{306, 221, 230, 328}, fileNames[page+1]);
-		this.drawPosterButton(bgPanel,2, new int[]{563, 221, 230, 328}, fileNames[page+2]);
-		this.drawPosterButton(bgPanel,3, new int[]{818, 221, 230, 328}, fileNames[page+3]);
-		this.drawPosterButton(bgPanel,4, new int[]{1075, 221, 230, 328}, fileNames[page+4]);
+
+
+		if (fileNames.length > 1) {
+			for (int i = 0; i < 5; i++) {
+				int[] bounds = new int[] { 50 + i * POSTER_GUTTER, 221, POSTER_WIDTH, POSTER_HEIGHT };
+				String filename = fileNames[page + i];
+				System.out.println(filename);
+
+				int MovieId =  Integer.parseInt(filename.split("_")[1].replace(".jpg", ""));
+				this.drawPosterButton(bgPanel, i, bounds, filename, MovieId);
+			}
+
+		}
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * 개봉일이 오늘 이전인 영화정보를 가져온다.
+	 */
+	public List<Map<String, Object>> getMovies() {
+		DB db = new DB();
+		String today = new SimpleDateFormat("YYYY-MM-DD").format(new Date());
+
+		List<Map<String, Object>> response = db
+				.query(String.format("select * from theater.movie where openDate <= '%s' order by openDate desc limit 17;", today));
+
+		return response;
+	}
+
 	// resizedHeight = 230, resizedHeight = 328
 	private static ImageIcon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
-		Image img = icon.getImage();  
-		Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
+		Image img = icon.getImage();
+		Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight, java.awt.Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedImage);
 	}
-	
-	public void drawPosterButton(ImagePanel bgPanel,int i, int[] bounds, Object object) {
-		jb[i] = this.makePosterButton(object);
+
+	public void drawPosterButton(ImagePanel bgPanel, int i, int[] bounds, Object object, int MovieId) {
+		jb[i] = this.makePosterButton(object, MovieId);
 		jb[i].setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		jb[i].setBackground(Color.BLACK);
 		jb[i].setBorderPainted(false);
 		jb[i].setFocusPainted(false);
 		bgPanel.add(jb[i]);
 	}
-	
-	public JButton makePosterButton(Object object) {
+
+	public JButton makePosterButton(Object object, int MovieId) {
 		Icon IMG = resizeIcon(new ImageIcon("./image/poster/" + object), 230, 328);
 		JButton btn = new JButton();
 
 		btn.addMouseListener(new MouseAdapter() {
-			@Override  
+			@Override
 			public void mouseClicked(MouseEvent e) {
-				JButton button = (JButton)e.getSource();
-				for(int i = 0; i<5;i++){
-					if(button.equals(jb[i])){
-						reserveFrame s = new reserveFrame(resizeIcon(main.posterList[page+i],400,600));
+				JButton button = (JButton) e.getSource();
+				for (int i = 0; i < 5; i++) {
+					if (button.equals(jb[i])) {
+						reserveFrame s = new reserveFrame(resizeIcon(posterList[page + i], 400, 600));
 						s.setVisible(true);
 						frame.dispose();
-						return;
+						break;
 					}
 				}
+				// ImageIcon clickedMovie = this.posterList.get(MovieId);
+				// reserveFrame s = new reserveFrame(resizeIcon(clickedMovie, 400, 600));
+				// s.setVisible(true);
+				// frame.dispose();
 			}
 		});
-		
+
 		btn.setIcon(IMG);
 
 		return btn;
 	}
-	
+
 	public void drawMypageButton(ImagePanel bgPanel) {
 		JButton button = new JButton("");
 		button.setIcon(new ImageIcon("./image/user.png"));
@@ -117,7 +195,7 @@ public class mainFrame {
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 		button.setBackground(Color.BLACK);
-		
+
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mypageFrame p = new mypageFrame();
@@ -125,117 +203,113 @@ public class mainFrame {
 				frame.dispose();
 			}
 		});
-		
+
 		bgPanel.add(button);
 	}
-	
+
 	public void drawPreviousButton(ImagePanel bgPanel) {
 		JButton button = this.makeImageButton("previous1.png", "previous2.png");
 		button.setBounds(563, 631, 90, 90);
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 		button.setBackground(Color.BLACK);
-		
+
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (button.hasFocus()) {
 					if (page == 0) {
 						System.out.println("a");
-					}
-					else {
+					} else {
 						page = page - 5;
-						if((posterList.length-page)<5){
-							int a = posterList.length-page;
+						if ((posterList.length - page) < 5) {
+							int a = posterList.length - page;
 							System.out.println(a);
 							int i;
-							for(i=0;i<a;i++){
-								jb[i].setIcon(posterList[page+i]);
+							for (i = 0; i < a; i++) {
+								jb[i].setIcon(posterList[page + i]);
 							}
-							
-							for(int j=a;j<5;j++){
+
+							for (int j = a; j < 5; j++) {
 								jb[j].setIcon(new ImageIcon());
 							}
 							return;
 						}
-						for(int i=0;i<5;i++){
-							jb[i].setIcon(posterList[page+i]);
+						for (int i = 0; i < 5; i++) {
+							jb[i].setIcon(posterList[page + i]);
 						}
 						System.out.println(page);
 					}
 				}
 			}
 		});
-		
-		 button.addMouseListener(new MouseAdapter() {
-	           
-	            @Override  
-	            public void mouseEntered(MouseEvent e) {
-	                if (page==0) {
-	                	button.setRolloverIcon(new ImageIcon("./image/previous1.png"));
-	                }
-	                else {
-	                	button.setRolloverIcon(new ImageIcon("./image/previous2.png"));
-	                }
-	            }
-	              
-	        });
-		
+
+		button.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (page == 0) {
+					button.setRolloverIcon(new ImageIcon("./image/previous1.png"));
+				} else {
+					button.setRolloverIcon(new ImageIcon("./image/previous2.png"));
+				}
+			}
+
+		});
+
 		bgPanel.add(button);
 	}
-	
+
 	public void drawNextButton(ImagePanel bgPanel) {
 		JButton button = this.makeImageButton("next1.png", "next2.png");
 		button.setBounds(703, 631, 90, 90);
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 		button.setBackground(Color.BLACK);
-		
+
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (button.hasFocus()) {
-					if (page == (page_max-1) * 5) {
+					if (page == (page_max - 1) * 5) {
 						System.out.println("a");
-					}
-					else {
+					} else {
 						page = page + 5;
-						if((posterList.length-page)<5){
-							int a = posterList.length-page;
+						if ((posterList.length - page) < 5) {
+							int a = posterList.length - page;
 							System.out.println(a);
 							int i;
-							for(i=0;i<a;i++){
-								jb[i].setIcon(posterList[page+i]);
+							for (i = 0; i < a; i++) {
+								jb[i].setIcon(posterList[page + i]);
 							}
-							
-							for(int j=a;j<5;j++){
+
+							for (int j = a; j < 5; j++) {
 								jb[j].setIcon(new ImageIcon());
 							}
 							return;
 						}
-						for(int i=0;i<5;i++){
-							jb[i].setIcon(posterList[page+i]);
+						for (int i = 0; i < 5; i++) {
+							jb[i].setIcon(posterList[page + i]);
 						}
 						System.out.println(page);
 					}
 				}
 			}
 		});
-		
-		 button.addMouseListener(new MouseAdapter() {
-	            @Override  
-	            public void mouseEntered(MouseEvent e) {
-	                if (page==(page_max-1) * 5) {
-	                	button.setRolloverIcon(new ImageIcon("./image/next1.png"));
-	                }
-	                else {
-	                	button.setRolloverIcon(new ImageIcon("./image/next2.png"));
-	                }
-	            }
-	              
-	        });
-		
+
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (page == (page_max - 1) * 5) {
+					button.setRolloverIcon(new ImageIcon("./image/next1.png"));
+				} else {
+					button.setRolloverIcon(new ImageIcon("./image/next2.png"));
+				}
+			}
+
+		});
+
 		bgPanel.add(button);
 	}
-	
+
 	public JButton makeImageButton(String img, String hoverImg) {
 		Icon IMG = new ImageIcon("./image/" + img);
 		Icon IMG_HOVER = new ImageIcon("./image/" + hoverImg);
@@ -246,14 +320,13 @@ public class mainFrame {
 
 		return btn;
 	}
-	
+
 	public void setVisible(boolean b) {
 		frame.setVisible(b);
 	}
-	
+
 	public void dispose() {
 		frame.dispose();
 	}
-	
-}
 
+}

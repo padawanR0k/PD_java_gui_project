@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -72,24 +73,26 @@ public class mypageFrame {
 	}
 
 	public void drawText(ImagePanel bgPanel, String text, int[] bounds) {
-		JTextField btn = new JTextField(text);
-		btn.setEditable(false);
+		JLabel btn = new JLabel(text);
+		// btn.setEditable(false);
 		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		bgPanel.add(btn);
 	}
 
 	public void drawInfoButton(ImagePanel bgPanel) {
-		JButton button = this.makeImageButton("info1.jpg", "info2.jpg");
+		JButton button = this.makeImageButton("info2.jpg", "info2.jpg");
 		button.setBounds(100, 360, 225, 54);
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "My Information");
-			}
-		});
+		// button.addActionListener(new ActionListener() {
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent e) {
+		// 		frame.dispose();
+		// 		mypageFrame mypageframe = new mypageFrame();
+		// 		mypageframe.setVisible(true);
+		// 	}
+		// });
 
 		bgPanel.add(button);
 	}
@@ -103,7 +106,9 @@ public class mypageFrame {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Check Reservation");
+				frame.dispose();
+				checkFrame checkframe = new checkFrame();
+				checkframe.setVisible(true);
 			}
 		});
 
@@ -137,8 +142,8 @@ public class mypageFrame {
 	 * @return
 	 */
 	public JButton makeImageButton(String img, String hoverImg) {
-		Icon IMG = new ImageIcon("./image/btn/" + img);
-		Icon IMG_HOVER = new ImageIcon("./image/btn/" + hoverImg);
+		Icon IMG = new ImageIcon("./image/" + img);
+		Icon IMG_HOVER = new ImageIcon("./image/" + hoverImg);
 		JButton btn = new JButton();
 
 		btn.setIcon(IMG);

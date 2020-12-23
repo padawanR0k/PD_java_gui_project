@@ -63,8 +63,8 @@ public class loginFrame {
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
 
-		this.drawText(bgPanel, new int[]{519, 312, 313, 45}); // ID
-		this.drawPassword(bgPanel, new int[]{519, 421, 313, 45}); // password
+		this.id = this.drawText(bgPanel, new int[]{519, 312, 313, 45}); // ID
+		this.password = this.drawPassword(bgPanel, new int[]{519, 421, 313, 45}); // password
 		this.drawSignupButton(bgPanel);
 
 		JButton btn_login = this.makeImageButton("login1.jpg", "login2.jpg");
@@ -99,6 +99,9 @@ public class loginFrame {
 			} else {
 				if (isAllValid == 1) {
 					message = "로그인되었습니다..";
+					dispose();
+					mainFrame frame = new mainFrame();
+					frame.setVisible(true);
 				} else {
 					message = "비밀번호가 일치하지 않습니다.";
 				}
@@ -110,16 +113,18 @@ public class loginFrame {
 		}
 	}
 
-	public void drawText(ImagePanel bgPanel, int[] bounds) {
-		JTextField btn = new JTextField();
-		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
-		bgPanel.add(btn);
+	public JTextField drawText(ImagePanel bgPanel, int[] bounds) {
+		JTextField txt = new JTextField();
+		txt.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		bgPanel.add(txt);
+		return txt;
 	}
 
-	public void drawPassword(ImagePanel bgPanel, int[] bounds) {
-		JPasswordField btn = new JPasswordField();
-		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
-		bgPanel.add(btn);
+	public JPasswordField drawPassword(ImagePanel bgPanel, int[] bounds) {
+		JPasswordField txt = new JPasswordField();
+		txt.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		bgPanel.add(txt);
+		return txt;
 	}
 
 	public void drawSignupButton(ImagePanel bgPanel) {
@@ -143,8 +148,8 @@ public class loginFrame {
 	}
 
 	public JButton makeImageButton(String img, String hoverImg) {
-		Icon IMG = new ImageIcon("./image/" + img);
-		Icon IMG_HOVER = new ImageIcon("./image/" + hoverImg);
+		Icon IMG = new ImageIcon("./image/btn/" + img);
+		Icon IMG_HOVER = new ImageIcon("./image/btn/" + hoverImg);
 		JButton btn = new JButton();
 
 		btn.setIcon(IMG);
@@ -152,11 +157,11 @@ public class loginFrame {
 
 		return btn;
 	}
-	
+
 	public void setVisible(boolean b) {
 		frame.setVisible(b);
 	}
-	
+
 	public void dispose() {
 		frame.dispose();
 	}

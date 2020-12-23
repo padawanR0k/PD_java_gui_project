@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,6 @@ public class mainFrame {
 	int page = 0;
 	int page_max;
 	int poster_num;
-	ArrayList fileList;
 	ImageIcon[] posterList;
 
 	final int POSTER_GUTTER = 256;
@@ -74,6 +74,7 @@ public class mainFrame {
 		String folderPath = "./image/poster/";
 		File path = new File(folderPath);
 		String[] fileNames = path.list();
+		//Arrays.sort(fileNames);
 
 		// int count = main.posterList == null ? 0 : main.posterList.length;
 
@@ -170,7 +171,7 @@ public class mainFrame {
 				JButton button = (JButton) e.getSource();
 				for (int i = 0; i < 5; i++) {
 					if (button.equals(jb[i])) {
-						reserveFrame s = new reserveFrame(resizeIcon(posterList[page + i], 400, 600));
+						reserveFrame s = new reserveFrame(resizeIcon(posterList[page + i], 400, 570));
 						s.setVisible(true);
 						frame.dispose();
 						break;

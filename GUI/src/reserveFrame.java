@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -27,12 +28,14 @@ public class reserveFrame extends javax.swing.JFrame {
      */
     public reserveFrame() {
     }
+
     public reserveFrame(Icon poster) {
         adultCount = 0;
         youthCount = 0;
         ImageIcon reserve1 = new ImageIcon("./image/btn/reserve1.jpg");
         ImageIcon reserve2 = new ImageIcon("./image/btn/reserve2.jpg");
         icon = new ImageIcon("./image/bg_reserveFrame.jpg");
+        
         initComponents();
         
         contentPane = new JPanel() {

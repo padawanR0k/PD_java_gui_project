@@ -1,3 +1,4 @@
+import main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -8,10 +9,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import DB.DB;
 import java.awt.event.ActionListener;
@@ -19,10 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.awt.event.ActionEvent;
-import javax.swing.JLayeredPane;
 
 public class mainFrame {
 	private JFrame frame;
@@ -33,32 +27,11 @@ public class mainFrame {
 	int poster_num;
 	ArrayList fileList;
 	ImageIcon[] posterList;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					mainFrame window = new mainFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the application.
-	 */
 	public mainFrame() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		jb = new JButton[5];
@@ -73,14 +46,12 @@ public class mainFrame {
 		this.drawNextButton(bgPanel);		
 		
 		File path = new File("./image/poster/");
-		System.out.println(path.list().length);
 		String[] fileNames = path.list();
-		fileList = new ArrayList();
-		posterList = new ImageIcon[fileNames.length];
+
+		posterList = new ImageIcon[main.posterList.length];
+		posterList =  main.posterList;
 		for (int i = 0; i < fileNames.length; i++) {
-			fileList.add(fileNames[i]);
 			System.out.println(fileNames[i]);
-			posterList[i] = new ImageIcon("./image/poster/" + fileNames[i]);
 		}
 		System.out.println(fileList);
 		
@@ -88,11 +59,11 @@ public class mainFrame {
 		page_max = (int) Math.ceil((double) poster_num / 5);
 		System.out.println(page_max);
 		
-		this.drawPosterButton(bgPanel,0, new int[]{50, 221, 230, 328}, fileList.get(page));
-		this.drawPosterButton(bgPanel,1, new int[]{306, 221, 230, 328}, fileList.get(page+1));
-		this.drawPosterButton(bgPanel,2, new int[]{563, 221, 230, 328}, fileList.get(page+2));
-		this.drawPosterButton(bgPanel,3, new int[]{818, 221, 230, 328}, fileList.get(page+3));
-		this.drawPosterButton(bgPanel,4, new int[]{1075, 221, 230, 328}, fileList.get(page+4));
+		this.drawPosterButton(bgPanel,0, new int[]{50, 221, 230, 328}, fileNames[page]);
+		this.drawPosterButton(bgPanel,1, new int[]{306, 221, 230, 328}, fileNames[page+1]);
+		this.drawPosterButton(bgPanel,2, new int[]{563, 221, 230, 328}, fileNames[page+2]);
+		this.drawPosterButton(bgPanel,3, new int[]{818, 221, 230, 328}, fileNames[page+3]);
+		this.drawPosterButton(bgPanel,4, new int[]{1075, 221, 230, 328}, fileNames[page+4]);
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
@@ -100,10 +71,10 @@ public class mainFrame {
 	}
 
 	// resizedHeight = 230, resizedHeight = 328
-	private static Icon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
-	       Image img = icon.getImage();  
-	       Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
-	       return new ImageIcon(resizedImage);
+	private static ImageIcon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
+		Image img = icon.getImage();  
+		Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);  
+		return new ImageIcon(resizedImage);
 	}
 	
 	public void drawPosterButton(ImagePanel bgPanel,int i, int[] bounds, Object object) {
@@ -117,17 +88,20 @@ public class mainFrame {
 	
 	public JButton makePosterButton(Object object) {
 		Icon IMG = resizeIcon(new ImageIcon("./image/poster/" + object), 230, 328);
-		//Icon IMG = resizeIcon(new ImageIcon(img), 230, 328);
 		JButton btn = new JButton();
 
 		btn.addMouseListener(new MouseAdapter() {
 			@Override  
 			public void mouseClicked(MouseEvent e) {
 				JButton button = (JButton)e.getSource();
-				
-				reserveFrame s = new reserveFrame(button.getIcon());
-				s.setVisible(true);
-				frame.dispose();
+				for(int i = 0; i<5;i++){
+					if(button.equals(jb[i])){
+						reserveFrame s = new reserveFrame(resizeIcon(main.posterList[page+i],400,600));
+						s.setVisible(true);
+						frame.dispose();
+						return;
+					}
+				}
 			}
 		});
 		
@@ -175,8 +149,7 @@ public class mainFrame {
 							System.out.println(a);
 							int i;
 							for(i=0;i<a;i++){
-								//jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
-								jb[i].setIcon(resizeIcon(posterList[page+i],230,328));
+								jb[i].setIcon(posterList[page+i]);
 							}
 							
 							for(int j=a;j<5;j++){
@@ -185,8 +158,7 @@ public class mainFrame {
 							return;
 						}
 						for(int i=0;i<5;i++){
-							//jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
-							jb[i].setIcon(resizeIcon(posterList[page+i],230,328));
+							jb[i].setIcon(posterList[page+i]);
 						}
 						System.out.println(page);
 					}
@@ -231,8 +203,7 @@ public class mainFrame {
 							System.out.println(a);
 							int i;
 							for(i=0;i<a;i++){
-								//jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
-								jb[i].setIcon(resizeIcon(posterList[page+i],230,328));
+								jb[i].setIcon(posterList[page+i]);
 							}
 							
 							for(int j=a;j<5;j++){
@@ -241,8 +212,7 @@ public class mainFrame {
 							return;
 						}
 						for(int i=0;i<5;i++){
-							//jb[i].setIcon(resizeIcon(new ImageIcon("./image/poster/" + fileList.get(page+i)), 230, 328));	
-							jb[i].setIcon(resizeIcon(posterList[page+i],230,328));
+							jb[i].setIcon(posterList[page+i]);
 						}
 						System.out.println(page);
 					}

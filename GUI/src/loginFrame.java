@@ -148,8 +148,8 @@ public class loginFrame {
 	}
 
 	public JButton makeImageButton(String img, String hoverImg) {
-		Icon IMG = new ImageIcon("./image/btn/" + img);
-		Icon IMG_HOVER = new ImageIcon("./image/btn/" + hoverImg);
+		Icon IMG = new ImageIcon("./image/" + img);
+		Icon IMG_HOVER = new ImageIcon("./image/" + hoverImg);
 		JButton btn = new JButton();
 
 		btn.setIcon(IMG);

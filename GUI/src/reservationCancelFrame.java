@@ -15,8 +15,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
 
 import DB.DB;
 
@@ -31,6 +29,7 @@ public class reservationCancelFrame {
 	private JLabel seats;
 	private JLabel poster;
 	private int groupId;
+	private Integer MovieId;
 	private long canceled = 0;
 
 	/**
@@ -92,6 +91,7 @@ public class reservationCancelFrame {
 				SELECT
 						mov.title,
 						mov.openDate,
+						mov.MovieId,
 						res.date,
 						scr.time,
 						scr.ScreeningId AS ScreeningId,
@@ -119,7 +119,7 @@ public class reservationCancelFrame {
 		String seats = "";
 		for (Map<String, Object> m : res) {
 			String s = (String) m.get("seatId");
-			seats += s + ", ";
+			seats += s + " ";
 		}
 		this.title.setText(title);
 		this.detail.setText(openDate + " | " + time);
@@ -127,7 +127,17 @@ public class reservationCancelFrame {
 		this.seats.setText(seats);
 
 		this.canceled = (Integer) movie.get("cancled");
+		this.MovieId = (Integer) movie.get("MovieId");
+		System.out.println("./image/poster/poster_" + this.MovieId.toString() + ".jpg");
+		ImageIcon posterImg = resizeIcon(new ImageIcon("./image/poster/poster_" + this.MovieId.toString() + ".jpg"), 120, 160);
 
+		poster.setIcon(posterImg);
+	}
+
+	private static ImageIcon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
+		Image img = icon.getImage();
+		Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight, java.awt.Image.SCALE_SMOOTH);
+		return new ImageIcon(resizedImage);
 	}
 
 	public void drawInfoButton(ImagePanel bgPanel) {
@@ -219,11 +229,8 @@ public class reservationCancelFrame {
 		seats = new JLabel("J4 J5");
 
 		// ImageIcon icon = new
-		// ImageIcon("https://img.cgv.co.kr/Movie/Thumbnail/Poster/000083/83854/83854_320.jpg");
 		poster = new JLabel();
 
-		poster.setOpaque(true);
-		poster.setBackground(new Color(0, 0, 0));
 		title.setBounds(780, 200, 200, 50);
 		detail.setBounds(780, 250, 400, 50);
 		count.setBounds(654, 416, 50, 50);
@@ -266,8 +273,8 @@ public class reservationCancelFrame {
 	 * @return
 	 */
 	public JButton makeImageButton(String img, String hoverImg) {
-		Icon IMG = new ImageIcon("./image/btn/" + img);
-		Icon IMG_HOVER = new ImageIcon("./image/btn/" + hoverImg);
+		Icon IMG = new ImageIcon("./image/" + img);
+		Icon IMG_HOVER = new ImageIcon("./image/" + hoverImg);
 		JButton btn = new JButton();
 
 		btn.setIcon(IMG);

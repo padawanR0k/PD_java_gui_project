@@ -167,15 +167,19 @@ public class mainFrame {
 		btn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// JButton button = (JButton) e.getSource();
-				// for (int i = 0; i < 5; i++) {
-				// 	if (button.equals(jb[i])) {
-				// 	}
-				// }
-				ImageIcon clickedMovie = main.posterList.get(MovieId);
-				reserveFrame s = new reserveFrame(resizeIcon(clickedMovie, 400, 600));
-				s.setVisible(true);
-				frame.dispose();
+				JButton button = (JButton) e.getSource();
+				for (int i = 0; i < 5; i++) {
+					if (button.equals(jb[i])) {
+						reserveFrame s = new reserveFrame(resizeIcon(posterList[page + i], 400, 600));
+						s.setVisible(true);
+						frame.dispose();
+						break;
+					}
+				}
+				// ImageIcon clickedMovie = this.posterList.get(MovieId);
+				// reserveFrame s = new reserveFrame(resizeIcon(clickedMovie, 400, 600));
+				// s.setVisible(true);
+				// frame.dispose();
 			}
 		});
 

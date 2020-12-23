@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -28,14 +27,12 @@ public class reserveFrame extends javax.swing.JFrame {
      */
     public reserveFrame() {
     }
-
     public reserveFrame(Icon poster) {
         adultCount = 0;
         youthCount = 0;
         ImageIcon reserve1 = new ImageIcon("./image/btn/reserve1.jpg");
         ImageIcon reserve2 = new ImageIcon("./image/btn/reserve2.jpg");
         icon = new ImageIcon("./image/bg_reserveFrame.jpg");
-        
         initComponents();
         
         contentPane = new JPanel() {
@@ -53,7 +50,7 @@ public class reserveFrame extends javax.swing.JFrame {
         
         JButton choiceButton = new JButton(reserve1); // choose you seat 버튼
         choiceButton.setRolloverIcon(reserve2);
-        choiceButton.setBounds(700,640,327,68);
+        choiceButton.setBounds(760,620,327,68);
         contentPane.add(choiceButton);
         choiceButton.addActionListener(new ActionListener() { // seatFrame 불러오기
 			public void actionPerformed(ActionEvent e) {
@@ -64,15 +61,16 @@ public class reserveFrame extends javax.swing.JFrame {
         });
         
         JComboBox date = new JComboBox<>(); // 날짜 date
-        date.setBounds(700,75,250,50);
+        date.setBounds(700,125,250,50);
         contentPane.add(date);
         
         JComboBox time = new JComboBox<>(); // 시간 time
-        time.setBounds(700,235,250,50);
+        time.setBounds(700,200,250,50);
         contentPane.add(time);
         
         JLabel price = new JLabel("11"); // 가격 price
-        price.setBounds(700,563,100,50);
+        price.setBounds(700,500,100,50);
+        price.setForeground(Color.white);
         price.setFont(price.getFont().deriveFont(40.0F));
         contentPane.add(price);
         
@@ -94,7 +92,7 @@ public class reserveFrame extends javax.swing.JFrame {
                         adultCount = Integer.parseInt(button.getText());
                     }
                 });
-            adult_btn_list[i].setBounds(700+60*i,395,50,50);
+            adult_btn_list[i].setBounds(700+60*i,342,50,50);
             contentPane.add(adult_btn_list[i]);
         }
         
@@ -116,7 +114,7 @@ public class reserveFrame extends javax.swing.JFrame {
                         youthCount = Integer.parseInt(button.getText());
                     }
                 });
-            youth_btn_list[i].setBounds(700+60*i,470,50,50);
+            youth_btn_list[i].setBounds(700+60*i,395,50,50);
             contentPane.add(youth_btn_list[i]);
         }
     }

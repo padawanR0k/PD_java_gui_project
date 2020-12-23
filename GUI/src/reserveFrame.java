@@ -68,28 +68,29 @@ public class reserveFrame extends javax.swing.JFrame {
         time.setBounds(700,200,250,50);
         contentPane.add(time);
         
-        JLabel price = new JLabel("11"); // 가격 price
-        price.setBounds(700,500,100,50);
+        JLabel price = new JLabel(""); // 가격 price
+        price.setBounds(700,500,1000,50);
         price.setForeground(Color.white);
         price.setFont(price.getFont().deriveFont(40.0F));
         contentPane.add(price);
         
         JButton[] adult_btn_list = new JButton[10]; // 성인 adult
         for(int i=0;i<10;i++){
-            adult_btn_list[i] = new JButton(""+(i+1));
+            adult_btn_list[i] = new JButton(""+(i));
             adult_btn_list[i].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         JButton button = (JButton)e.getSource();
-                        if(Integer.parseInt(button.getText())+youthCount>10){
-                            JOptionPane.showMessageDialog(null, "10인 이하만 예매 가능합니다.");
+                        if(Integer.parseInt(button.getText())+youthCount>5){
+                            JOptionPane.showMessageDialog(null, "5인 이하만 예매 가능합니다.");
                             return;
                         }
                         for(int i=0;i<10;i++){
                             adult_btn_list[i].setBackground(new Color(170,170,170));
                         }
-                        adult_btn_list[Integer.parseInt(button.getText())-1].setBackground(new Color(255,0,0));
+                        adult_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255,0,0));
                         adultCount = Integer.parseInt(button.getText());
+                        price.setText(adultCount*13000+youthCount*10000+" Won");
                     }
                 });
             adult_btn_list[i].setBounds(700+60*i,342,50,50);
@@ -98,20 +99,21 @@ public class reserveFrame extends javax.swing.JFrame {
         
         JButton[] youth_btn_list = new JButton[10]; // 어린이 youth
         for(int i=0;i<10;i++){
-            youth_btn_list[i] = new JButton(""+(i+1));
+            youth_btn_list[i] = new JButton(""+(i));
             youth_btn_list[i].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         JButton button = (JButton)e.getSource();
-                        if(Integer.parseInt(button.getText())+adultCount>10){
-                            JOptionPane.showMessageDialog(null, "10인 이하만 예매 가능합니다.");
+                        if(Integer.parseInt(button.getText())+adultCount>5){
+                            JOptionPane.showMessageDialog(null, "5인 이하만 예매 가능합니다.");
                             return;
                         }
                         for(int i=0;i<10;i++){
                             youth_btn_list[i].setBackground(new Color(170,170,170));
                         }
-                        youth_btn_list[Integer.parseInt(button.getText())-1].setBackground(new Color(255,0,0));
+                        youth_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255,0,0));
                         youthCount = Integer.parseInt(button.getText());
+                        price.setText(adultCount*13000+youthCount*10000+" Won");
                     }
                 });
             youth_btn_list[i].setBounds(700+60*i,395,50,50);

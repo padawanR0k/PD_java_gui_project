@@ -16,7 +16,7 @@ public class DB {
 	public Connection connect = null;
 	public Statement stmt = null;
 
-	private String DB_URL = "jdbc:mysql://13.125.168.104:57761";
+	private String DB_URL = "jdbc:mysql://34.64.77.183:3306";
 	private String DB_PW = null;
 	private String DB_USERNAME = null;
 

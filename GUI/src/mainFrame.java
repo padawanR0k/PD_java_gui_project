@@ -1,9 +1,7 @@
 
 // import main;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.Icon;
@@ -20,8 +18,12 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.awt.event.ActionEvent;
 
@@ -32,8 +34,8 @@ public class mainFrame {
 	int page = 0;
 	int page_max;
 	int poster_num;
-	ArrayList fileList;
 	ImageIcon[] posterList;
+	ArrayList<Integer> MovieIds;
 
 	final int POSTER_GUTTER = 256;
 	final int POSTER_WIDTH = 230;
@@ -75,11 +77,10 @@ public class mainFrame {
 		File path = new File(folderPath);
 		String[] fileNames = path.list();
 
-		// int count = main.posterList == null ? 0 : main.posterList.length;
-
 		List movies = this.getMovies();
 		saveImg s = new saveImg();
 
+		// 불러온 영화의 포스터가 로컬에 없으면 다운로드한다.
 		Consumer<Map<String, Object>> downloadImages = n -> {
 			String poster = (String) n.get("poster");
 			int MovieId = (int) n.get("MovieId");
@@ -87,9 +88,7 @@ public class mainFrame {
 
 			File file = new File(folderPath + filename);
 
-			if (file.exists()) {
-
-			} else {
+			if (file.exists() == false) {
 				try {
 					int result = s.saveImgFromUrlToLocal(poster, MovieId);
 					if (result == 1) {
@@ -107,22 +106,29 @@ public class mainFrame {
 
 		movies.stream().forEach(downloadImages);
 
-		// posterList = new ImageIcon[count];
-		this.posterList = main.posterList.values().toArray(new ImageIcon[main.posterList.size()]);
+		int size = main.posterList.size();
+		this.posterList = main.posterList.values().toArray(new ImageIcon[size]);
+		this.MovieIds = new ArrayList<>();
+		Iterator it =  main.posterList.entrySet().iterator();
+
+		int i = 0;
+		while (it.hasNext()) {
+			Map.Entry<Integer, ImageIcon> p = (Map.Entry<Integer, ImageIcon>)it.next();
+			int id =  p.getKey();
+			ImageIcon value = p.getValue();
+			this.posterList[i] = value;
+			this.MovieIds.add(id);
+			i = i+1;
+		}
 
 		poster_num = new File("./image/poster/").listFiles().length;
 		page_max = (int) Math.ceil((double) poster_num / 5);
 
 
-		if (fileNames.length > 1) {
-			for (int i = 0; i < 5; i++) {
-				int[] bounds = new int[] { 50 + i * POSTER_GUTTER, 221, POSTER_WIDTH, POSTER_HEIGHT };
-				String filename = fileNames[page + i];
-				System.out.println(filename);
-
-				int MovieId =  Integer.parseInt(filename.split("_")[1].replace(".jpg", ""));
-				this.drawPosterButton(bgPanel, i, bounds, filename, MovieId);
-			}
+		if (this.posterList.length > 1) {
+			for (int j = 0; j < 5; j++) {
+				int[] bounds = new int[] { 50 + j * POSTER_GUTTER, 221, POSTER_WIDTH, POSTER_HEIGHT };
+				this.drawPosterButton(bgPanel, j, bounds, this.posterList[j], this.MovieIds.get(j));
 
 		}
 
@@ -137,6 +143,7 @@ public class mainFrame {
 	public List<Map<String, Object>> getMovies() {
 		DB db = new DB();
 		String today = new SimpleDateFormat("YYYY-MM-DD").format(new Date());
+		System.out.println("today" + today);
 
 		List<Map<String, Object>> response = db
 				.query(String.format("select * from theater.movie where openDate <= '%s' order by openDate desc limit 17;", today));
@@ -151,8 +158,8 @@ public class mainFrame {
 		return new ImageIcon(resizedImage);
 	}
 
-	public void drawPosterButton(ImagePanel bgPanel, int i, int[] bounds, Object object, int MovieId) {
-		jb[i] = this.makePosterButton(object, MovieId);
+	public void drawPosterButton(ImagePanel bgPanel, int i, int[] bounds, ImageIcon poster, int MovieId) {
+		jb[i] = this.makePosterButton(poster, MovieId);
 		jb[i].setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		jb[i].setBackground(Color.BLACK);
 		jb[i].setBorderPainted(false);
@@ -160,8 +167,8 @@ public class mainFrame {
 		bgPanel.add(jb[i]);
 	}
 
-	public JButton makePosterButton(Object object, int MovieId) {
-		Icon IMG = resizeIcon(new ImageIcon("./image/poster/" + object), 230, 328);
+	public JButton makePosterButton(ImageIcon poster, int MovieId) {
+		Icon IMG = resizeIcon(poster, 230, 328);
 		JButton btn = new JButton();
 
 		btn.addMouseListener(new MouseAdapter() {

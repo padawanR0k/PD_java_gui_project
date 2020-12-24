@@ -19,7 +19,7 @@ public class main {
             Integer movieId = (Integer) Integer.parseInt(fileNames[i].replace("poster_", "").replace(".jpg", ""));
 			posterList.put(movieId, resizeIcon(new ImageIcon("./image/poster/" + fileNames[i]),230,328));
         }
-        // new loginFrame().setVisible(true);
+        new loginFrame().setVisible(true);
     }
     public static ImageIcon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
 		Image img = icon.getImage();

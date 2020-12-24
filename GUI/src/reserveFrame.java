@@ -32,6 +32,7 @@ public class reserveFrame extends javax.swing.JFrame {
         youthCount = 0;
         ImageIcon reserve1 = new ImageIcon("./image/reserve1.jpg");
         ImageIcon reserve2 = new ImageIcon("./image/reserve2.jpg");
+        ImageIcon backBtn = new ImageIcon("./image/btn/back_btn2.png");
         icon = new ImageIcon("./image/bg_reserveFrame.jpg");
         initComponents();
 
@@ -59,6 +60,20 @@ public class reserveFrame extends javax.swing.JFrame {
 				dispose();
 			}
         });
+        
+        JButton backButton = new JButton(backBtn); // 뒤로가기 버
+        backButton.setBounds(1245, 10, 85, 85);
+        backButton.setBorderPainted(false);
+        backButton.setFocusPainted(false);
+        backButton.setBackground(Color.BLACK);
+        contentPane.add(backButton);
+        backButton.addActionListener(new ActionListener() { // mainFrame으로 이
+			public void actionPerformed(ActionEvent e) {
+				mainFrame m = new mainFrame();
+				m.setVisible(true);
+				dispose();
+			}
+		});
 
         JComboBox date = new JComboBox<>(); // 날짜 date
         date.setBounds(700,125,250,50);
@@ -81,8 +96,8 @@ public class reserveFrame extends javax.swing.JFrame {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         JButton button = (JButton)e.getSource();
-                        if(Integer.parseInt(button.getText())+youthCount>5){
-                            JOptionPane.showMessageDialog(null, "5인 이하만 예매 가능합니다.");
+                        if(Integer.parseInt(button.getText())+youthCount>10){
+                            JOptionPane.showMessageDialog(null, "10인 이하만 예매 가능합니다.");
                             return;
                         }
                         for(int i=0;i<10;i++){
@@ -104,8 +119,8 @@ public class reserveFrame extends javax.swing.JFrame {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         JButton button = (JButton)e.getSource();
-                        if(Integer.parseInt(button.getText())+adultCount>5){
-                            JOptionPane.showMessageDialog(null, "5인 이하만 예매 가능합니다.");
+                        if(Integer.parseInt(button.getText())+adultCount>10){
+                            JOptionPane.showMessageDialog(null, "10인 이하만 예매 가능합니다.");
                             return;
                         }
                         for(int i=0;i<10;i++){

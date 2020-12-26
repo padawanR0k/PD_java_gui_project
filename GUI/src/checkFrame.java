@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ public class checkFrame {
 	private final Image BG_IMAGE = new ImageIcon("./image/bg_checkFrame.jpg").getImage();
 	private JFrame frame;
 	private List<Map<String, Object>> data = new ArrayList<>();
-	private User user;
+
 	/**
 	 * Launch the application.
 	 */
@@ -44,12 +43,7 @@ public class checkFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Map user = new HashMap<String, Object>();
-					user.put("AccountId", 1);
-					user.put("id", "test");
-					user.put("nick", "tes");
-
-					checkFrame window = new checkFrame(new User(user));
+					checkFrame window = new checkFrame();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -61,8 +55,7 @@ public class checkFrame {
 	/**
 	 * Create the application.
 	 */
-	public checkFrame(User user) {
-		this.user = user;
+	public checkFrame() {
 		initialize();
 	}
 
@@ -122,33 +115,36 @@ public class checkFrame {
 	public Object[][] getData() {
 		DB db = new DB();
 
-		ArrayList<String> screenList = new ArrayList<>();
-		this.data = db.query(String.format("""
+		ArrayList<Integer> screenList = new ArrayList<>();
+		this.data = db.query("""
 				SELECT
 						mov.title AS title,
 						res.date AS date,
+						scr.time AS time,
+						scr.ScreeningId,
 						res.groupId,
-						res.ReservId,
 						res.AccountId,
 						res.cancled
 				FROM
 						theater.reservation AS res
 								JOIN
-						theater.movie AS mov ON mov.MovieId = res.MovieId
+						theater.screening AS scr ON res.ScreeningId = scr.ScreeningId
+								JOIN
+						theater.movie AS mov ON mov.MovieId = scr.MovieId
 				WHERE
-						AccountId = %s
+						AccountId = 1
 						;
-				""", this.user.AccountId));
+				""");
 
 		Object[][] movieList = new Object[this.data.size()][3];
 		int i = 0;
 		for (Map<String, Object> s : this.data) {
-			String groupId = (String)s.get("groupId");
-			if (screenList.indexOf(groupId) == -1) {
+			Integer ScreeningId = (Integer) s.get("ScreeningId");
+			if (screenList.indexOf(ScreeningId) == -1) {
 				Object[] movie = { s.get("title"), s.get("time"), s.get("date") };
 				movieList[i] = movie;
 				i++;
-				screenList.add(groupId);
+				screenList.add(ScreeningId);
 			}
 		}
 		return movieList;
@@ -181,7 +177,7 @@ public class checkFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				mypageFrame mypageframe = new mypageFrame(user);
+				mypageFrame mypageframe = new mypageFrame();
 				mypageframe.setVisible(true);
 			}
 		});
@@ -207,7 +203,7 @@ public class checkFrame {
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainFrame m = new mainFrame(user);
+				mainFrame m = new mainFrame();
 				m.setVisible(true);
 				frame.dispose();
 			}

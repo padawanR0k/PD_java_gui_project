@@ -31,7 +31,6 @@ public class reservationCancelFrame {
 	private int groupId;
 	private Integer MovieId;
 	private long canceled = 0;
-	private User user;
 
 	/**
 	 * Launch the application.
@@ -58,8 +57,7 @@ public class reservationCancelFrame {
 		this.groupId = 1;
 	}
 
-	public reservationCancelFrame(User user, int groupId) {
-		this.user = user;
+	public reservationCancelFrame(int groupId) {
 		initialize();
 		this.getResverationInfo(this.groupId);
 		this.groupId = groupId;
@@ -95,9 +93,8 @@ public class reservationCancelFrame {
 						mov.openDate,
 						mov.MovieId,
 						res.date,
-					--	scr.time,
-					-- scr.ScreeningId AS ScreeningId,
-
+						scr.time,
+						scr.ScreeningId AS ScreeningId,
 						res.groupId,
 						res.AccountId,
 						res.cancled,
@@ -105,9 +102,9 @@ public class reservationCancelFrame {
 				FROM
 						theater.reservation AS res
 								JOIN
-						-- theater.screening AS scr ON res.ScreeningId = scr.ScreeningId
-						-- 		JOIN
-						theater.movie AS mov ON mov.MovieId = res.MovieId
+						theater.screening AS scr ON res.ScreeningId = scr.ScreeningId
+								JOIN
+						theater.movie AS mov ON mov.MovieId = scr.MovieId
 				WHERE
 						groupId = %s
 				""", groupId);
@@ -153,7 +150,7 @@ public class reservationCancelFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				mypageFrame mypageframe = new mypageFrame(user);
+				mypageFrame mypageframe = new mypageFrame();
 				mypageframe.setVisible(true);
 			}
 		});
@@ -171,7 +168,7 @@ public class reservationCancelFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				checkFrame checkframe = new checkFrame(user);
+				checkFrame checkframe = new checkFrame();
 				checkframe.setVisible(true);
 			}
 		});
@@ -216,7 +213,7 @@ public class reservationCancelFrame {
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainFrame m = new mainFrame(user);
+				mainFrame m = new mainFrame();
 				m.setVisible(true);
 				frame.dispose();
 			}

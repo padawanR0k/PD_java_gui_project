@@ -95,22 +95,20 @@ public class loginFrame {
 			Long isAllValid = (Long)result.get("isAllValid");
 			String  message = "";
 			if (isIdValid == 0) {
-				JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다.");
+				message = "존재하지 않는 아이디입니다.";
 			} else {
 				if (isAllValid == 1) {
-					List<Map<String, Object>> response2 = db
-							.query(String.format("select AccountId, nick, id from theater.account where id = '%s'", ID));
-					User user = new User(response2.get(0));
-
-					JOptionPane.showMessageDialog(null, "로그인되었습니다..");
+					message = "로그인되었습니다..";
 					dispose();
-					mainFrame frame = new mainFrame(user);
+					user my = new user(ID, PW);
+					mainFrame frame = new mainFrame(my);
 					frame.setVisible(true);
 				} else {
-					JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
+					message = "비밀번호가 일치하지 않습니다.";
 				}
 			}
 
+			JOptionPane.showMessageDialog(null, message);
 			System.out.println(response);
 
 		}

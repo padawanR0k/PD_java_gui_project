@@ -37,7 +37,6 @@ public class mainFrame {
 	int poster_num;
 	ImageIcon[] posterList;
 	ArrayList<Integer> MovieIds;
-	User user;
 
 	final int POSTER_GUTTER = 256;
 	final int POSTER_WIDTH = 230;
@@ -48,12 +47,7 @@ public class mainFrame {
 			public void run() {
 				try {
 					new main();
-					Map user = new HashMap<String, Object>();
-					user.put("AccountId", 1);
-					user.put("id", "test");
-					user.put("nick", "tes");
-
-					mainFrame window = new mainFrame(new User(user));
+					mainFrame window = new mainFrame();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -62,8 +56,7 @@ public class mainFrame {
 		});
 	}
 
-	public mainFrame(User user) {
-		this.user = user;
+	public mainFrame() {
 		initialize();
 	}
 
@@ -83,6 +76,8 @@ public class mainFrame {
 
 		String folderPath = "./image/poster/";
 		File path = new File(folderPath);
+		String[] fileNames = path.list();
+		//Arrays.sort(fileNames);
 
 		List movies = this.getMovies();
 		saveImg s = new saveImg();
@@ -102,8 +97,10 @@ public class mainFrame {
 						System.out.println(filename);
 						ImageIcon img = main.resizeIcon(new ImageIcon("./image/poster/" + filename),230,328);
 						main.posterList.put(MovieId, img);
+						// main.posterList.set(MovieId, img);
 					}
 				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -129,29 +126,27 @@ public class mainFrame {
 		poster_num = new File("./image/poster/").listFiles().length;
 		page_max = (int) Math.ceil((double) poster_num / 5);
 
-		System.out.println("main.posterList.size");
-		System.out.println(main.posterList.size());
-		System.out.println("this.posterList.length");
-		System.out.println(this.posterList.length);
 
 		if (this.posterList.length > 1) {
 			for (int j = 0; j < 5; j++) {
-				int[] bounds = new int[] { 50 + j * POSTER_GUTTER, 221, POSTER_WIDTH, POSTER_HEIGHT };
+				int[] bounds = new int[] { 50 + j * POSTER_GUTTER, 221, POSTER_WIDTH, POSTER_HEIGHT 
+				};
 				this.drawPosterButton(bgPanel, j, bounds, this.posterList[j], this.MovieIds.get(j));
 			}
+
 		}
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+	
 	/**
 	 * 개봉일이 오늘 이전인 영화정보를 가져온다.
 	 */
 	public List<Map<String, Object>> getMovies() {
 		DB db = new DB();
-		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		String today = new SimpleDateFormat("YYYY-MM-DD").format(new Date());
 		System.out.println("today" + today);
 
 		List<Map<String, Object>> response = db
@@ -186,12 +181,16 @@ public class mainFrame {
 				JButton button = (JButton) e.getSource();
 				for (int i = 0; i < 5; i++) {
 					if (button.equals(jb[i])) {
-						reserveFrame s = new reserveFrame(MovieId, resizeIcon(posterList[page + i], 400, 570), user);
+						reserveFrame s = new reserveFrame((page + i),resizeIcon(posterList[page + i], 400, 570));
 						s.setVisible(true);
 						frame.dispose();
 						break;
 					}
 				}
+				// ImageIcon clickedMovie = this.posterList.get(MovieId);
+				// reserveFrame s = new reserveFrame(resizeIcon(clickedMovie, 400, 600));
+				// s.setVisible(true);
+				// frame.dispose();
 			}
 		});
 
@@ -210,7 +209,7 @@ public class mainFrame {
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mypageFrame p = new mypageFrame(user);
+				mypageFrame p = new mypageFrame();
 				p.setVisible(true);
 				frame.dispose();
 			}
@@ -259,8 +258,11 @@ public class mainFrame {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				String icon = page == 0 ? "./image/previous1.png" : "./image/previous2.png";
-				button.setRolloverIcon(new ImageIcon(icon));
+				if (page == 0) {
+					button.setRolloverIcon(new ImageIcon("./image/previous1.png"));
+				} else {
+					button.setRolloverIcon(new ImageIcon("./image/previous2.png"));
+				}
 			}
 
 		});

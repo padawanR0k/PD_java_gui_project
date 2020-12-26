@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,12 +12,13 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class mypageFrame {
 	private final Image BG_IMAGE = new ImageIcon("./image/bg_checkFrame(info).jpg").getImage();
 	private JFrame frame;
-	private User user;
 
 	/**
 	 * Launch the application.
@@ -27,11 +27,7 @@ public class mypageFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Map user = new HashMap<String, Object>();
-					user.put("AccountId", 1);
-					user.put("id", "test");
-					user.put("nick", "tes");
-					mypageFrame window = new mypageFrame(new User(user));
+					mypageFrame window = new mypageFrame();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -43,8 +39,7 @@ public class mypageFrame {
 	/**
 	 * Create the application.
 	 */
-	public mypageFrame(User user) {
-		this.user = user;
+	public mypageFrame() {
 		initialize();
 	}
 
@@ -112,7 +107,7 @@ public class mypageFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				checkFrame checkframe = new checkFrame(user);
+				checkFrame checkframe = new checkFrame();
 				checkframe.setVisible(true);
 			}
 		});
@@ -130,7 +125,7 @@ public class mypageFrame {
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainFrame m = new mainFrame(user);
+				mainFrame m = new mainFrame();
 				m.setVisible(true);
 				frame.dispose();
 			}

@@ -45,30 +45,33 @@ public class payFrame {
 	public payFrame() {
 		initialize();
 	}
+	public payFrame(int price) {
+		initialize();
+	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
-
+		
 		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_payFrame.jpg").getImage());
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
-
+		
 		this.drawText(bgPanel, new int[]{369, 205, 261, 31}); // cardNumber
 		this.drawText(bgPanel, new int[]{75, 311, 151, 31}); // expirationDate
 		this.drawFormattedText(bgPanel, new int[]{369, 311, 151, 31}); // cvv
 		this.drawPayButton(bgPanel);
 		this.drawComboBox(bgPanel);
-
+		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
-
+	
 	public void drawComboBox(ImagePanel bgPanel) {
 		String[] banks={"신한은행", "우리은행", "농협", "국민은행", "카카오뱅크", "하나은행", "기타"};
 		JComboBox<?> bankCombo = new JComboBox<Object>(banks);
@@ -76,25 +79,25 @@ public class payFrame {
 		bankCombo.setBounds(75, 205, 224, 31);
 		bgPanel.add(bankCombo);
 	}
-
+	
 	public void drawText(ImagePanel bgPanel, int[] bounds) {
 		JTextField btn = new JTextField();
 		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		bgPanel.add(btn);
 	}
-
+	
 	public void drawFormattedText(ImagePanel bgPanel, int[] bounds) {
 		JFormattedTextField btn = new JFormattedTextField(new NumberFormatter());
 		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		bgPanel.add(btn);
 	}
-
+	
 	public void drawPayButton(ImagePanel bgPanel) {
 		JButton button = this.makeImageButton("pay1.jpg", "pay2.jpg");
 		button.setBounds(69, 388, 160, 45);
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
-
+		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Payment is completed.");
@@ -103,10 +106,10 @@ public class payFrame {
 				frame.dispose();
 			}
 		});
-
+		
 		bgPanel.add(button);
 	}
-
+	
 	public JButton makeImageButton(String img, String hoverImg) {
 		Icon IMG = new ImageIcon("./image/" + img);
 		Icon IMG_HOVER = new ImageIcon("./image/" + hoverImg);
@@ -117,11 +120,11 @@ public class payFrame {
 
 		return btn;
 	}
-
+	
 	public void setVisible(boolean b) {
 		frame.setVisible(b);
 	}
-
+	
 	public void dispose() {
 		frame.dispose();
 	}

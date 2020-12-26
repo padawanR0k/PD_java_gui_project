@@ -143,7 +143,9 @@ public class registerFrame {
 				System.out.println(response);
 				JOptionPane.showMessageDialog(null, "회원가입 되었습니다.");
 				if (response > 0) {
-					loginFrame frame = new loginFrame();
+					List<Map<String, Object>> response2 = db.query(String.format("select AccountId, nick, id from theater.account where id = '%s'", ID));
+					User user = new User(response2.get(0));
+					mainFrame frame = new mainFrame(user);
 					frame.setVisible(true);
 					dispose();
 				}

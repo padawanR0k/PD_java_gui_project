@@ -21,13 +21,19 @@ public class reserveFrame extends javax.swing.JFrame {
     private JPanel contentPane;
     private ImageIcon icon;
     private int count;
+    private int movieId;
     private int adultCount, youthCount;
+    private User user;
+
     /**
      * Creates new form reserveFrame
      */
     public reserveFrame() {
     }
-    public reserveFrame(Icon poster) {
+    public reserveFrame(int movieId, Icon poster, User user) {
+        this.user = user;
+        this.movieId = movieId;
+
         adultCount = 0;
         youthCount = 0;
         ImageIcon reserve1 = new ImageIcon("./image/reserve1.jpg");
@@ -55,12 +61,12 @@ public class reserveFrame extends javax.swing.JFrame {
         contentPane.add(choiceButton);
         choiceButton.addActionListener(new ActionListener() { // seatFrame 불러오기
 			public void actionPerformed(ActionEvent e) {
-				seatFrame p = new seatFrame(adultCount+youthCount);
+				seatFrame p = new seatFrame(movieId, user, adultCount, youthCount);
 				p.setVisible(true);
 				dispose();
 			}
         });
-        
+
         JButton backButton = new JButton(backBtn); // 뒤로가기 버
         backButton.setBounds(1245, 10, 85, 85);
         backButton.setBorderPainted(false);
@@ -69,7 +75,7 @@ public class reserveFrame extends javax.swing.JFrame {
         contentPane.add(backButton);
         backButton.addActionListener(new ActionListener() { // mainFrame으로 이
 			public void actionPerformed(ActionEvent e) {
-				mainFrame m = new mainFrame();
+				mainFrame m = new mainFrame(user);
 				m.setVisible(true);
 				dispose();
 			}

@@ -12,6 +12,8 @@ public class main {
 		System.out.println(path.list().length);
 		String[] fileNames = path.list();
         // posterList = new ImageIcon[fileNames.length];
+        System.out.println("fileNames");
+        System.out.println(fileNames);
 
 		for (int i = 0; i < fileNames.length; i++) {
             // System.out.println(fileNames[i]);

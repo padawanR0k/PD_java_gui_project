@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
@@ -21,11 +22,13 @@ public class seatFrame extends javax.swing.JFrame {
     private JPanel contentPane;
     private ImageIcon icon; 
     private int button_x, button_y;
-    private int count, choice;
-    private 
+    private int count, choice, adultCount, youthCount, movieId;
+    private String date, time;
     public seatFrame(){}
-    public seatFrame(int count) { // 좌석 개수
-        this.count=count;
+
+    //seatFrame p = new seatFrame(date.getSelectedItem().toString(), time.getSelectedItem().toString(), adultCount, youthCount, movieId);
+    public seatFrame(String date, String time, int adultCount, int youthCount, int movieId) { // 좌석 개수
+        this.count=adultCount+youthCount;
         this.choice = 0;
         initComponents();
         button_x = 574;
@@ -34,6 +37,7 @@ public class seatFrame extends javax.swing.JFrame {
         contentPane = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(icon.getImage(), 0, 0, null);
+                g.drawImage(main.posterList.get(movieId+1).getImage(),133,30,null);
                 setOpaque(false); //그림을 표시하게 설정,투명하게 조절
                 super.paintComponent(g);
             }
@@ -42,6 +46,36 @@ public class seatFrame extends javax.swing.JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
+        // 추가해야함
+        JLabel dateLabel = new JLabel(date);
+        JLabel timeLabel = new JLabel(time);
+        JLabel adultC = new JLabel(adultCount+"");
+        JLabel youthC = new JLabel(youthCount+"");
+        JLabel price = new JLabel(adultCount*13000+youthCount*10000+"");
+        dateLabel.setBounds(160,340,200,100);
+        timeLabel.setBounds(160,390,200,100);
+        
+        adultC.setBounds(160,500,200,100);
+        youthC.setBounds(160,550,200,100);
+
+        price.setBounds(160,630,200,100);
+        contentPane.add(dateLabel);
+        contentPane.add(timeLabel);
+        contentPane.add(adultC);
+        contentPane.add(youthC);
+        contentPane.add(price);
+
+        JButton reserveBtn = new JButton("예약하기");
+        reserveBtn.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                payFrame s = new payFrame();
+				s.setVisible(true);
+				dispose();
+            }
+            
+        });
+        reserveBtn.setBounds(300, 560, 100, 100);
+        contentPane.add(reserveBtn);
         //버튼 배치  
         JToggleButton[][] jb = new JToggleButton[10][8];
         for(int i=0;i<10;i++) {
@@ -52,7 +86,7 @@ public class seatFrame extends javax.swing.JFrame {
                     @Override  
                     public void mousePressed(MouseEvent e) {
                         JToggleButton button = (JToggleButton)e.getSource();
-                        System.out.println(choice);
+                        System.out.println(choice+button.getText());
                         if(choice==count && button.isSelected()==true){
                             choice -= 1;
                             button.setIcon(new ImageIcon());
@@ -112,37 +146,4 @@ public class seatFrame extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(seatFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(seatFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(seatFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(seatFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new seatFrame(5).setVisible(true);
-            }
-        });
-    }
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
 }

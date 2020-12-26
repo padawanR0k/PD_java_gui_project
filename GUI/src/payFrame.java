@@ -45,6 +45,9 @@ public class payFrame {
 	public payFrame() {
 		initialize();
 	}
+	public payFrame(int price) {
+		initialize();
+	}
 
 	/**
 	 * Initialize the contents of the frame.

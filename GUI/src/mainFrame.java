@@ -129,8 +129,10 @@ public class mainFrame {
 
 		if (this.posterList.length > 1) {
 			for (int j = 0; j < 5; j++) {
-				int[] bounds = new int[] { 50 + j * POSTER_GUTTER, 221, POSTER_WIDTH, POSTER_HEIGHT };
+				int[] bounds = new int[] { 50 + j * POSTER_GUTTER, 221, POSTER_WIDTH, POSTER_HEIGHT 
+				};
 				this.drawPosterButton(bgPanel, j, bounds, this.posterList[j], this.MovieIds.get(j));
+			}
 
 		}
 
@@ -138,7 +140,7 @@ public class mainFrame {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
+	
 	/**
 	 * 개봉일이 오늘 이전인 영화정보를 가져온다.
 	 */
@@ -179,7 +181,7 @@ public class mainFrame {
 				JButton button = (JButton) e.getSource();
 				for (int i = 0; i < 5; i++) {
 					if (button.equals(jb[i])) {
-						reserveFrame s = new reserveFrame(resizeIcon(posterList[page + i], 400, 570));
+						reserveFrame s = new reserveFrame((page + i),resizeIcon(posterList[page + i], 400, 570));
 						s.setVisible(true);
 						frame.dispose();
 						break;

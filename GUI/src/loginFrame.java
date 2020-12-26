@@ -100,7 +100,8 @@ public class loginFrame {
 				if (isAllValid == 1) {
 					message = "로그인되었습니다..";
 					dispose();
-					mainFrame frame = new mainFrame();
+					user my = new user(ID, PW);
+					mainFrame frame = new mainFrame(my);
 					frame.setVisible(true);
 				} else {
 					message = "비밀번호가 일치하지 않습니다.";

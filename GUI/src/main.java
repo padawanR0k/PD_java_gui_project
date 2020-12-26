@@ -21,6 +21,7 @@ public class main {
         }
         new loginFrame().setVisible(true);
     }
+    
     public static ImageIcon resizeIcon(ImageIcon icon, int resizedWidth, int resizedHeight) {
 		Image img = icon.getImage();
 		Image resizedImage = img.getScaledInstance(resizedWidth, resizedHeight,  java.awt.Image.SCALE_SMOOTH);

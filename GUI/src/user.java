@@ -20,7 +20,7 @@ public class user {
     }
     public ImageIcon getsmallIcon() {
         Image img=poster.getImage();
-		Image resizedImage = img.getScaledInstance(230, 328, java.awt.Image.SCALE_SMOOTH);
+		Image resizedImage = img.getScaledInstance(160, 240, java.awt.Image.SCALE_SMOOTH);
 		return new ImageIcon(resizedImage);
 	}
     public String getDate(){

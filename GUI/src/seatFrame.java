@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
@@ -42,64 +43,7 @@ public class seatFrame extends javax.swing.JFrame {
         button_x = 574;
         button_y = 135;
         icon = new ImageIcon("./image/bg_seatFrame.jpg");
-        ImageIcon backBtn = new ImageIcon("./image/btn/back_btn.png");
 
-        contentPane = new JPanel() {
-            public void paintComponent(Graphics g) {
-                g.drawImage(icon.getImage(), 0, 0, null);
-                g.drawImage(my.getsmallIcon().getImage(),133,30,null);
-                //my.getIcon().paintIcon(this, g, 133, 30);
-                setOpaque(false); //그림을 표시하게 설정,투명하게 조절
-                super.paintComponent(g);
-            }
-        };
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-        setContentPane(contentPane);
-        contentPane.setLayout(null);
-
-        JButton backButton = new JButton(backBtn); // 뒤로가기 버튼
-        backButton.setBounds(1245, 10, 85, 85);
-        backButton.setBorderPainted(false);
-        backButton.setFocusPainted(false);
-        backButton.setBackground(Color.WHITE);
-        contentPane.add(backButton);
-        backButton.addActionListener(new ActionListener() { // mainFrame으로 이
-			public void actionPerformed(ActionEvent e) {
-				reserveFrame m = new reserveFrame(my);
-				m.setVisible(true);
-				dispose();
-			}
-		});
-
-        // 추가해야함
-        JLabel dateLabel = new JLabel(date);
-        JLabel timeLabel = new JLabel(time);
-        JLabel adultC = new JLabel(adultCount+"");
-        JLabel youthC = new JLabel(youthCount+"");
-        JLabel price = new JLabel(adultCount*13000+youthCount*10000+"");
-        dateLabel.setBounds(160,340,200,100);
-        timeLabel.setBounds(160,390,200,100);
-        
-        adultC.setBounds(160,500,200,100);
-        youthC.setBounds(160,550,200,100);
-
-        price.setBounds(160,630,200,100);
-        contentPane.add(dateLabel);
-        contentPane.add(timeLabel);
-        contentPane.add(adultC);
-        contentPane.add(youthC);
-        contentPane.add(price);
-
-        JButton reserveBtn = new JButton("예약하기");
-        reserveBtn.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                payFrame s = new payFrame(my);
-				s.setVisible(true);
-				dispose();
-            }
-        });
-        reserveBtn.setBounds(300, 560, 100, 100);
-        contentPane.add(reserveBtn);
         //버튼 배치  
         JToggleButton[][] jb = new JToggleButton[10][8];
         for(int i=0;i<10;i++) {
@@ -148,7 +92,79 @@ public class seatFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        contentPane = new JPanel() {
+            public void paintComponent(Graphics g) {
+                g.drawImage(icon.getImage(), 0, 0, null);
+                g.drawImage(my.getsmallIcon().getImage(),170,30,null);
+                //my.getIcon().paintIcon(this, g, 133, 30);
+                setOpaque(false); //그림을 표시하게 설정,투명하게 조절
+                super.paintComponent(g);
+            }
+        };
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
 
+        JButton backButton = new JButton(new ImageIcon("./image/btn/back_btn.png")); // 뒤로가기 버튼
+        backButton.setBounds(1245, 10, 85, 85);
+        backButton.setBorderPainted(false);
+        backButton.setFocusPainted(false);
+        backButton.setBackground(Color.WHITE);
+        contentPane.add(backButton);
+        backButton.addActionListener(new ActionListener() { // mainFrame으로 이
+			public void actionPerformed(ActionEvent e) {
+				reserveFrame m = new reserveFrame(my);
+				m.setVisible(true);
+				dispose();
+			}
+		});
+
+        // 추가해야함
+        JLabel dateLabel = new JLabel(date);
+        JLabel timeLabel = new JLabel(time);
+        JLabel adultC = new JLabel(adultCount+"");
+        JLabel youthC = new JLabel(youthCount+"");
+        JLabel price = new JLabel(adultCount*13000+youthCount*10000+"");
+        dateLabel.setBounds(160,265,200,100);
+        timeLabel.setBounds(160,316,200,100);
+        adultC.setBounds(160,412,200,100);
+        youthC.setBounds(160,461,200,100);
+        price.setBounds(160,563,200,100);
+
+        dateLabel.setForeground(Color.white);
+        dateLabel.setFont(dateLabel.getFont().deriveFont(35.0F));
+        timeLabel.setForeground(Color.white);
+        timeLabel.setFont(timeLabel.getFont().deriveFont(35.0F));
+        adultC.setForeground(Color.white);
+        adultC.setFont(adultC.getFont().deriveFont(35.0F));
+        youthC.setForeground(Color.white);
+        youthC.setFont(youthC.getFont().deriveFont(35.0F));
+        price.setForeground(Color.white);
+        price.setFont(price.getFont().deriveFont(35.0F));
+
+        contentPane.add(dateLabel);
+        contentPane.add(timeLabel);
+        contentPane.add(adultC);
+        contentPane.add(youthC);
+        contentPane.add(price);
+
+        JButton reserveBtn = new JButton(new ImageIcon("./image/seat2.jpg"));
+        reserveBtn.setRolloverIcon(new ImageIcon("./image/seat1.jpg"));
+        reserveBtn.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                if(choice!=count){
+                    JOptionPane.showMessageDialog(null, "선택하신 좌석의 수가 올바르지 않습니다.");
+                    return;
+                }
+                else{
+                    payFrame s = new payFrame(my);
+                    s.setVisible(true);
+                    dispose();
+                }
+            }
+        });
+        reserveBtn.setBounds(85, 650, 327, 68);
+        contentPane.add(reserveBtn);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(1366, 768));

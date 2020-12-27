@@ -28,39 +28,22 @@ public class reservationCancelFrame {
 	private JLabel count;
 	private JLabel seats;
 	private JLabel poster;
-	private int groupId;
+	private String groupId;
 	private Integer MovieId;
 	private long canceled = 0;
+	private user my;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					reservationCancelFrame window = new reservationCancelFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public reservationCancelFrame() {
-		initialize();
-		this.getResverationInfo(1);
-		this.groupId = 1;
-	}
-
-	public reservationCancelFrame(int groupId) {
+	public reservationCancelFrame(user my, String groupId) {
+		this.my = my;
+		this.groupId = groupId;
 		initialize();
 		this.getResverationInfo(this.groupId);
-		this.groupId = groupId;
 	}
 
 	/**
@@ -85,7 +68,7 @@ public class reservationCancelFrame {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	private void getResverationInfo(int groupId) {
+	private void getResverationInfo(String groupId) {
 		DB db = new DB();
 		String query = String.format("""
 				SELECT
@@ -106,7 +89,7 @@ public class reservationCancelFrame {
 								JOIN
 						theater.movie AS mov ON mov.MovieId = scr.MovieId
 				WHERE
-						groupId = %s
+						groupId = "%s"
 				""", groupId);
 
 		List<Map<String, Object>> res = db.query(query);
@@ -150,7 +133,7 @@ public class reservationCancelFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				mypageFrame mypageframe = new mypageFrame();
+				mypageFrame mypageframe = new mypageFrame(my);
 				mypageframe.setVisible(true);
 			}
 		});
@@ -168,7 +151,7 @@ public class reservationCancelFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				checkFrame checkframe = new checkFrame();
+				checkFrame checkframe = new checkFrame(my);
 				checkframe.setVisible(true);
 			}
 		});
@@ -213,7 +196,7 @@ public class reservationCancelFrame {
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainFrame m = new mainFrame();
+				mainFrame m = new mainFrame(my);
 				m.setVisible(true);
 				frame.dispose();
 			}
@@ -283,7 +266,7 @@ public class reservationCancelFrame {
 		return btn;
 	}
 
-	public void cancel(int groupId) {
+	public void cancel(String groupId) {
 		DB db = new DB();
 		int result = db.update(String.format("""
 					UPDATE theater.reservation

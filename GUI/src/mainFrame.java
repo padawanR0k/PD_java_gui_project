@@ -124,7 +124,7 @@ public class mainFrame {
 
 		if (this.posterList.length > 1) {
 			for (int j = 0; j < 5; j++) {
-				int[] bounds = new int[] { 50 + j * POSTER_GUTTER, 221, POSTER_WIDTH, POSTER_HEIGHT 
+				int[] bounds = new int[] { 50 + j * POSTER_GUTTER, 221, POSTER_WIDTH, POSTER_HEIGHT
 				};
 				this.drawPosterButton(bgPanel, j, bounds, this.posterList[j], this.MovieIds.get(j));
 			}
@@ -135,13 +135,13 @@ public class mainFrame {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+
 	/**
 	 * 개봉일이 오늘 이전인 영화정보를 가져온다.
 	 */
 	public List<Map<String, Object>> getMovies() {
 		DB db = new DB();
-		String today = new SimpleDateFormat("YYYY-MM-DD").format(new Date());
+		String today = new SimpleDateFormat("YYYY-mm-DD").format(new Date());
 		System.out.println("today" + today);
 
 		List<Map<String, Object>> response = db
@@ -168,7 +168,7 @@ public class mainFrame {
 
 	public JButton makePosterButton(ImageIcon poster, int MovieId) {
 		Icon IMG = resizeIcon(poster, 230, 328);
-		
+
 		JButton btn = new JButton();
 
 		btn.addMouseListener(new MouseAdapter() {
@@ -178,7 +178,7 @@ public class mainFrame {
 				for (int i = 0; i < 5; i++) {
 					if (button.equals(jb[i])) {
 						my.setIcon(resizeIcon(posterList[page + i], 400, 570));
-						my.setmoviedId(page+i);
+						my.setmoviedId(MovieIds.get(page+i));
 						reserveFrame s = new reserveFrame(my);
 						s.setVisible(true);
 						frame.dispose();
@@ -207,7 +207,7 @@ public class mainFrame {
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mypageFrame p = new mypageFrame();
+				mypageFrame p = new mypageFrame(my);
 				p.setVisible(true);
 				frame.dispose();
 			}

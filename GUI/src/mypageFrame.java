@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,34 +13,24 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class mypageFrame {
 	private final Image BG_IMAGE = new ImageIcon("./image/bg_checkFrame(info).jpg").getImage();
 	private JFrame frame;
+	private user my;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					mypageFrame window = new mypageFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 
 	/**
 	 * Create the application.
 	 */
-	public mypageFrame() {
+	public mypageFrame(user my) {
+		this.my = my;
 		initialize();
 	}
 
@@ -60,12 +51,12 @@ public class mypageFrame {
 
 		DB db = new DB();
 		// TODO - 로그인시 회원 고유값을 저장한 후 그 값을 AccountId 부분에 넣는 로직필요 함
-		List response = db.query("select * from theater.account where AccountId = 1");
-		Map<String, ?> user = (Map)response.get(0);
-		String nick = (String)user.get("nick");
-		String id = (String)user.get("id");
-		this.drawText(bgPanel, nick, new int[]{800, 250, 225, 60});
-		this.drawText(bgPanel, id, new int[]{800, 340, 225, 60});
+		List response = db.query(String.format("select * from theater.account where AccountId = %d", user.accountId));
+		Map<String, ?> user = (Map) response.get(0);
+		String nick = (String) user.get("nick");
+		String id = (String) user.get("id");
+		this.drawText(bgPanel, nick, new int[] { 800, 250, 225, 60 });
+		this.drawText(bgPanel, id, new int[] { 800, 340, 225, 60 });
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
@@ -86,12 +77,12 @@ public class mypageFrame {
 		button.setFocusPainted(false);
 
 		// button.addActionListener(new ActionListener() {
-		// 	@Override
-		// 	public void actionPerformed(ActionEvent e) {
-		// 		frame.dispose();
-		// 		mypageFrame mypageframe = new mypageFrame();
-		// 		mypageframe.setVisible(true);
-		// 	}
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// frame.dispose();
+		// mypageFrame mypageframe = new mypageFrame();
+		// mypageframe.setVisible(true);
+		// }
 		// });
 
 		bgPanel.add(button);
@@ -107,7 +98,7 @@ public class mypageFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				checkFrame checkframe = new checkFrame();
+				checkFrame checkframe = new checkFrame(my);
 				checkframe.setVisible(true);
 			}
 		});
@@ -125,7 +116,7 @@ public class mypageFrame {
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainFrame m = new mainFrame();
+				mainFrame m = new mainFrame(my);
 				m.setVisible(true);
 				frame.dispose();
 			}

@@ -3,33 +3,36 @@ import java.awt.Graphics;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import DB.DB;
+
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 /**
  *
  * @author newjihwan
  * @last mdf 20-12-13 15:26:10
- */ 
+ */
 
 public class seatFrame extends javax.swing.JFrame {
     private JPanel contentPane;
-    private ImageIcon icon; 
+    private ImageIcon icon;
     private int button_x, button_y;
     private int count, choice, adultCount, youthCount, movieId;
     private String date, time;
     private user my;
-    public seatFrame(){}
-    
-    //seatFrame p = new seatFrame(date.getSelectedItem().toString(), time.getSelectedItem().toString(), adultCount, youthCount, movieId);
-    //public seatFrame(String date, String time, int adultCount, int youthCount, int movieId) { // 좌석 개수
+    private ArrayList<Integer> reservedSeat = new ArrayList<>();
+
     public seatFrame(user my) { // 좌석 개수
         this.my = my;
         this.adultCount=my.getadultCount();
@@ -43,52 +46,74 @@ public class seatFrame extends javax.swing.JFrame {
         button_x = 574;
         button_y = 135;
         icon = new ImageIcon("./image/bg_seatFrame.jpg");
+        this.getSeat();
 
-        //버튼 배치  
+        //버튼 배치
         JToggleButton[][] jb = new JToggleButton[10][8];
         for(int i=0;i<10;i++) {
             for(int j=0;j<8;j++) {
+                int seatNum = i * 10 + j;
                 jb[i][j] = new JToggleButton((char)(65+j)+""+i); // 아스키
                 jb[i][j].setBackground(new Color(170,170,170));
-                jb[i][j].addMouseListener(new MouseAdapter() {
-                    @Override  
-                    public void mousePressed(MouseEvent e) {
-                        JToggleButton button = (JToggleButton)e.getSource();
-                        System.out.println(choice+button.getText());
-                        if(choice==count && button.isSelected()==true){
-                            choice -= 1;
-                            button.setIcon(new ImageIcon());
+
+                if (this.reservedSeat.indexOf(seatNum) != -1) {
+                    jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.jpg"));
+                } else {
+
+                    jb[i][j].addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mousePressed(MouseEvent e) {
+                            JToggleButton button = (JToggleButton)e.getSource();
+                            System.out.println(choice+button.getText());
+                            if(choice==count && button.isSelected()==true){
+                                choice -= 1;
+                                my.selectedSeat.remove(my.selectedSeat.indexOf(seatNum));
+                                button.setIcon(new ImageIcon());
+                            }
+                            else if(choice==count && button.isSelected()==false){
+                                my.selectedSeat.add(seatNum);
+                                button.setSelected(true);
+                            }
+                            else if(button.isSelected()==false){
+                                choice += 1;
+                                my.selectedSeat.add(seatNum);
+                                button.setIcon(new ImageIcon("./image/choosebutton.jpg"));
+                            }
+                            else if(button.isSelected()==true){
+                                choice -= 1;
+                                my.selectedSeat.remove(my.selectedSeat.indexOf(seatNum));
+                                button.setIcon(new ImageIcon());
+                            }
                         }
-                        else if(choice==count && button.isSelected()==false){
-                            button.setSelected(true);
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            JToggleButton button = (JToggleButton)e.getSource();
+                            button.setBackground(new Color(200,125,125));
                         }
-                        else if(button.isSelected()==false){
-                            choice += 1;
-                            button.setIcon(new ImageIcon("./image/choosebutton.jpg"));
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            JToggleButton button = (JToggleButton)e.getSource();
+                            button.setBackground(new Color(170,170,170));
+
                         }
-                        else if(button.isSelected()==true){
-                            choice -= 1;
-                            button.setIcon(new ImageIcon());
-                        }
-                    }
-                    @Override  
-                    public void mouseEntered(MouseEvent e) {
-                        JToggleButton button = (JToggleButton)e.getSource();
-                        button.setBackground(new Color(200,125,125));
-                    }
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        JToggleButton button = (JToggleButton)e.getSource();
-                        button.setBackground(new Color(170,170,170));
-                        
-                    }
-                });
+                    });
+                }
+
                 jb[i][j].setBounds(button_x+60*i,button_y+66*j,50,50);
                 contentPane.add(jb[i][j]);
             }
         }
     }
-    
+
+    public void getSeat() {
+        DB db = new DB();
+        List<Map<String, Object>> info = db.query(String.format("SELECT 	* FROM theater.reservation where ScreeningId = %d and cancled = 0;", my.ScreeningId));
+        for(int i = 0; i < info.size(); i++) {
+            int seatId = Integer.parseInt((String)info.get(i).get("seatId"));
+            this.reservedSeat.add(seatId);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,27 +36,19 @@ public class checkFrame {
 	private final Image BG_IMAGE = new ImageIcon("./image/bg_checkFrame.jpg").getImage();
 	private JFrame frame;
 	private List<Map<String, Object>> data = new ArrayList<>();
+	private user my;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					checkFrame window = new checkFrame();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 
 	/**
 	 * Create the application.
 	 */
-	public checkFrame() {
+	public checkFrame(user my) {
+		this.my = my;
 		initialize();
 	}
 
@@ -86,24 +79,24 @@ public class checkFrame {
 		JTable table = new JTable(bookList, header);
 		short gap = 50;
 
-
 		table.setDefaultEditor(Object.class, null);
 		table.setPreferredScrollableViewportSize(new Dimension(450, 63));
 		table.setFillsViewportHeight(true);
 		table.setFont(new Font("Sans-serif", Font.BOLD, 20));
 		table.setRowHeight(table.getRowHeight() + gap);
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
-				@Override
-				public void mouseClicked(java.awt.event.MouseEvent evt) {
-						int row = table.rowAtPoint(evt.getPoint());
-						int col = table.columnAtPoint(evt.getPoint());
-						if (row >= 0 && col >= 0) {
-							System.out.println(data.get(row));
-							dispose();
-							reservationCancelFrame detailFrame = new reservationCancelFrame();
-							detailFrame.setVisible(true);
-						}
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				int row = table.rowAtPoint(evt.getPoint());
+				int col = table.columnAtPoint(evt.getPoint());
+				if (row >= 0 && col >= 0) {
+					System.out.println(data.get(row));
+					System.out.println(evt.getID());
+					dispose();
+					reservationCancelFrame detailFrame = new reservationCancelFrame(my, (String) data.get(row).get("groupId"));
+					detailFrame.setVisible(true);
 				}
+			}
 		});
 
 		this.setHeaderConfig(table);
@@ -115,36 +108,33 @@ public class checkFrame {
 	public Object[][] getData() {
 		DB db = new DB();
 
-		ArrayList<Integer> screenList = new ArrayList<>();
-		this.data = db.query("""
+		ArrayList<String> screenList = new ArrayList<>();
+		this.data = db.query(String.format("""
 				SELECT
 						mov.title AS title,
 						res.date AS date,
-						scr.time AS time,
-						scr.ScreeningId,
 						res.groupId,
+						res.ReservId,
 						res.AccountId,
 						res.cancled
 				FROM
 						theater.reservation AS res
 								JOIN
-						theater.screening AS scr ON res.ScreeningId = scr.ScreeningId
-								JOIN
-						theater.movie AS mov ON mov.MovieId = scr.MovieId
+						theater.movie AS mov ON mov.MovieId = res.MovieId
 				WHERE
-						AccountId = 1
+						AccountId = %s
 						;
-				""");
+				""", user.accountId));
 
 		Object[][] movieList = new Object[this.data.size()][3];
 		int i = 0;
 		for (Map<String, Object> s : this.data) {
-			Integer ScreeningId = (Integer) s.get("ScreeningId");
-			if (screenList.indexOf(ScreeningId) == -1) {
-				Object[] movie = { s.get("title"), s.get("time"), s.get("date") };
+			String groupId = (String) s.get("groupId");
+			if (screenList.indexOf(groupId) == -1) {
+				Object[] movie = { s.get("title"), s.get("time"), s.get("date"), groupId };
 				movieList[i] = movie;
 				i++;
-				screenList.add(ScreeningId);
+				screenList.add(groupId);
 			}
 		}
 		return movieList;
@@ -177,7 +167,7 @@ public class checkFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				mypageFrame mypageframe = new mypageFrame();
+				mypageFrame mypageframe = new mypageFrame(my);
 				mypageframe.setVisible(true);
 			}
 		});
@@ -203,7 +193,7 @@ public class checkFrame {
 
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainFrame m = new mainFrame();
+				mainFrame m = new mainFrame(my);
 				m.setVisible(true);
 				frame.dispose();
 			}

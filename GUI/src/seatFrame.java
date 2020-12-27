@@ -24,20 +24,31 @@ public class seatFrame extends javax.swing.JFrame {
     private int button_x, button_y;
     private int count, choice, adultCount, youthCount, movieId;
     private String date, time;
+    private user my;
     public seatFrame(){}
-
+    
     //seatFrame p = new seatFrame(date.getSelectedItem().toString(), time.getSelectedItem().toString(), adultCount, youthCount, movieId);
-    public seatFrame(String date, String time, int adultCount, int youthCount, int movieId) { // 좌석 개수
+    //public seatFrame(String date, String time, int adultCount, int youthCount, int movieId) { // 좌석 개수
+    public seatFrame(user my) { // 좌석 개수
+        this.my = my;
+        this.adultCount=my.getadultCount();
+        this.youthCount=my.getyouthCount();
         this.count=adultCount+youthCount;
+        this.movieId=my.getmovieId();
+        this.date=my.getDate();
+        this.time=my.getTime();
         this.choice = 0;
         initComponents();
         button_x = 574;
         button_y = 135;
         icon = new ImageIcon("./image/bg_seatFrame.jpg");
+        ImageIcon backBtn = new ImageIcon("./image/btn/back_btn.png");
+
         contentPane = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(icon.getImage(), 0, 0, null);
-                g.drawImage(main.posterList.get(movieId+1).getImage(),133,30,null);
+                g.drawImage(my.getsmallIcon().getImage(),133,30,null);
+                //my.getIcon().paintIcon(this, g, 133, 30);
                 setOpaque(false); //그림을 표시하게 설정,투명하게 조절
                 super.paintComponent(g);
             }
@@ -45,6 +56,20 @@ public class seatFrame extends javax.swing.JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
+
+        JButton backButton = new JButton(backBtn); // 뒤로가기 버튼
+        backButton.setBounds(1245, 10, 85, 85);
+        backButton.setBorderPainted(false);
+        backButton.setFocusPainted(false);
+        backButton.setBackground(Color.WHITE);
+        contentPane.add(backButton);
+        backButton.addActionListener(new ActionListener() { // mainFrame으로 이
+			public void actionPerformed(ActionEvent e) {
+				reserveFrame m = new reserveFrame(my);
+				m.setVisible(true);
+				dispose();
+			}
+		});
 
         // 추가해야함
         JLabel dateLabel = new JLabel(date);
@@ -68,11 +93,10 @@ public class seatFrame extends javax.swing.JFrame {
         JButton reserveBtn = new JButton("예약하기");
         reserveBtn.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                payFrame s = new payFrame();
+                payFrame s = new payFrame(my);
 				s.setVisible(true);
 				dispose();
             }
-            
         });
         reserveBtn.setBounds(300, 560, 100, 100);
         contentPane.add(reserveBtn);

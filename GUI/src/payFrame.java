@@ -23,6 +23,7 @@ public class payFrame {
 	private JTextField cardNumber;
 	private JTextField expirationDate;
 	private JTextField cvv;
+	private user my;
 	/**
 	 * Launch the application.
 	 */
@@ -45,7 +46,8 @@ public class payFrame {
 	public payFrame() {
 		initialize();
 	}
-	public payFrame(int price) {
+	public payFrame(user my) {
+		this.my=my;
 		initialize();
 	}
 
@@ -101,7 +103,7 @@ public class payFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Payment is completed.");
-				mainFrame m = new mainFrame();
+				mainFrame m = new mainFrame(my);
 				m.setVisible(true);
 				frame.dispose();
 			}

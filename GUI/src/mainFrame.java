@@ -1,5 +1,3 @@
-
-// import main;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -17,14 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.awt.event.ActionEvent;
 
@@ -37,7 +31,7 @@ public class mainFrame {
 	int poster_num;
 	ImageIcon[] posterList;
 	ArrayList<Integer> MovieIds;
-
+	user my;
 	final int POSTER_GUTTER = 256;
 	final int POSTER_WIDTH = 230;
 	final int POSTER_HEIGHT = 328;
@@ -47,7 +41,7 @@ public class mainFrame {
 			public void run() {
 				try {
 					new main();
-					mainFrame window = new mainFrame();
+					mainFrame window = new mainFrame(new user("test","1234"));
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +50,8 @@ public class mainFrame {
 		});
 	}
 
-	public mainFrame() {
+	public mainFrame(user my) {
+		this.my = my;
 		initialize();
 	}
 
@@ -173,6 +168,7 @@ public class mainFrame {
 
 	public JButton makePosterButton(ImageIcon poster, int MovieId) {
 		Icon IMG = resizeIcon(poster, 230, 328);
+		
 		JButton btn = new JButton();
 
 		btn.addMouseListener(new MouseAdapter() {
@@ -181,7 +177,9 @@ public class mainFrame {
 				JButton button = (JButton) e.getSource();
 				for (int i = 0; i < 5; i++) {
 					if (button.equals(jb[i])) {
-						reserveFrame s = new reserveFrame((page + i),resizeIcon(posterList[page + i], 400, 570));
+						my.setIcon(resizeIcon(posterList[page + i], 400, 570));
+						my.setmoviedId(page+i);
+						reserveFrame s = new reserveFrame(my);
 						s.setVisible(true);
 						frame.dispose();
 						break;

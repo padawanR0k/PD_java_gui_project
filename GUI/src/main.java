@@ -11,11 +11,7 @@ public class main {
         File path = new File("./image/poster/");
 		System.out.println(path.list().length);
 		String[] fileNames = path.list();
-        // posterList = new ImageIcon[fileNames.length];
-
 		for (int i = 0; i < fileNames.length; i++) {
-            // System.out.println(fileNames[i]);
-            // posterList.set( Integer.parseInt(fileNames[i]), resizeIcon(new ImageIcon("./image/poster/" + fileNames[i]),230,328));
             Integer movieId = (Integer) Integer.parseInt(fileNames[i].replace("poster_", "").replace(".jpg", ""));
 			posterList.put(movieId, resizeIcon(new ImageIcon("./image/poster/" + fileNames[i]),230,328));
         }

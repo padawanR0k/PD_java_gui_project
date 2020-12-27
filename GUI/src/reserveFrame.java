@@ -30,19 +30,27 @@ public class reserveFrame extends javax.swing.JFrame {
     private JPanel contentPane;
     private ImageIcon icon;
     private int count;
-    private int adultCount, youthCount;
+    private int adultCount=0, youthCount=0;
+    private user my;
+    private int movieId;
+    private Icon poster;
     /**
      * Creates new form reserveFrame
      */
     public reserveFrame() {
     }
-    public reserveFrame(int movieId, Icon poster) {
+    //public reserveFrame(user my, int movieId, Icon poster) {
+    public reserveFrame(user my) {
+        this.my = my;
+        this.movieId=my.getmovieId();
+        this.poster = my.getIcon();
         adultCount = 0;
         youthCount = 0;
         ImageIcon reserve1 = new ImageIcon("./image/reserve1.jpg");
         ImageIcon reserve2 = new ImageIcon("./image/reserve2.jpg");
         ImageIcon backBtn = new ImageIcon("./image/btn/back_btn2.png");
         icon = new ImageIcon("./image/bg_reserveFrame.jpg");
+
         initComponents();
 
         contentPane = new JPanel() {
@@ -58,7 +66,7 @@ public class reserveFrame extends javax.swing.JFrame {
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
         
-        JButton backButton = new JButton(backBtn); // 뒤로가기 버
+        JButton backButton = new JButton(backBtn); // 뒤로가기 버튼
         backButton.setBounds(1245, 10, 85, 85);
         backButton.setBorderPainted(false);
         backButton.setFocusPainted(false);
@@ -66,7 +74,7 @@ public class reserveFrame extends javax.swing.JFrame {
         contentPane.add(backButton);
         backButton.addActionListener(new ActionListener() { // mainFrame으로 이
 			public void actionPerformed(ActionEvent e) {
-				mainFrame m = new mainFrame();
+				mainFrame m = new mainFrame(my);
 				m.setVisible(true);
 				dispose();
 			}
@@ -151,13 +159,18 @@ public class reserveFrame extends javax.swing.JFrame {
             youth_btn_list[i].setBounds(700+60*i,395,50,50);
             contentPane.add(youth_btn_list[i]);
         }
+
+        youth_btn_list[0].setBackground(new Color(255,0,0));
+        adult_btn_list[0].setBackground(new Color(255,0,0));
         JButton choiceButton = new JButton(reserve1); // choose you seat 버튼
         choiceButton.setRolloverIcon(reserve2);
         choiceButton.setBounds(760,620,327,68);
         contentPane.add(choiceButton);
         choiceButton.addActionListener(new ActionListener() { // seatFrame 불러오기
 			public void actionPerformed(ActionEvent e) {
-				seatFrame p = new seatFrame(date.getSelectedItem().toString(), time.getSelectedItem().toString(), adultCount, youthCount, movieId);
+                my.setReserveMovie(date.getSelectedItem().toString(), time.getSelectedItem().toString(), adultCount, youthCount, movieId);
+                //seatFrame p = new seatFrame(date.getSelectedItem().toString(), time.getSelectedItem().toString(), adultCount, youthCount, movieId);
+                seatFrame p = new seatFrame(my);
 				p.setVisible(true);
 				dispose();
 			}
@@ -193,42 +206,4 @@ public class reserveFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(reserveFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(reserveFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(reserveFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(reserveFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new reserveFrame().setVisible(true);
-            }
-        });
-    }
-
-    // Variables declaration - do not modify
-    // End of variables declaration
 }

@@ -1,9 +1,7 @@
 import DB.DB;
 
-import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -12,15 +10,11 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
 
 public class loginFrame {
 	private JFrame frame;
@@ -28,9 +22,6 @@ public class loginFrame {
 	private JPasswordField password;
 	private DB db;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -44,17 +35,11 @@ public class loginFrame {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public loginFrame() {
 		initialize();
 		db = new DB();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 

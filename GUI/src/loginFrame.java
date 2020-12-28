@@ -89,7 +89,7 @@ public class loginFrame {
 					user my = new user(id);
 					user.accountId = accountId;
 
-					JOptionPane.showMessageDialog(null, "로그인되었습니다..");
+					JOptionPane.showMessageDialog(null, "안녕하세요, PLAYBOX 입니다.");
 					dispose();
 					mainFrame frame = new mainFrame(my);
 					frame.setVisible(true);

@@ -134,7 +134,7 @@ public class registerFrame {
 			} else if (PW.length() == 0) {
 				JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요.");
 			} else if (NICK.length() == 0) {
-				JOptionPane.showMessageDialog(null, "닉네임을 입력해주세요.");
+				JOptionPane.showMessageDialog(null, "이름을 입력해주세요.");
 			} else if (this.checkDuplicatedId(ID)) {
 				JOptionPane.showMessageDialog(null, "중복된 아이디입니다.");
 			} else {

@@ -70,27 +70,26 @@ public class reservationCancelFrame {
 
 	private void getResverationInfo(String groupId) {
 		DB db = new DB();
-		String query = String.format("""
-				SELECT
-						mov.title,
-						mov.openDate,
-						mov.MovieId,
-						res.date,
-						scr.time,
-						scr.ScreeningId AS ScreeningId,
-						res.groupId,
-						res.AccountId,
-						res.cancled,
-						res.seatId
-				FROM
-						theater.reservation AS res
-								JOIN
-						theater.screening AS scr ON res.ScreeningId = scr.ScreeningId
-								JOIN
-						theater.movie AS mov ON mov.MovieId = scr.MovieId
-				WHERE
-						groupId = "%s"
-				""", groupId);
+		String query = String.format("SELECT " +
+				"mov.title," +
+				"mov.openDate," +
+				"mov.MovieId," +
+				"res.date," +
+				"scr.time," +
+				"scr.ScreeningId AS ScreeningId," +
+				"res.groupId," +
+				"res.AccountId," +
+				"res.cancled," +
+				"res.seatId" +
+		" FROM " +
+				"theater.reservation AS res" +
+						" JOIN " +
+				"theater.screening AS scr ON res.ScreeningId = scr.ScreeningId" +
+						" JOIN " +
+				"theater.movie AS mov ON mov.MovieId = scr.MovieId" +
+		" WHERE " +
+				"groupId = '%s'"
+		, groupId);
 
 		List<Map<String, Object>> res = db.query(query);
 
@@ -114,7 +113,7 @@ public class reservationCancelFrame {
 		this.canceled = (Integer) movie.get("cancled");
 		this.MovieId = (Integer) movie.get("MovieId");
 		System.out.println("./image/poster/poster_" + this.MovieId.toString() + ".jpg");
-		ImageIcon posterImg = resizeIcon(new ImageIcon("./image/poster/poster_" + this.MovieId.toString() + ".jpg"), 120, 160);
+		ImageIcon posterImg = resizeIcon(new ImageIcon("./image/poster/poster_" + this.MovieId.toString() + ".jpg"), 120, 168);
 
 		poster.setIcon(posterImg);
 	}
@@ -219,7 +218,7 @@ public class reservationCancelFrame {
 		title.setBounds(780, 200, 200, 50);
 		detail.setBounds(780, 250, 400, 50);
 		count.setBounds(654, 416, 50, 50);
-		seats.setBounds(774, 438, 100, 50);
+		seats.setBounds(774, 438, 200, 50);
 		poster.setBounds(640, 195, 120, 160);
 
 		this.setFontWeight(title, TextAttribute.WEIGHT_SEMIBOLD);
@@ -228,7 +227,7 @@ public class reservationCancelFrame {
 		this.setFontWeight(count, TextAttribute.WEIGHT_EXTRABOLD);
 		this.setFontSize(title, 30);
 		this.setFontSize(detail, 24);
-		this.setFontSize(seats, 32);
+		this.setFontSize(seats, 25);
 		this.setFontSize(count, 40);
 
 		bgPanel.add(title);
@@ -270,16 +269,16 @@ public class reservationCancelFrame {
 
 	public void cancel(String groupId) {
 		DB db = new DB();
-		int result = db.update(String.format("""
-					UPDATE theater.reservation
-						SET
-							cancled=1
-					WHERE groupId = %s
-				""", groupId));
+		int result = db.update(String.format(
+				"UPDATE theater.reservation" +
+					" SET " +
+						"cancled=1" +
+				" WHERE groupId = '%s'"
+			, groupId));
 		if (result == 1) {
 			JOptionPane.showMessageDialog(null, "취소되었습니다.");
 		} else {
-			JOptionPane.showMessageDialog(null, "취소실패");
+			JOptionPane.showMessageDialog(null, "취소 실패");
 		}
 	}
 

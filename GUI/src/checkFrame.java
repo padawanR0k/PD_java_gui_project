@@ -109,22 +109,21 @@ public class checkFrame {
 		DB db = new DB();
 
 		ArrayList<String> screenList = new ArrayList<>();
-		this.data = db.query(String.format("""
-				SELECT
-						mov.title AS title,
-						res.date AS date,
-						res.groupId,
-						res.ReservId,
-						res.AccountId,
-						res.cancled
-				FROM
-						theater.reservation AS res
-								JOIN
-						theater.movie AS mov ON mov.MovieId = res.MovieId
-				WHERE
-						AccountId = %s
-						;
-				""", user.accountId));
+		this.data = db.query(String.format(
+				"SELECT " +
+						"mov.title AS title," +
+						"res.date AS date," +
+						"res.groupId," +
+						"res.ReservId," +
+						"res.AccountId," +
+						"res.cancled" +
+				" FROM " +
+						"theater.reservation AS res" +
+								" JOIN " +
+						"theater.movie AS mov ON mov.MovieId = res.MovieId" +
+				" WHERE " +
+						"AccountId = '%s';" 
+				, user.accountId));
 
 		Object[][] movieList = new Object[this.data.size()][3];
 		int i = 0;

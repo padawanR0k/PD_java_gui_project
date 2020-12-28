@@ -44,7 +44,7 @@ public class seatFrame extends javax.swing.JFrame {
         this.choice = 0;
         initComponents();
         button_x = 574;
-        button_y = 135;
+        button_y = 165;
         icon = new ImageIcon("./image/bg_seatFrame.jpg");
         this.getSeat();
 
@@ -57,7 +57,7 @@ public class seatFrame extends javax.swing.JFrame {
                 jb[i][j].setBackground(new Color(170,170,170));
 
                 if (this.reservedSeat.indexOf(seatNum) != -1) {
-                    jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.jpg"));
+                    jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.png"));
                 } else {
 
                     jb[i][j].addMouseListener(new MouseAdapter() {
@@ -107,7 +107,7 @@ public class seatFrame extends javax.swing.JFrame {
 
     public void getSeat() {
         DB db = new DB();
-        List<Map<String, Object>> info = db.query(String.format("SELECT 	* FROM theater.reservation where ScreeningId = %d and cancled = 0;", my.ScreeningId));
+        List<Map<String, Object>> info = db.query(String.format("SELECT * FROM theater.reservation where ScreeningId = %d and cancled = 0;", my.ScreeningId));
         for(int i = 0; i < info.size(); i++) {
             int seatId = Integer.parseInt((String)info.get(i).get("seatId"));
             this.reservedSeat.add(seatId);
@@ -157,15 +157,15 @@ public class seatFrame extends javax.swing.JFrame {
         price.setBounds(160,563,200,100);
 
         dateLabel.setForeground(Color.white);
-        dateLabel.setFont(dateLabel.getFont().deriveFont(35.0F));
+        dateLabel.setFont(dateLabel.getFont().deriveFont(27.0F));
         timeLabel.setForeground(Color.white);
-        timeLabel.setFont(timeLabel.getFont().deriveFont(35.0F));
+        timeLabel.setFont(timeLabel.getFont().deriveFont(30.0F));
         adultC.setForeground(Color.white);
-        adultC.setFont(adultC.getFont().deriveFont(35.0F));
+        adultC.setFont(adultC.getFont().deriveFont(30.0F));
         youthC.setForeground(Color.white);
-        youthC.setFont(youthC.getFont().deriveFont(35.0F));
+        youthC.setFont(youthC.getFont().deriveFont(30.0F));
         price.setForeground(Color.white);
-        price.setFont(price.getFont().deriveFont(35.0F));
+        price.setFont(price.getFont().deriveFont(30.0F));
 
         contentPane.add(dateLabel);
         contentPane.add(timeLabel);
@@ -173,8 +173,8 @@ public class seatFrame extends javax.swing.JFrame {
         contentPane.add(youthC);
         contentPane.add(price);
 
-        JButton reserveBtn = new JButton(new ImageIcon("./image/seat2.jpg"));
-        reserveBtn.setRolloverIcon(new ImageIcon("./image/seat1.jpg"));
+        JButton reserveBtn = new JButton(new ImageIcon("./image/seat1.jpg"));
+        reserveBtn.setRolloverIcon(new ImageIcon("./image/seat2.jpg"));
         reserveBtn.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 if(choice!=count){
@@ -188,7 +188,7 @@ public class seatFrame extends javax.swing.JFrame {
                 }
             }
         });
-        reserveBtn.setBounds(85, 650, 327, 68);
+        reserveBtn.setBounds(85, 650, 310, 60);
         contentPane.add(reserveBtn);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));

@@ -55,7 +55,7 @@ public class mypageFrame {
 		Map<String, ?> user = (Map) response.get(0);
 		String nick = (String) user.get("nick");
 		String id = (String) user.get("id");
-		this.drawText(bgPanel, nick, new int[] { 800, 250, 225, 60 });
+		this.drawText(bgPanel, nick, new int[] { 800, 240, 225, 60 });
 		this.drawText(bgPanel, id, new int[] { 800, 340, 225, 60 });
 
 		frame.setLocationRelativeTo(null);
@@ -65,6 +65,7 @@ public class mypageFrame {
 
 	public void drawText(ImagePanel bgPanel, String text, int[] bounds) {
 		JLabel btn = new JLabel(text);
+		btn.setFont(btn.getFont().deriveFont(27.0F));
 		// btn.setEditable(false);
 		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		bgPanel.add(btn);

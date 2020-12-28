@@ -4,21 +4,27 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import javax.print.attribute.AttributeSet;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
+import javax.swing.text.PlainDocument;
 
 import DB.DB;
 
@@ -30,6 +36,7 @@ public class payFrame {
 	private JTextField expirationDate;
 	private JTextField cvv;
 	private user my;
+
 	/**
 	 * Launch the application.
 	 */
@@ -52,8 +59,9 @@ public class payFrame {
 	public payFrame() {
 		initialize();
 	}
+
 	public payFrame(user my) {
-		this.my=my;
+		this.my = my;
 		initialize();
 	}
 
@@ -68,9 +76,9 @@ public class payFrame {
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
 
-		this.drawText(bgPanel, new int[]{369, 205, 261, 31}); // cardNumber
-		this.drawText(bgPanel, new int[]{75, 311, 151, 31}); // expirationDate
-		this.drawFormattedText(bgPanel, new int[]{369, 311, 151, 31}); // cvv
+		this.drawText(bgPanel, new int[] { 369, 205, 261, 31 }); // cardNumber
+		this.drawText1(bgPanel, new int[] { 75, 311, 151, 31 }); // expirationDate
+		this.drawFormattedText(bgPanel, new int[] { 369, 311, 151, 31 }); // cvv
 		this.drawPayButton(bgPanel);
 		this.drawComboBox(bgPanel);
 
@@ -81,7 +89,7 @@ public class payFrame {
 	}
 
 	public void drawComboBox(ImagePanel bgPanel) {
-		String[] banks={"신한은행", "우리은행", "농협", "국민은행", "카카오뱅크", "하나은행", "기타"};
+		String[] banks = { "신한은행", "우리은행", "농협", "국민은행", "카카오뱅크", "하나은행", "기타" };
 		JComboBox<?> bankCombo = new JComboBox<Object>(banks);
 		bankCombo.setBackground(Color.WHITE);
 		bankCombo.setBounds(75, 205, 224, 31);
@@ -89,13 +97,37 @@ public class payFrame {
 	}
 
 	public void drawText(ImagePanel bgPanel, int[] bounds) {
-		JTextField btn = new JTextField();
+		JFormattedTextField btn;
+		MaskFormatter formatter1 = null;
+		try {
+			formatter1 = new MaskFormatter("####-####-####-####");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		formatter1.setPlaceholderCharacter('_');
+		btn = new JFormattedTextField(formatter1);
+		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
+		bgPanel.add(btn);
+	}
+
+	public void drawText1(ImagePanel bgPanel, int[] bounds) {
+		JFormattedTextField btn;
+		MaskFormatter formatter1 = null;
+		try {
+			formatter1 = new MaskFormatter("##/##");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		formatter1.setPlaceholderCharacter('_');
+		btn = new JFormattedTextField(formatter1);
 		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		bgPanel.add(btn);
 	}
 
 	public void drawFormattedText(ImagePanel bgPanel, int[] bounds) {
-		JFormattedTextField btn = new JFormattedTextField(new NumberFormatter());
+		JPasswordField btn = new JPasswordField(3);
 		btn.setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		bgPanel.add(btn);
 	}
@@ -121,21 +153,16 @@ public class payFrame {
 		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		String uuid = UUID.randomUUID().toString();
 		for (Integer seat : my.selectedSeat) {
-			query += String.format(
+			query = String.format(
 					"INSERT INTO theater.reservation set MovieId = %s, ScreeningId = %s, AccountId = %s, groupId = '%s', date = '%s', cancled = 0, seatId = %s ;",
 					my.getmovieId(), my.ScreeningId ,user.accountId, uuid, today, seat);
+			int res = db.update(query);
 		}
-		int res = db.update(query);
-		if (res > 0) {
-			JOptionPane.showMessageDialog(null, "예약되엇습니다.");
-			my.resetSeat();
-			mainFrame m = new mainFrame(my);
-			m.setVisible(true);
-			frame.dispose();
-		} else {
-			JOptionPane.showMessageDialog(null, "예약에 실패했습니다.");
-
-		}
+		JOptionPane.showMessageDialog(null, "예약되었습니다.");
+		my.resetSeat();
+		mainFrame m = new mainFrame(my);
+		m.setVisible(true);
+		frame.dispose();
 	}
 
 	public JButton makeImageButton(String img, String hoverImg) {

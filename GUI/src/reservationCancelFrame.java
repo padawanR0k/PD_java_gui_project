@@ -101,8 +101,10 @@ public class reservationCancelFrame {
 		Integer count = res.size();
 		String seats = "";
 		for (Map<String, Object> m : res) {
-			String s = (String) m.get("seatId");
-			seats += s + " ";
+			int n = Integer.parseInt((String) m.get("seatId"));
+			String seatName = (char)(65 + Math.floorDiv(n, 10)) + Integer.toString(n % 10);
+
+			seats += seatName + " ";
 		}
 		this.title.setText(title);
 		this.detail.setText(openDate + " | " + time);

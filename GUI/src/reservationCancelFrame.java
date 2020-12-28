@@ -72,7 +72,7 @@ public class reservationCancelFrame {
 		DB db = new DB();
 		String query = String.format("SELECT " +
 				"mov.title," +
-				"mov.openDate," +
+				"scr.screenDate," +
 				"mov.MovieId," +
 				"res.date," +
 				"scr.time," +
@@ -96,7 +96,7 @@ public class reservationCancelFrame {
 		Map movie = res.get(0);
 		String title = (String) movie.get("title");
 		String time = (String) movie.get("time");
-		String openDate = (String) movie.get("openDate");
+		String screenDate = (String) movie.get("screenDate");
 		Integer count = res.size();
 		String seats = "";
 		for (Map<String, Object> m : res) {
@@ -106,7 +106,7 @@ public class reservationCancelFrame {
 			seats += seatName + " ";
 		}
 		this.title.setText(title);
-		this.detail.setText(openDate + " | " + time);
+		this.detail.setText(screenDate + " | " + time);
 		this.count.setText(count.toString());
 		this.seats.setText(seats);
 

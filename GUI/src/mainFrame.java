@@ -89,7 +89,6 @@ public class mainFrame {
 				try {
 					int result = s.saveImgFromUrlToLocal(poster, MovieId);
 					if (result == 1) {
-						System.out.println(filename);
 						ImageIcon img = main.resizeIcon(new ImageIcon("./image/poster/" + filename),230,328);
 						main.posterList.put(MovieId, img);
 						// main.posterList.set(MovieId, img);
@@ -142,7 +141,6 @@ public class mainFrame {
 	public List<Map<String, Object>> getMovies() {
 		DB db = new DB();
 		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		System.out.println("today" + today);
 
 		List<Map<String, Object>> response = db
 				.query(String.format("select * from theater.movie where openDate <= '%s' order by openDate desc limit 17;", today));
@@ -227,12 +225,10 @@ public class mainFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (button.hasFocus()) {
 					if (page == 0) {
-						System.out.println("a");
 					} else {
 						page = page - 5;
 						if ((posterList.length - page) < 5) {
 							int a = posterList.length - page;
-							System.out.println(a);
 							int i;
 							for (i = 0; i < a; i++) {
 								jb[i].setIcon(posterList[page + i]);
@@ -246,7 +242,6 @@ public class mainFrame {
 						for (int i = 0; i < 5; i++) {
 							jb[i].setIcon(posterList[page + i]);
 						}
-						System.out.println(page);
 					}
 				}
 			}
@@ -279,12 +274,10 @@ public class mainFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (button.hasFocus()) {
 					if (page == (page_max - 1) * 5) {
-						System.out.println("a");
 					} else {
 						page = page + 5;
 						if ((posterList.length - page) < 5) {
 							int a = posterList.length - page;
-							System.out.println(a);
 							int i;
 							for (i = 0; i < a; i++) {
 								jb[i].setIcon(posterList[page + i]);
@@ -298,7 +291,6 @@ public class mainFrame {
 						for (int i = 0; i < 5; i++) {
 							jb[i].setIcon(posterList[page + i]);
 						}
-						System.out.println(page);
 					}
 				}
 			}

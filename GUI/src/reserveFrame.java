@@ -210,6 +210,7 @@ public class reserveFrame extends javax.swing.JFrame {
     public void fetchTime(String date) {
         List<Map<String, Object>> info = getScreenByMovieAndDate(movieId, date);
         Map<String, Integer> ScreeningIds = new HashMap<>();
+        timeCbox.removeAllItems();
         for (int i = 0; i < info.size(); i++) {
             String time  = (String) info.get(i).get("time");
             int ScreeningId  = (int) info.get(i).get("ScreeningId");

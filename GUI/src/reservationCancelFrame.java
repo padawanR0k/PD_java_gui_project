@@ -112,7 +112,6 @@ public class reservationCancelFrame {
 
 		this.canceled = (Integer) movie.get("cancled");
 		this.MovieId = (Integer) movie.get("MovieId");
-		System.out.println("./image/poster/poster_" + this.MovieId.toString() + ".jpg");
 		ImageIcon posterImg = resizeIcon(new ImageIcon("./image/poster/poster_" + this.MovieId.toString() + ".jpg"), 120, 168);
 
 		poster.setIcon(posterImg);
@@ -161,7 +160,6 @@ public class reservationCancelFrame {
 	}
 
 	public void drawCancelButton(ImagePanel bgPanel) {
-		System.out.println(this.canceled);
 		String btnOff = "cancel1.jpg";
 		String btnOn = "cancel2.jpg";
 		JButton button = this.makeImageButton(btnOff, btnOn);

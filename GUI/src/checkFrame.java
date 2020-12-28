@@ -79,8 +79,6 @@ public class checkFrame {
 				int row = table.rowAtPoint(evt.getPoint());
 				int col = table.columnAtPoint(evt.getPoint());
 				if (row >= 0 && col >= 0) {
-					System.out.println(data.get(row));
-					System.out.println(evt.getID());
 					dispose();
 					reservationCancelFrame detailFrame = new reservationCancelFrame(my, (String) data.get(row).get("groupId"));
 					detailFrame.setVisible(true);
@@ -95,11 +93,10 @@ public class checkFrame {
 	}
 
 	public Object[][] getData() {
-		System.out.println("asd");
 		DB db = new DB();
 
 		ArrayList<String> screenList = new ArrayList<>();
-		this.data = db.query(String.format(
+		List<Map<String, Object>> info = db.query(String.format(
 				"SELECT " +
 						"mov.title," +
 						"scr.time," +
@@ -115,24 +112,22 @@ public class checkFrame {
 								" JOIN " +
 						"theater.screening AS scr ON scr.ScreeningId = res.ScreeningId" +
 				" WHERE " +
-						"AccountId = %s;"
+						"AccountId = %s group by res.ReservId;"
 				, user.accountId));
 
-		Object[][] movieList = new Object[this.data.size()][3];
+		Object[][] movieList = new Object[info.size()][3];
 		int i = 0;
-		System.out.println("test");
 
 
-		for (Map<String, Object> s : this.data) {
+		for (Map<String, Object> s : info) {
 			String groupId = (String) s.get("groupId");
-			if (screenList.indexOf(groupId) == -1) {
-				System.out.println("screenDate");
-				System.out.println(s.get("screenDate"));
+			if (screenList.contains(groupId) == false) {
 
 				Object[] movie = { s.get("title"), s.get("time"), s.get("screenDate"), groupId };
 				movieList[i] = movie;
 				i++;
 				screenList.add(groupId);
+				data.add(s);
 			}
 		}
 		return movieList;

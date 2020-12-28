@@ -67,21 +67,22 @@ public class seatFrame extends javax.swing.JFrame {
                             System.out.println(choice+button.getText());
                             if(choice==count && button.isSelected()==true){
                                 choice -= 1;
-                                my.selectedSeat.remove(my.selectedSeat.indexOf(seatNum));
+                                my.selectedSeat.remove(seatNum);
                                 button.setIcon(new ImageIcon());
                             }
                             else if(choice==count && button.isSelected()==false){
-                                my.selectedSeat.add(seatNum);
                                 button.setSelected(true);
                             }
                             else if(button.isSelected()==false){
-                                choice += 1;
-                                my.selectedSeat.add(seatNum);
-                                button.setIcon(new ImageIcon("./image/choosebutton.jpg"));
+                                if (choice < count) {
+                                    choice += 1;
+                                    my.selectedSeat.add(seatNum);
+                                    button.setIcon(new ImageIcon("./image/choosebutton.jpg"));
+                                }
                             }
                             else if(button.isSelected()==true){
                                 choice -= 1;
-                                my.selectedSeat.remove(my.selectedSeat.indexOf(seatNum));
+                                my.selectedSeat.remove(seatNum);
                                 button.setIcon(new ImageIcon());
                             }
                         }

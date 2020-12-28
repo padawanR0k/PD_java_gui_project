@@ -52,12 +52,13 @@ public class seatFrame extends javax.swing.JFrame {
         JToggleButton[][] jb = new JToggleButton[10][8];
         for(int i=0;i<10;i++) {
             for(int j=0;j<8;j++) {
-                int seatNum = i * 10 + j;
+                int seatNum = j * 10 + i;
                 jb[i][j] = new JToggleButton((char)(65+j)+""+i); // 아스키
                 jb[i][j].setBackground(new Color(170,170,170));
 
-                if (this.reservedSeat.indexOf(seatNum) != -1) {
-                    jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.png"));
+
+                if (this.reservedSeat.contains(seatNum) == true) {
+                    jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.jpg"));
                 } else {
 
                     jb[i][j].addMouseListener(new MouseAdapter() {

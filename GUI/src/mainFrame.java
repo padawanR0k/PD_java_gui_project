@@ -41,7 +41,7 @@ public class mainFrame {
 			public void run() {
 				try {
 					new main();
-					mainFrame window = new mainFrame(new user("test","1234"));
+					mainFrame window = new mainFrame(new user("test"));
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -141,7 +141,7 @@ public class mainFrame {
 	 */
 	public List<Map<String, Object>> getMovies() {
 		DB db = new DB();
-		String today = new SimpleDateFormat("YYYY-mm-DD").format(new Date());
+		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		System.out.println("today" + today);
 
 		List<Map<String, Object>> response = db

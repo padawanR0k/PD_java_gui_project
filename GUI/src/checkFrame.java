@@ -3,14 +3,11 @@ import DB.DB;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,18 +15,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.JButton;
 
 public class checkFrame {
@@ -106,13 +95,15 @@ public class checkFrame {
 	}
 
 	public Object[][] getData() {
+		System.out.println("asd");
 		DB db = new DB();
 
 		ArrayList<String> screenList = new ArrayList<>();
 		this.data = db.query(String.format(
 				"SELECT " +
-						"mov.title AS title," +
-						"res.date AS date," +
+						"mov.title," +
+						"scr.time," +
+						"scr.screenDate," +
 						"res.groupId," +
 						"res.ReservId," +
 						"res.AccountId," +
@@ -121,16 +112,24 @@ public class checkFrame {
 						"theater.reservation AS res" +
 								" JOIN " +
 						"theater.movie AS mov ON mov.MovieId = res.MovieId" +
+								" JOIN " +
+						"theater.screening AS scr ON scr.ScreeningId = res.ScreeningId" +
 				" WHERE " +
-						"AccountId = '%s';" 
+						"AccountId = %s;"
 				, user.accountId));
 
 		Object[][] movieList = new Object[this.data.size()][3];
 		int i = 0;
+		System.out.println("test");
+
+
 		for (Map<String, Object> s : this.data) {
 			String groupId = (String) s.get("groupId");
 			if (screenList.indexOf(groupId) == -1) {
-				Object[] movie = { s.get("title"), s.get("time"), s.get("date"), groupId };
+				System.out.println("screenDate");
+				System.out.println(s.get("screenDate"));
+
+				Object[] movie = { s.get("title"), s.get("time"), s.get("screenDate"), groupId };
 				movieList[i] = movie;
 				i++;
 				screenList.add(groupId);

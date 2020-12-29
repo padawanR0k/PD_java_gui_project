@@ -155,6 +155,7 @@ public class reserveFrame extends javax.swing.JFrame {
         contentPane.add(choiceButton);
         choiceButton.addActionListener(new ActionListener() { // seatFrame 불러오기
             public void actionPerformed(ActionEvent e) {
+            	if(adultCount+youthCount==0){return;}
                 my.setReserveMovie(dateCbox.getSelectedItem().toString(), timeCbox.getSelectedItem().toString(), adultCount,
                         youthCount, movieId);
                 // seatFrame p = new seatFrame(date.getSelectedItem().toString(),

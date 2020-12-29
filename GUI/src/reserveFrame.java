@@ -6,6 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -55,7 +56,7 @@ public class reserveFrame extends javax.swing.JFrame {
         this.poster = my.getIcon();
         adultCount = 0;
         youthCount = 0;
-
+        DecimalFormat formats = new DecimalFormat("###,###");
         ImageIcon reserve1 = new ImageIcon("./image/reserve1.jpg");
         ImageIcon reserve2 = new ImageIcon("./image/reserve2.jpg");
         ImageIcon backBtn = new ImageIcon("./image/btn/back_btn2.png");
@@ -94,12 +95,12 @@ public class reserveFrame extends javax.swing.JFrame {
         this.drawDateComboBox();
         this.drawTimeComboBox();
 
-        JLabel price = new JLabel(""); // 가격 price
+        JLabel price = new JLabel("13,000 * 0 + 10,000 * 0"); // 가격 price
         price.setBounds(700, 500, 1000, 50);
         price.setForeground(Color.white);
         price.setFont(price.getFont().deriveFont(40.0F));
         
-        JLabel price2 = new JLabel("0 Won"); // 가격 price
+        JLabel price2 = new JLabel("￦ 0"); // 가격 price
         price2.setBounds(700, 555, 1000, 50);
         price2.setForeground(Color.white);
         price2.setFont(price.getFont().deriveFont(40.0F));
@@ -123,8 +124,8 @@ public class reserveFrame extends javax.swing.JFrame {
                     adult_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255, 0, 0));
                     adultCount = Integer.parseInt(button.getText());
                     //price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
-                    price.setText(String.format("13000 * %d + 10000 * %d", adultCount,youthCount));
-                    price2.setText(String.format("%d Won", adultCount*13000+youthCount*10000));
+                    price.setText(String.format("13,000 * %d + 10,000 * %d", adultCount,youthCount));
+                    price2.setText(String.format("￦ %s", formats.format(adultCount*13000+youthCount*10000)));
                 }
             });
             adult_btn_list[i].setBounds(700 + 60 * i, 342, 50, 50);
@@ -147,8 +148,8 @@ public class reserveFrame extends javax.swing.JFrame {
                     }
                     youth_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255, 0, 0));
                     youthCount = Integer.parseInt(button.getText());
-                    price.setText(String.format("13000 * %d + 10000 * %d", adultCount,youthCount));
-                    price2.setText(String.format("%d Won", adultCount*13000+youthCount*10000));
+                    price.setText(String.format("13,000 * %d + 10,000 * %d", adultCount,youthCount));
+                    price2.setText(String.format("￦ %s", formats.format(adultCount*13000+youthCount*10000)));
                     //String.format("13000 * %d + 10000 * %d", adultCount,youthCount)
                 }
             });

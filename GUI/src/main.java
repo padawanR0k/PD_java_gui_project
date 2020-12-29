@@ -9,11 +9,13 @@ public class main {
 
     public main(){
         File path = new File("./image/poster/");
-		System.out.println(path.list().length);
-		String[] fileNames = path.list();
-		for (int i = 0; i < fileNames.length; i++) {
-            Integer movieId = (Integer) Integer.parseInt(fileNames[i].replace("poster_", "").replace(".jpg", ""));
-			posterList.put(movieId, resizeIcon(new ImageIcon("./image/poster/" + fileNames[i]),230,328));
+        if (path.exists()) {
+        	System.out.println(path.list().length);
+    		String[] fileNames = path.list();
+    		for (int i = 0; i < fileNames.length; i++) {
+                Integer movieId = (Integer) Integer.parseInt(fileNames[i].replace("poster_", "").replace(".jpg", ""));
+    			posterList.put(movieId, resizeIcon(new ImageIcon("./image/poster/" + fileNames[i]),230,328));
+            }
         }
         new loginFrame().setVisible(true);
     }

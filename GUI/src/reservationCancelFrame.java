@@ -173,12 +173,11 @@ public class reservationCancelFrame {
 				if (canceled == 1) {
 					JOptionPane.showMessageDialog(bgPanel, "이미 예매취소되었습니다.");
 				} else {
-					int res = JOptionPane.showConfirmDialog(bgPanel, "정말 취소하시겠습니까?");
+					int res = JOptionPane.showConfirmDialog(bgPanel, "정말 취소하시겠습니까?","취소",JOptionPane.YES_NO_OPTION);
 					if (res == JOptionPane.OK_OPTION) {
 						// 예매취소
 						cancel(groupId);
 					}
-
 				}
 			}
 		});

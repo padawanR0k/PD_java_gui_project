@@ -64,7 +64,6 @@ public class mainFrame {
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
-
 		this.drawMypageButton(bgPanel);
 		this.drawPreviousButton(bgPanel);
 		this.drawNextButton(bgPanel);

@@ -42,10 +42,21 @@ public class loginFrame {
 
 	private void initialize() {
 		frame = new JFrame();
-
 		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
+
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon("./image/video.gif"));
+		btnNewButton.setBounds(-10, -10, 1366, 768);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				bgPanel.setVisible(true);
+				btnNewButton.setVisible(false);
+			}
+		});
+		frame.add(btnNewButton);
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
+		bgPanel.setVisible(false);
 		bgPanel.setLayout(null);
 
 		this.id = this.drawText(bgPanel, new int[]{519, 312, 313, 45}); // ID

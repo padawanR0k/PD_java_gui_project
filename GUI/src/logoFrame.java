@@ -44,7 +44,7 @@ public class logoFrame {
 		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setIcon(new ImageIcon("./image/video.gif"));
-		btnNewButton.setBounds(0, 0, 1366, 768);
+		btnNewButton.setBounds(-10, -10, 1366, 768);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				loginFrame l = new loginFrame();

@@ -6,6 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -55,7 +56,7 @@ public class reserveFrame extends javax.swing.JFrame {
         this.poster = my.getIcon();
         adultCount = 0;
         youthCount = 0;
-
+        DecimalFormat formats = new DecimalFormat("###,###");
         ImageIcon reserve1 = new ImageIcon("./image/reserve1.jpg");
         ImageIcon reserve2 = new ImageIcon("./image/reserve2.jpg");
         ImageIcon backBtn = new ImageIcon("./image/btn/back_btn2.png");
@@ -95,10 +96,16 @@ public class reserveFrame extends javax.swing.JFrame {
         this.drawTimeComboBox();
 
         JLabel price = new JLabel(""); // 가격 price
-        price.setBounds(700, 500, 1000, 50);
+        price.setBounds(700, 500, 1500, 50);
         price.setForeground(Color.white);
-        price.setFont(price.getFont().deriveFont(40.0F));
+        price.setFont(price.getFont().deriveFont(30.0F));
+        
+        JLabel price2 = new JLabel(""); // 가격 price
+        price2.setBounds(1080, 500, 1500, 50);
+        price2.setForeground(Color.white);
+        price2.setFont(price.getFont().deriveFont(30.0F));
         contentPane.add(price);
+        contentPane.add(price2);
 
         JButton[] adult_btn_list = new JButton[10]; // 성인 adult
         for (int i = 0; i < 10; i++) {
@@ -112,11 +119,13 @@ public class reserveFrame extends javax.swing.JFrame {
                         return;
                     }
                     for (int i = 0; i < 10; i++) {
-                        adult_btn_list[i].setBackground(new Color(170, 170, 170));
+                        adult_btn_list[i].setIcon(new ImageIcon(""));
                     }
-                    adult_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255, 0, 0));
+                    adult_btn_list[Integer.parseInt(button.getText())].setIcon(new ImageIcon("./image/selectedButton.jpg"));
                     adultCount = Integer.parseInt(button.getText());
-                    price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
+                    //price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
+                    price.setText(String.format("13,000 X %d + 10,000 X %d", adultCount,youthCount));
+                    price2.setText(String.format("= ￦%s", formats.format(adultCount*13000+youthCount*10000)));
                 }
             });
             adult_btn_list[i].setBounds(700 + 60 * i, 342, 50, 50);
@@ -135,19 +144,21 @@ public class reserveFrame extends javax.swing.JFrame {
                         return;
                     }
                     for (int i = 0; i < 10; i++) {
-                        youth_btn_list[i].setBackground(new Color(170, 170, 170));
+                        youth_btn_list[i].setIcon(new ImageIcon(""));
                     }
-                    youth_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255, 0, 0));
+                    youth_btn_list[Integer.parseInt(button.getText())].setIcon(new ImageIcon("./image/selectedButton.jpg"));
                     youthCount = Integer.parseInt(button.getText());
-                    price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
+                    price.setText(String.format("13,000 X %d + 10,000 X %d", adultCount,youthCount));
+                    price2.setText(String.format("= ￦%s", formats.format(adultCount*13000+youthCount*10000)));
+                    //String.format("13000 * %d + 10000 * %d", adultCount,youthCount)
                 }
             });
             youth_btn_list[i].setBounds(700 + 60 * i, 395, 50, 50);
             contentPane.add(youth_btn_list[i]);
         }
 
-        youth_btn_list[0].setBackground(new Color(255, 0, 0));
-        adult_btn_list[0].setBackground(new Color(255, 0, 0));
+        youth_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.jpg"));
+        adult_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.jpg"));
 
         JButton choiceButton = new JButton(reserve1); // choose you seat 버튼
         choiceButton.setRolloverIcon(reserve2);

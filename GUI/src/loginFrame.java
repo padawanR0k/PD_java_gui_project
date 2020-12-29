@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
+
 public class loginFrame {
 	private JFrame frame;
 	private JTextField id;
@@ -34,7 +35,24 @@ public class loginFrame {
 			}
 		});
 	}
-
+	class Test extends Thread {
+		ImagePanel bgPanel;
+		JButton btnNewButton;
+		public Test(ImagePanel bgPanel, JButton btnNewButton) {
+			this.bgPanel=bgPanel;
+			this.btnNewButton=btnNewButton;
+		}
+		public void run() {
+			try {
+				Thread.sleep(8000);
+				bgPanel.setVisible(true);
+				btnNewButton.setVisible(false);
+			}catch(Exception e) {
+	
+			}
+	
+		}
+	}
 	public loginFrame() {
 		initialize();
 		db = new DB();
@@ -58,7 +76,8 @@ public class loginFrame {
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setVisible(false);
 		bgPanel.setLayout(null);
-
+		Thread t = new Test(bgPanel,btnNewButton);
+		t.start();
 		this.id = this.drawText(bgPanel, new int[]{519, 312, 313, 45}); // ID
 		this.password = this.drawPassword(bgPanel, new int[]{519, 421, 313, 45}); // password
 		this.drawSignupButton(bgPanel);

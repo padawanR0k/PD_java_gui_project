@@ -68,25 +68,25 @@ public class seatFrame extends javax.swing.JFrame {
                             System.out.println(choice+button.getText());
                             if(choice==count && button.isSelected()==true){
                                 choice -= 1;
-                                my.selectedSeat.remove(seatNum);
+                                my.selectedSeat.remove((Integer)(seatNum));
                                 button.setIcon(new ImageIcon());
                             }
                             else if(choice==count && button.isSelected()==false){
                                 button.setSelected(true);
                             }
                             else if(button.isSelected()==false){
-                                if (choice < count) {
-                                    choice += 1;
-                                    my.selectedSeat.add(seatNum);
-                                    button.setIcon(new ImageIcon("./image/choosebutton.jpg"));
-                                }
+                                choice += 1;
+                                my.selectedSeat.add(seatNum);
+                                button.setIcon(new ImageIcon("./image/choosebutton.jpg"));
+                                
                             }
                             else if(button.isSelected()==true){
                                 choice -= 1;
-                                my.selectedSeat.remove(seatNum);
+                                my.selectedSeat.remove((Integer)(seatNum));
                                 button.setIcon(new ImageIcon());
                             }
                         }
+                        
                         @Override
                         public void mouseEntered(MouseEvent e) {
                             JToggleButton button = (JToggleButton)e.getSource();

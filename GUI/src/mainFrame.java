@@ -139,10 +139,10 @@ public class mainFrame {
 	 */
 	public List<Map<String, Object>> getMovies() {
 		DB db = new DB();
-		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		// String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
 		List<Map<String, Object>> response = db
-				.query(String.format("select * from theater.movie where openDate <= '%s' order by openDate desc limit 17;", today));
+				.query("select * from theater.movie order by openDate DESC limit 17;");
 
 		return response;
 	}

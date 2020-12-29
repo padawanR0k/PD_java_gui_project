@@ -273,8 +273,11 @@ public class reservationCancelFrame {
 						"cancled=1" +
 				" WHERE groupId = '%s'"
 			, groupId));
-		if (result == 1) {
+		if (result > 0) {
 			JOptionPane.showMessageDialog(null, "취소되었습니다.");
+			frame.dispose();
+			checkFrame checkframe = new checkFrame(my);
+			checkframe.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(null, "취소 실패");
 		}

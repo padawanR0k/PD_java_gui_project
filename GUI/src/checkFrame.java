@@ -112,7 +112,8 @@ public class checkFrame {
 								" JOIN " +
 						"theater.screening AS scr ON scr.ScreeningId = res.ScreeningId" +
 				" WHERE " +
-						"AccountId = %s group by res.ReservId;"
+						"AccountId = %s AND  res.cancled = 0" +
+				" group by res.ReservId;"
 				, user.accountId));
 
 		Object[][] movieList = new Object[info.size()][3];

@@ -98,7 +98,13 @@ public class reserveFrame extends javax.swing.JFrame {
         price.setBounds(700, 500, 1000, 50);
         price.setForeground(Color.white);
         price.setFont(price.getFont().deriveFont(40.0F));
+        
+        JLabel price2 = new JLabel("0 Won"); // 가격 price
+        price2.setBounds(700, 555, 1000, 50);
+        price2.setForeground(Color.white);
+        price2.setFont(price.getFont().deriveFont(40.0F));
         contentPane.add(price);
+        contentPane.add(price2);
 
         JButton[] adult_btn_list = new JButton[10]; // 성인 adult
         for (int i = 0; i < 10; i++) {
@@ -116,7 +122,9 @@ public class reserveFrame extends javax.swing.JFrame {
                     }
                     adult_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255, 0, 0));
                     adultCount = Integer.parseInt(button.getText());
-                    price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
+                    //price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
+                    price.setText(String.format("13000 * %d + 10000 * %d", adultCount,youthCount));
+                    price2.setText(String.format("%d Won", adultCount*13000+youthCount*10000));
                 }
             });
             adult_btn_list[i].setBounds(700 + 60 * i, 342, 50, 50);
@@ -139,7 +147,9 @@ public class reserveFrame extends javax.swing.JFrame {
                     }
                     youth_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255, 0, 0));
                     youthCount = Integer.parseInt(button.getText());
-                    price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
+                    price.setText(String.format("13000 * %d + 10000 * %d", adultCount,youthCount));
+                    price2.setText(String.format("%d Won", adultCount*13000+youthCount*10000));
+                    //String.format("13000 * %d + 10000 * %d", adultCount,youthCount)
                 }
             });
             youth_btn_list[i].setBounds(700 + 60 * i, 395, 50, 50);

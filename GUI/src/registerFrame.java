@@ -143,7 +143,8 @@ public class registerFrame {
 				System.out.println(response);
 				JOptionPane.showMessageDialog(null, "회원가입 되었습니다.");
 				if (response > 0) {
-					loginFrame frame = new loginFrame();
+					boolean showLogo = false;
+					loginFrame frame = new loginFrame(showLogo);
 					frame.setVisible(true);
 					dispose();
 				}

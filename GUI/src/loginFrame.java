@@ -22,6 +22,7 @@ public class loginFrame {
 	private JTextField id;
 	private JPasswordField password;
 	private DB db;
+	private boolean showLogo = true;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -48,13 +49,20 @@ public class loginFrame {
 				bgPanel.setVisible(true);
 				btnNewButton.setVisible(false);
 			}catch(Exception e) {
-	
+
 			}
-	
+
 		}
 	}
+
 	public loginFrame() {
 		initialize();
+		db = new DB();
+	}
+
+	public loginFrame(boolean showLogo) {
+		initialize();
+		this.showLogo = showLogo;
 		db = new DB();
 	}
 
@@ -63,19 +71,25 @@ public class loginFrame {
 		ImagePanel bgPanel = new ImagePanel(new ImageIcon("./image/bg_loginFrame.jpg").getImage());
 
 		JButton btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon("./image/video.gif"));
-		btnNewButton.setBounds(-10, -10, 1366, 768);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				bgPanel.setVisible(true);
-				btnNewButton.setVisible(false);
-			}
-		});
-		frame.add(btnNewButton);
+
+		if (this.showLogo) {
+			btnNewButton.setIcon(new ImageIcon("./image/video.gif"));
+			btnNewButton.setBounds(-10, -10, 1366, 768);
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					bgPanel.setVisible(true);
+					btnNewButton.setVisible(false);
+				}
+			});
+			bgPanel.setVisible(false);
+			bgPanel.setLayout(null);
+			frame.add(btnNewButton);
+		} else {
+			bgPanel.setVisible(true);
+		}
 		frame.setSize(bgPanel.getWidth(), bgPanel.getHeight());
 		frame.getContentPane().add(bgPanel);
-		bgPanel.setVisible(false);
-		bgPanel.setLayout(null);
+
 		Thread t = new Test(bgPanel,btnNewButton);
 		t.start();
 		this.id = this.drawText(bgPanel, new int[]{519, 312, 313, 45}); // ID

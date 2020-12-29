@@ -95,15 +95,15 @@ public class reserveFrame extends javax.swing.JFrame {
         this.drawDateComboBox();
         this.drawTimeComboBox();
 
-        JLabel price = new JLabel("13,000 * 0 + 10,000 * 0"); // 가격 price
-        price.setBounds(700, 500, 1000, 50);
+        JLabel price = new JLabel(""); // 가격 price
+        price.setBounds(700, 500, 1500, 50);
         price.setForeground(Color.white);
-        price.setFont(price.getFont().deriveFont(40.0F));
+        price.setFont(price.getFont().deriveFont(30.0F));
         
-        JLabel price2 = new JLabel("￦ 0"); // 가격 price
-        price2.setBounds(700, 555, 1000, 50);
+        JLabel price2 = new JLabel(""); // 가격 price
+        price2.setBounds(1080, 500, 1500, 50);
         price2.setForeground(Color.white);
-        price2.setFont(price.getFont().deriveFont(40.0F));
+        price2.setFont(price.getFont().deriveFont(30.0F));
         contentPane.add(price);
         contentPane.add(price2);
 
@@ -124,8 +124,8 @@ public class reserveFrame extends javax.swing.JFrame {
                     adult_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255, 0, 0));
                     adultCount = Integer.parseInt(button.getText());
                     //price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
-                    price.setText(String.format("13,000 * %d + 10,000 * %d", adultCount,youthCount));
-                    price2.setText(String.format("￦ %s", formats.format(adultCount*13000+youthCount*10000)));
+                    price.setText(String.format("13,000 X %d + 10,000 X %d", adultCount,youthCount));
+                    price2.setText(String.format("= ￦%s", formats.format(adultCount*13000+youthCount*10000)));
                 }
             });
             adult_btn_list[i].setBounds(700 + 60 * i, 342, 50, 50);
@@ -148,8 +148,8 @@ public class reserveFrame extends javax.swing.JFrame {
                     }
                     youth_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(255, 0, 0));
                     youthCount = Integer.parseInt(button.getText());
-                    price.setText(String.format("13,000 * %d + 10,000 * %d", adultCount,youthCount));
-                    price2.setText(String.format("￦ %s", formats.format(adultCount*13000+youthCount*10000)));
+                    price.setText(String.format("13,000 X %d + 10,000 X %d", adultCount,youthCount));
+                    price2.setText(String.format("= ￦%s", formats.format(adultCount*13000+youthCount*10000)));
                     //String.format("13000 * %d + 10000 * %d", adultCount,youthCount)
                 }
             });

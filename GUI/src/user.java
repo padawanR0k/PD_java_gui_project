@@ -24,7 +24,7 @@ public class user {
 
     public ImageIcon getsmallIcon() {
         Image img = poster.getImage();
-        Image resizedImage = img.getScaledInstance(160, 240, java.awt.Image.SCALE_SMOOTH);
+        Image resizedImage = img.getScaledInstance(180, 252, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(resizedImage);
     }
 

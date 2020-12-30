@@ -121,7 +121,7 @@ public class reserveFrame extends javax.swing.JFrame {
                     for (int i = 0; i < 10; i++) {
                         adult_btn_list[i].setIcon(new ImageIcon(""));
                     }
-                    adult_btn_list[Integer.parseInt(button.getText())].setIcon(new ImageIcon("./image/selectedButton.jpg"));
+                    adult_btn_list[Integer.parseInt(button.getText())].setIcon(new ImageIcon("./image/selectedButton.png"));
                     adultCount = Integer.parseInt(button.getText());
                     //price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
                     price.setText(String.format("13,000 X %d + 10,000 X %d", adultCount,youthCount));
@@ -146,7 +146,7 @@ public class reserveFrame extends javax.swing.JFrame {
                     for (int i = 0; i < 10; i++) {
                         youth_btn_list[i].setIcon(new ImageIcon(""));
                     }
-                    youth_btn_list[Integer.parseInt(button.getText())].setIcon(new ImageIcon("./image/selectedButton.jpg"));
+                    youth_btn_list[Integer.parseInt(button.getText())].setIcon(new ImageIcon("./image/selectedButton.png"));
                     youthCount = Integer.parseInt(button.getText());
                     price.setText(String.format("13,000 X %d + 10,000 X %d", adultCount,youthCount));
                     price2.setText(String.format("= ￦%s", formats.format(adultCount*13000+youthCount*10000)));
@@ -157,8 +157,8 @@ public class reserveFrame extends javax.swing.JFrame {
             contentPane.add(youth_btn_list[i]);
         }
 
-        youth_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.jpg"));
-        adult_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.jpg"));
+        youth_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.png"));
+        adult_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.png"));
 
         JButton choiceButton = new JButton(reserve1); // choose you seat 버튼
         choiceButton.setRolloverIcon(reserve2);

@@ -58,7 +58,7 @@ public class seatFrame extends javax.swing.JFrame {
 
 
                 if (this.reservedSeat.contains(seatNum) == true) {
-                    jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.jpg"));
+                    jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.png"));
                 } else {
 
                     jb[i][j].addMouseListener(new MouseAdapter() {
@@ -122,7 +122,7 @@ public class seatFrame extends javax.swing.JFrame {
         contentPane = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(icon.getImage(), 0, 0, null);
-                g.drawImage(my.getsmallIcon().getImage(),170,30,null);
+                g.drawImage(my.getsmallIcon().getImage(),160,45,null);
                 //my.getIcon().paintIcon(this, g, 133, 30);
                 setOpaque(false); //그림을 표시하게 설정,투명하게 조절
                 super.paintComponent(g);
@@ -138,7 +138,7 @@ public class seatFrame extends javax.swing.JFrame {
         backButton.setFocusPainted(false);
         backButton.setBackground(Color.WHITE);
         contentPane.add(backButton);
-        backButton.addActionListener(new ActionListener() { // mainFrame으로 이
+        backButton.addActionListener(new ActionListener() { // mainFrame으로 이동 
 			public void actionPerformed(ActionEvent e) {
 				reserveFrame m = new reserveFrame(my);
 				m.setVisible(true);
@@ -152,11 +152,11 @@ public class seatFrame extends javax.swing.JFrame {
         JLabel adultC = new JLabel(adultCount+"");
         JLabel youthC = new JLabel(youthCount+"");
         JLabel price = new JLabel(adultCount*13000+youthCount*10000+"");
-        dateLabel.setBounds(160,265,200,100);
-        timeLabel.setBounds(160,316,200,100);
-        adultC.setBounds(160,412,200,100);
-        youthC.setBounds(160,461,200,100);
-        price.setBounds(160,563,200,100);
+        dateLabel.setBounds(160,285,200,100);
+        timeLabel.setBounds(160,335,200,100);
+        adultC.setBounds(160,410,200,100);
+        youthC.setBounds(160,460,200,100);
+        price.setBounds(160,533,200,100);
 
         dateLabel.setForeground(Color.white);
         dateLabel.setFont(dateLabel.getFont().deriveFont(27.0F));
@@ -190,7 +190,7 @@ public class seatFrame extends javax.swing.JFrame {
                 }
             }
         });
-        reserveBtn.setBounds(85, 650, 310, 60);
+        reserveBtn.setBounds(85, 640, 310, 60);
         contentPane.add(reserveBtn);
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));

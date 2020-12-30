@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 public class mypageFrame {
-	private final Image BG_IMAGE = new ImageIcon("./image/bg_checkFrame(info).jpg").getImage();
+	private final Image BG_IMAGE = new ImageIcon("./image/bg_checkFrame2.jpg").getImage();
 	private JFrame frame;
 	private user my;
 
@@ -55,8 +55,8 @@ public class mypageFrame {
 		Map<String, ?> user = (Map) response.get(0);
 		String nick = (String) user.get("nick");
 		String id = (String) user.get("id");
-		this.drawText(bgPanel, nick, new int[] { 800, 240, 225, 60 });
-		this.drawText(bgPanel, id, new int[] { 800, 340, 225, 60 });
+		this.drawText(bgPanel, nick, new int[] { 800, 305, 225, 60 });
+		this.drawText(bgPanel, id, new int[] { 800, 405, 225, 60 });
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);

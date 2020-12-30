@@ -61,8 +61,8 @@ public class loginFrame {
 	}
 
 	public loginFrame(boolean showLogo) {
-		initialize();
 		this.showLogo = showLogo;
+		initialize();
 		db = new DB();
 	}
 

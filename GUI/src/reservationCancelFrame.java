@@ -163,7 +163,7 @@ public class reservationCancelFrame {
 		String btnOff = "cancel1.jpg";
 		String btnOn = "cancel2.jpg";
 		JButton button = this.makeImageButton(btnOff, btnOn);
-		button.setBounds(765, 570, 225, 54);
+		button.setBounds(765, 555, 235, 54);
 		button.setBorderPainted(false);
 		button.setFocusPainted(false);
 
@@ -212,10 +212,10 @@ public class reservationCancelFrame {
 		// ImageIcon icon = new
 		poster = new JLabel();
 
-		title.setBounds(780, 200, 200, 50);
-		detail.setBounds(780, 250, 400, 50);
+		title.setBounds(780, 230, 500, 50);
+		detail.setBounds(780, 280, 400, 50);
 		count.setBounds(654, 416, 50, 50);
-		seats.setBounds(774, 438, 200, 50);
+		seats.setBounds(774, 430, 500, 50);
 		poster.setBounds(640, 195, 120, 160);
 
 		this.setFontWeight(title, TextAttribute.WEIGHT_SEMIBOLD);

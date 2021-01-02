@@ -77,7 +77,7 @@ public class seatFrame extends javax.swing.JFrame {
                             else if(button.isSelected()==false){
                                 choice += 1;
                                 my.selectedSeat.add(seatNum);
-                                button.setIcon(new ImageIcon("./image/choosebutton.jpg"));
+                                button.setIcon(new ImageIcon("./image/choosebutton.png"));
                                 
                             }
                             else if(button.isSelected()==true){

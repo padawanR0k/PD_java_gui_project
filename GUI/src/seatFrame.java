@@ -1,3 +1,4 @@
+import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
@@ -18,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 import DB.DB;
 
 import java.awt.event.ActionEvent;
+
 /**
  *
  * @author newjihwan
@@ -33,14 +35,31 @@ public class seatFrame extends javax.swing.JFrame {
     private user my;
     private ArrayList<Integer> reservedSeat = new ArrayList<>();
 
+    public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+                    new main();
+                    user mockUser = new user("test");
+                    user.accountId = 41;
+                    mockUser.setReserveMovie("2021-01-01", "12:30", 1, 0, 1411);
+					seatFrame window = new seatFrame(mockUser);
+					window.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
     public seatFrame(user my) { // 좌석 개수
         this.my = my;
-        this.adultCount=my.getadultCount();
-        this.youthCount=my.getyouthCount();
-        this.count=adultCount+youthCount;
-        this.movieId=my.getmovieId();
-        this.date=my.getDate();
-        this.time=my.getTime();
+        this.adultCount = my.getadultCount();
+        this.youthCount = my.getyouthCount();
+        this.count = adultCount + youthCount;
+        this.movieId = my.getmovieId();
+        this.date = my.getDate();
+        this.time = my.getTime();
         this.choice = 0;
         initComponents();
         button_x = 574;
@@ -48,14 +67,13 @@ public class seatFrame extends javax.swing.JFrame {
         icon = new ImageIcon("./image/bg_seatFrame.jpg");
         this.getSeat();
 
-        //버튼 배치
+        // 버튼 배치
         JToggleButton[][] jb = new JToggleButton[10][8];
-        for(int i=0;i<10;i++) {
-            for(int j=0;j<8;j++) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 8; j++) {
                 int seatNum = j * 10 + i;
-                jb[i][j] = new JToggleButton((char)(65+j)+""+i); // 아스키
-                jb[i][j].setBackground(new Color(170,170,170));
-
+                jb[i][j] = new JToggleButton((char) (65 + j) + "" + i); // 아스키
+                jb[i][j].setBackground(new Color(170, 170, 170));
 
                 if (this.reservedSeat.contains(seatNum) == true) {
                     jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.png"));
@@ -63,45 +81,53 @@ public class seatFrame extends javax.swing.JFrame {
 
                     jb[i][j].addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mousePressed(MouseEvent e) {
-                            JToggleButton button = (JToggleButton)e.getSource();
-                            System.out.println(choice+button.getText());
-                            if(choice==count && button.isSelected()==true){
-                                choice -= 1;
-                                my.selectedSeat.remove((Integer)(seatNum));
-                                button.setIcon(new ImageIcon());
-                            }
-                            else if(choice==count && button.isSelected()==false){
-                                button.setSelected(true);
-                            }
-                            else if(button.isSelected()==false){
-                                choice += 1;
-                                my.selectedSeat.add(seatNum);
-                                button.setIcon(new ImageIcon("./image/choosebutton.png"));
-                                
-                            }
-                            else if(button.isSelected()==true){
-                                choice -= 1;
-                                my.selectedSeat.remove((Integer)(seatNum));
-                                button.setIcon(new ImageIcon());
+                        public void mouseClicked(MouseEvent e) {
+                            JToggleButton button = (JToggleButton) e.getSource();
+                            System.out.println(choice + button.getText());
+                            if (choice == count) {
+                                if (my.selectedSeat.contains(seatNum)) {
+                                    System.out.println("감소 1");
+                                    System.out.println(my.selectedSeat);
+
+                                    choice -= 1;
+                                    my.selectedSeat.remove((Integer) (seatNum));
+                                    button.setIcon(new ImageIcon());
+                                } else {
+                                    JOptionPane.showMessageDialog(null, "모두 선택하셨습니다.");
+                                }
+                            } else {
+                                if (my.selectedSeat.contains(seatNum) == false) {
+                                    System.out.println("증가 11");
+                                    System.out.println(my.selectedSeat);
+                                    choice += 1;
+                                    my.selectedSeat.add(seatNum);
+                                    button.setIcon(new ImageIcon("./image/choosebutton.png"));
+                                } else if (my.selectedSeat.contains(seatNum) == true) {
+                                    System.out.println("감소 2");
+                                    System.out.println(my.selectedSeat);
+                                    choice -= 1;
+                                    my.selectedSeat.remove((Integer) (seatNum));
+                                    button.setIcon(new ImageIcon());
+                                }
                             }
                         }
-                        
+
                         @Override
                         public void mouseEntered(MouseEvent e) {
-                            JToggleButton button = (JToggleButton)e.getSource();
-                            button.setBackground(new Color(200,125,125));
+                            JToggleButton button = (JToggleButton) e.getSource();
+                            button.setBackground(new Color(200, 125, 125));
                         }
+
                         @Override
                         public void mouseExited(MouseEvent e) {
-                            JToggleButton button = (JToggleButton)e.getSource();
-                            button.setBackground(new Color(170,170,170));
+                            JToggleButton button = (JToggleButton) e.getSource();
+                            button.setBackground(new Color(170, 170, 170));
 
                         }
                     });
                 }
 
-                jb[i][j].setBounds(button_x+60*i,button_y+66*j,50,50);
+                jb[i][j].setBounds(button_x + 60 * i, button_y + 66 * j, 50, 50);
                 contentPane.add(jb[i][j]);
             }
         }
@@ -109,22 +135,24 @@ public class seatFrame extends javax.swing.JFrame {
 
     public void getSeat() {
         DB db = new DB();
-        List<Map<String, Object>> info = db.query(String.format("SELECT * FROM theater.reservation where ScreeningId = %d and cancled = 0;", my.ScreeningId));
-        for(int i = 0; i < info.size(); i++) {
-            int seatId = Integer.parseInt((String)info.get(i).get("seatId"));
+        List<Map<String, Object>> info = db.query(String
+                .format("SELECT * FROM theater.reservation where ScreeningId = %d and cancled = 0;", my.ScreeningId));
+        for (int i = 0; i < info.size(); i++) {
+            int seatId = Integer.parseInt((String) info.get(i).get("seatId"));
             this.reservedSeat.add(seatId);
         }
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         contentPane = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(icon.getImage(), 0, 0, null);
-                g.drawImage(my.getsmallIcon().getImage(),160,45,null);
-                //my.getIcon().paintIcon(this, g, 133, 30);
-                setOpaque(false); //그림을 표시하게 설정,투명하게 조절
+                g.drawImage(my.getsmallIcon().getImage(), 160, 45, null);
+                // my.getIcon().paintIcon(this, g, 133, 30);
+                setOpaque(false); // 그림을 표시하게 설정,투명하게 조절
                 super.paintComponent(g);
             }
         };
@@ -138,25 +166,25 @@ public class seatFrame extends javax.swing.JFrame {
         backButton.setFocusPainted(false);
         backButton.setBackground(Color.WHITE);
         contentPane.add(backButton);
-        backButton.addActionListener(new ActionListener() { // mainFrame으로 이동 
-			public void actionPerformed(ActionEvent e) {
-				reserveFrame m = new reserveFrame(my);
-				m.setVisible(true);
-				dispose();
-			}
-		});
+        backButton.addActionListener(new ActionListener() { // mainFrame으로 이동
+            public void actionPerformed(ActionEvent e) {
+                reserveFrame m = new reserveFrame(my);
+                m.setVisible(true);
+                dispose();
+            }
+        });
 
         // 추가해야함
         JLabel dateLabel = new JLabel(date);
         JLabel timeLabel = new JLabel(time);
-        JLabel adultC = new JLabel(adultCount+"");
-        JLabel youthC = new JLabel(youthCount+"");
-        JLabel price = new JLabel(adultCount*13000+youthCount*10000+"");
-        dateLabel.setBounds(160,285,200,100);
-        timeLabel.setBounds(160,335,200,100);
-        adultC.setBounds(160,410,200,100);
-        youthC.setBounds(160,460,200,100);
-        price.setBounds(160,533,200,100);
+        JLabel adultC = new JLabel(adultCount + "");
+        JLabel youthC = new JLabel(youthCount + "");
+        JLabel price = new JLabel(adultCount * 13000 + youthCount * 10000 + "");
+        dateLabel.setBounds(160, 285, 200, 100);
+        timeLabel.setBounds(160, 335, 200, 100);
+        adultC.setBounds(160, 410, 200, 100);
+        youthC.setBounds(160, 460, 200, 100);
+        price.setBounds(160, 533, 200, 100);
 
         dateLabel.setForeground(Color.white);
         dateLabel.setFont(dateLabel.getFont().deriveFont(27.0F));
@@ -177,13 +205,12 @@ public class seatFrame extends javax.swing.JFrame {
 
         JButton reserveBtn = new JButton(new ImageIcon("./image/seat1.jpg"));
         reserveBtn.setRolloverIcon(new ImageIcon("./image/seat2.jpg"));
-        reserveBtn.addActionListener( new ActionListener(){
+        reserveBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(choice!=count){
+                if (choice != count) {
                     JOptionPane.showMessageDialog(null, "선택하신 좌석의 수가 올바르지 않습니다.");
                     return;
-                }
-                else{
+                } else {
                     payFrame s = new payFrame(my);
                     s.setVisible(true);
                     dispose();
@@ -202,13 +229,9 @@ public class seatFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1366, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 1366, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 768, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 768, Short.MAX_VALUE));
 
         pack();
         setLocationRelativeTo(null);

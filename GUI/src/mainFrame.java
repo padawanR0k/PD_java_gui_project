@@ -6,6 +6,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.border.LineBorder;
 
 import DB.DB;
 import java.awt.event.ActionListener;
@@ -160,7 +161,7 @@ public class mainFrame {
 		jb[i] = this.makePosterButton(poster, MovieId);
 		jb[i].setBounds(bounds[0], bounds[1], bounds[2], bounds[3]);
 		jb[i].setBackground(Color.BLACK);
-		jb[i].setBorderPainted(false);
+		//jb[i].setBorderPainted(false);
 		jb[i].setFocusPainted(false);
 		bgPanel.add(jb[i]);
 	}
@@ -185,6 +186,37 @@ public class mainFrame {
 					}
 				}
 			}
+		});
+		
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				JButton button = (JButton) e.getSource();
+				for (int i = 0; i < 5; i++) {
+					if (button.equals(jb[i])) {
+						btn.setIcon(resizeIcon(posterList[page + i], 260, 372));
+						btn.setBorderPainted(true);
+						btn.setBorder(new LineBorder(Color.white, 3));
+						bgPanel.add(btn);									
+					}
+				}
+			}
+
+		});
+		
+		btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				JButton button = (JButton) e.getSource();
+				for (int i = 0; i < 5; i++) {
+					if (button.equals(jb[i])) {
+						btn.setIcon(resizeIcon(posterList[page + i], 230, 328));
+						btn.setBorderPainted(false);
+						bgPanel.add(btn);									
+					}
+				}
+			}
+
 		});
 
 		btn.setIcon(IMG);

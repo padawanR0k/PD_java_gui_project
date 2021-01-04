@@ -122,26 +122,34 @@ public class loginFrame {
 			Map<String, Object> result = response.get(0);
 			Long isIdValid = (Long) result.get("isIdValid");
 			Long isAllValid = (Long)result.get("isAllValid");
-			if (isIdValid == 0) {
-				JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다.");
-			} else {
-				if (isAllValid == 1) {
-					List<Map<String, Object>> response2 = db
-							.query(String.format("select AccountId, nick, id from theater.account where id = '%s'", ID));
-					String id = (String) response2.get(0).get("id");
-					int accountId = (int) response2.get(0).get("AccountId");
-					user my = new user(id);
-					user.accountId = accountId;
-
-					JOptionPane.showMessageDialog(null, "안녕하세요, PLAYBOX 입니다.");
-					dispose();
-					mainFrame frame = new mainFrame(my);
-					frame.setVisible(true);
-				} else {
-					JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
-				}
+			if (ID.length() == 0) {
+				JOptionPane.showMessageDialog(null, "아이디를 입력해주세요.");
+			} else if (PW.length() == 0) {
+				JOptionPane.showMessageDialog(null, "비밀번호를 입력해주세요.");
 			}
-			System.out.println(response);
+			else {
+				if (isIdValid == 0) {
+					JOptionPane.showMessageDialog(null, "존재하지 않는 아이디입니다.");
+				} else {
+					if (isAllValid == 1) {
+						List<Map<String, Object>> response2 = db
+								.query(String.format("select AccountId, nick, id from theater.account where id = '%s'", ID));
+						String id = (String) response2.get(0).get("id");
+						int accountId = (int) response2.get(0).get("AccountId");
+						user my = new user(id);
+						user.accountId = accountId;
+
+						JOptionPane.showMessageDialog(null, "안녕하세요, PLAYBOX 입니다.");
+						dispose();
+						mainFrame frame = new mainFrame(my);
+						frame.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다.");
+					}
+				}
+				System.out.println(response);
+			}
+			
 
 		}
 	}

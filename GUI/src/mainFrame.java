@@ -31,6 +31,8 @@ public class mainFrame {
 	int poster_num;
 	ImageIcon[] posterList;
 	ArrayList<Integer> MovieIds;
+	JButton nextBtn;
+	JButton prevBtn;
 	user my;
 	final int POSTER_GUTTER = 256;
 	final int POSTER_WIDTH = 230;
@@ -65,8 +67,8 @@ public class mainFrame {
 		frame.getContentPane().add(bgPanel);
 		bgPanel.setLayout(null);
 		this.drawMypageButton(bgPanel);
-		this.drawPreviousButton(bgPanel);
-		this.drawNextButton(bgPanel);
+		prevBtn = this.drawPreviousButton(bgPanel);
+		nextBtn = this.drawNextButton(bgPanel);
 
 		String folderPath = "./image/poster/";
 		File path = new File(folderPath);
@@ -182,10 +184,6 @@ public class mainFrame {
 						break;
 					}
 				}
-				// ImageIcon clickedMovie = this.posterList.get(MovieId);
-				// reserveFrame s = new reserveFrame(resizeIcon(clickedMovie, 400, 600));
-				// s.setVisible(true);
-				// frame.dispose();
 			}
 		});
 
@@ -213,7 +211,7 @@ public class mainFrame {
 		bgPanel.add(button);
 	}
 
-	public void drawPreviousButton(ImagePanel bgPanel) {
+	public JButton drawPreviousButton(ImagePanel bgPanel) {
 		JButton button = this.makeImageButton("previous1.png", "previous2.png");
 		button.setBounds(563, 631, 90, 90);
 		button.setBorderPainted(false);
@@ -223,9 +221,18 @@ public class mainFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (button.hasFocus()) {
+					nextBtn.setVisible(true);
 					if (page == 0) {
 					} else {
 						page = page - 5;
+						System.out.println("asd");
+
+						if (page == 0) {
+							prevBtn.setVisible(false);
+						} else {
+							prevBtn.setVisible(true);
+						}
+
 						if ((posterList.length - page) < 5) {
 							int a = posterList.length - page;
 							int i;
@@ -260,9 +267,11 @@ public class mainFrame {
 		});
 
 		bgPanel.add(button);
+		button.setVisible(false);
+		return button;
 	}
 
-	public void drawNextButton(ImagePanel bgPanel) {
+	public JButton drawNextButton(ImagePanel bgPanel) {
 		JButton button = this.makeImageButton("next1.png", "next2.png");
 		button.setBounds(703, 631, 90, 90);
 		button.setBorderPainted(false);
@@ -272,9 +281,16 @@ public class mainFrame {
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (button.hasFocus()) {
+					prevBtn.setVisible(true);
 					if (page == (page_max - 1) * 5) {
 					} else {
 						page = page + 5;
+						if (page ==  (page_max - 1) * 5) {
+							nextBtn.setVisible(false);
+						} else {
+							nextBtn.setVisible(true);
+						}
+
 						if ((posterList.length - page) < 5) {
 							int a = posterList.length - page;
 							int i;
@@ -308,6 +324,7 @@ public class mainFrame {
 		});
 
 		bgPanel.add(button);
+		return button;
 	}
 
 	public JButton makeImageButton(String img, String hoverImg) {

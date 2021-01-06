@@ -5,8 +5,10 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
-
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +17,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import java.time.Instant;
+
 
 import DB.DB;
 
@@ -37,6 +41,7 @@ public class reservationCancelFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
 	}
 
 	public reservationCancelFrame(user my, String groupId) {
@@ -266,12 +271,17 @@ public class reservationCancelFrame {
 
 	public void cancel(String groupId) {
 		DB db = new DB();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date now = new Date();
+		String timestamp_cancel = sdf.format(now);
+
 		int result = db.update(String.format(
 				"UPDATE theater.reservation" +
 					" SET " +
-						"cancled=1" +
+						"cancled=1," +
+						"timestamp_cancel='%s'" +
 				" WHERE groupId = '%s'"
-			, groupId));
+			, timestamp_cancel ,groupId));
 		if (result > 0) {
 			JOptionPane.showMessageDialog(null, "취소되었습니다.");
 			frame.dispose();

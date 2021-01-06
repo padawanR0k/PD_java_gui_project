@@ -104,7 +104,7 @@ public class checkFrame {
 						"res.groupId," +
 						"res.ReservId," +
 						"res.AccountId," +
-						"res.cancled" +
+						"res.canceled" +
 				" FROM " +
 						"theater.reservation AS res" +
 								" JOIN " +
@@ -112,7 +112,7 @@ public class checkFrame {
 								" JOIN " +
 						"theater.screening AS scr ON scr.ScreeningId = res.ScreeningId" +
 				" WHERE " +
-						"AccountId = %s AND  res.cancled = 0" +
+						"AccountId = %s AND  res.canceled = 0" +
 				" group by res.ReservId;"
 				, user.accountId));
 

@@ -136,7 +136,7 @@ public class seatFrame extends javax.swing.JFrame {
     public void getSeat() {
         DB db = new DB();
         List<Map<String, Object>> info = db.query(String
-                .format("SELECT * FROM theater.reservation where ScreeningId = %d and cancled = 0;", my.ScreeningId));
+                .format("SELECT * FROM theater.reservation where ScreeningId = %d and canceled = 0;", my.ScreeningId));
         for (int i = 0; i < info.size(); i++) {
             int seatId = Integer.parseInt((String) info.get(i).get("seatId"));
             this.reservedSeat.add(seatId);

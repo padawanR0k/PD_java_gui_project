@@ -84,7 +84,7 @@ public class reservationCancelFrame {
 				"scr.ScreeningId AS ScreeningId," +
 				"res.groupId," +
 				"res.AccountId," +
-				"res.cancled," +
+				"res.canceled," +
 				"res.seatId" +
 		" FROM " +
 				"theater.reservation AS res" +
@@ -115,7 +115,7 @@ public class reservationCancelFrame {
 		this.count.setText(count.toString());
 		this.seats.setText(seats);
 
-		this.canceled = (Integer) movie.get("cancled");
+		this.canceled = (Integer) movie.get("canceled");
 		this.MovieId = (Integer) movie.get("MovieId");
 		ImageIcon posterImg = resizeIcon(new ImageIcon("./image/poster/poster_" + this.MovieId.toString() + ".jpg"), 120, 168);
 
@@ -278,7 +278,7 @@ public class reservationCancelFrame {
 		int result = db.update(String.format(
 				"UPDATE theater.reservation" +
 					" SET " +
-						"cancled=1," +
+						"canceled=1," +
 						"timestamp_cancel='%s'" +
 				" WHERE groupId = '%s'"
 			, timestamp_cancel ,groupId));

@@ -154,7 +154,7 @@ public class payFrame {
 		String uuid = UUID.randomUUID().toString();
 		for (Integer seat : my.selectedSeat) {
 			query = String.format(
-					"INSERT INTO theater.reservation set MovieId = %s, ScreeningId = %s, AccountId = %s, groupId = '%s', date = '%s', cancled = 0, seatId = %s ;",
+					"INSERT INTO theater.reservation set MovieId = %s, ScreeningId = %s, AccountId = %s, groupId = '%s', date = '%s', canceled = 0, seatId = %s ;",
 					my.getmovieId(), my.ScreeningId ,user.accountId, uuid, today, seat);
 			int res = db.update(query);
 		}

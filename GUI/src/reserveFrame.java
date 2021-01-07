@@ -81,17 +81,18 @@ public class reserveFrame extends javax.swing.JFrame {
         contentPane.setLayout(null);
         setLocationRelativeTo(null);
 
-        JButton backButton = new JButton(backBtn); // 뒤로가기 버튼
+        JLabel backButton = new JLabel("");
+        backButton.setIcon(backBtn);
+        backButton.setOpaque(false); // 그림을 표시하게 설정,투명하게 조절
         backButton.setBounds(1245, 10, 85, 85);
-        backButton.setBorderPainted(false);
-        backButton.setFocusPainted(false);
         backButton.setBackground(Color.BLACK);
         contentPane.add(backButton);
-        backButton.addActionListener(new ActionListener() { // mainFrame으로 이
-            public void actionPerformed(ActionEvent e) {
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
                 mainFrame m = new mainFrame(my);
                 m.setVisible(true);
-                dispose();
+                dispose();              
             }
         });
         dateCbox = new JComboBox<>();

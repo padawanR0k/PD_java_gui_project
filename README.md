@@ -19,7 +19,7 @@ PLAYBOX는 [Playdata](https://playdata.io/)에서 진행한 미니 팀프로젝�
 
 ## Period
 
-2020.12.10 ~ 2020.12.28
+2020.12.10 ~ 2020.12.30
 
 </br>
 
@@ -32,3 +32,13 @@ PLAYBOX는 [Playdata](https://playdata.io/)에서 진행한 미니 팀프로젝�
 - Java GUI : Swing
 - DataBase : MySQL 8.0.22
 - DataBase Server : Google Cloud Platform
+
+</br>
+
+## Presentation
+
+- [PLAYBOX 발표 자료(PPT)](https://docs.google.com/presentation/d/1EQFsqcizLspDQvaiMGMRA7F0dDtOA6Wprwe3tOWUknI/edit?usp=sharing)
+
+- [PLAYBOX 발표 영상](https://www.youtube.com/watch?v=_rA1pb8pquU&feature=youtu.be)
+
+- [PLAYBOX 시연 영상](https://youtu.be/tSW5qKO5hBY)

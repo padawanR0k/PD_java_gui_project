@@ -66,7 +66,8 @@ public class seatFrame extends javax.swing.JFrame {
         initComponents();
         button_x = 574;
         button_y = 165;
-        icon = new ImageIcon("./image/bg_seatFrame.jpg");
+        icon = new ImageIcon("./image/bg_corona_seatFrame.jpg");
+        
         this.getSeat();
         
         try{ // mac에서 Color객체 채울때 필요
@@ -182,6 +183,7 @@ public class seatFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	JOptionPane.showMessageDialog(null, "좌석 간 띄어앉기 및 상영관 내 마스크 상시 착용 부탁드립니다.");
         contentPane = new JPanel() {
             public void paintComponent(Graphics g) {
                 g.drawImage(icon.getImage(), 0, 0, null);
@@ -194,22 +196,23 @@ public class seatFrame extends javax.swing.JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null);
-
-        JButton backButton = new JButton(new ImageIcon("./image/btn/back_btn.png")); // 뒤로가기 버튼
+        
+        ImageIcon backBtn = new ImageIcon("./image/btn/back_btn.png"); // 뒤로가기 버튼 
+        JLabel backButton = new JLabel("");
+        backButton.setIcon(backBtn);
+        backButton.setOpaque(false); // 그림을 표시하게 설정,투명하게 조절
         backButton.setBounds(1245, 10, 85, 85);
-        backButton.setBorderPainted(false);
-        backButton.setFocusPainted(false);
         backButton.setBackground(Color.WHITE);
         contentPane.add(backButton);
-        backButton.addActionListener(new ActionListener() { // mainFrame으로 이동
-            public void actionPerformed(ActionEvent e) {
-                reserveFrame m = new reserveFrame(my);
+        backButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	reserveFrame m = new reserveFrame(my);
                 m.setVisible(true);
-                dispose();
+                dispose();             
             }
         });
 
-        // 추가해야함
         JLabel dateLabel = new JLabel(date);
         JLabel timeLabel = new JLabel(time);
         JLabel adultC = new JLabel(adultCount + "");

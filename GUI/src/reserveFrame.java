@@ -61,7 +61,11 @@ public class reserveFrame extends javax.swing.JFrame {
         ImageIcon reserve2 = new ImageIcon("./image/reserve2.jpg");
         ImageIcon backBtn = new ImageIcon("./image/btn/back_btn2.png");
         icon = new ImageIcon("./image/bg_reserveFrame.jpg");
-
+        try{ // mac에서 Color객체 채울때 필요
+            javax.swing.UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
         initComponents();
 
         contentPane = new JPanel() {
@@ -119,9 +123,10 @@ public class reserveFrame extends javax.swing.JFrame {
                         return;
                     }
                     for (int i = 0; i < 10; i++) {
-                        adult_btn_list[i].setIcon(new ImageIcon(""));
+                        //adult_btn_list[i].setIcon(new ImageIcon(""));
+                        adult_btn_list[i].setBackground(null);
                     }
-                    adult_btn_list[Integer.parseInt(button.getText())].setIcon(new ImageIcon("./image/selectedButton.png"));
+                    adult_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(229,9,20));
                     adultCount = Integer.parseInt(button.getText());
                     //price.setText(adultCount * 13000 + youthCount * 10000 + " Won");
                     price.setText(String.format("13,000 X %d + 10,000 X %d", adultCount,youthCount));
@@ -144,9 +149,11 @@ public class reserveFrame extends javax.swing.JFrame {
                         return;
                     }
                     for (int i = 0; i < 10; i++) {
-                        youth_btn_list[i].setIcon(new ImageIcon(""));
+                        //youth_btn_list[i].setIcon(new ImageIcon(""));
+                        youth_btn_list[i].setBackground(null);
                     }
-                    youth_btn_list[Integer.parseInt(button.getText())].setIcon(new ImageIcon("./image/selectedButton.png"));
+                    //youth_btn_list[Integer.parseInt(button.getText())].setIcon(new ImageIcon("./image/selectedButton.png"));
+                    youth_btn_list[Integer.parseInt(button.getText())].setBackground(new Color(229,9,20));
                     youthCount = Integer.parseInt(button.getText());
                     price.setText(String.format("13,000 X %d + 10,000 X %d", adultCount,youthCount));
                     price2.setText(String.format("= ￦%s", formats.format(adultCount*13000+youthCount*10000)));
@@ -157,8 +164,10 @@ public class reserveFrame extends javax.swing.JFrame {
             contentPane.add(youth_btn_list[i]);
         }
 
-        youth_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.png"));
-        adult_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.png"));
+        //youth_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.png"));
+        //adult_btn_list[0].setIcon(new ImageIcon("./image/selectedButton.png"));
+        youth_btn_list[0].setBackground(new Color(229,9,20));
+        adult_btn_list[0].setBackground(new Color(229,9,20));
 
         JButton choiceButton = new JButton(reserve1); // choose you seat 버튼
         choiceButton.setRolloverIcon(reserve2);

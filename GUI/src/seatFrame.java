@@ -54,18 +54,26 @@ public class seatFrame extends javax.swing.JFrame {
 
     public seatFrame(user my) { // 좌석 개수
         this.my = my;
+        this.my.resetSeat();
+        my.resetSeat();
         this.adultCount = my.getadultCount();
         this.youthCount = my.getyouthCount();
         this.count = adultCount + youthCount;
         this.movieId = my.getmovieId();
         this.date = my.getDate();
         this.time = my.getTime();
-        this.choice = 0;
+        this.choice = 0;    
         initComponents();
         button_x = 574;
         button_y = 165;
         icon = new ImageIcon("./image/bg_seatFrame.jpg");
         this.getSeat();
+        
+        try{ // mac에서 Color객체 채울때 필요
+            javax.swing.UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
         // 버튼 배치
         JToggleButton[][] jb = new JToggleButton[10][8];
@@ -73,15 +81,33 @@ public class seatFrame extends javax.swing.JFrame {
             for (int j = 0; j < 8; j++) {
                 int seatNum = j * 10 + i;
                 jb[i][j] = new JToggleButton((char) (65 + j) + "" + i); // 아스키
-                jb[i][j].setBackground(new Color(170, 170, 170));
-
+                //jb[i][j].setBackground(Color.RED);
+                if (j%2==0){
+                    if(i%2==0){
+                        jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.png"));
+                        jb[i][j].setBounds(button_x + 60 * i, button_y + 66 * j, 50, 50);
+                        contentPane.add(jb[i][j]);
+                        continue;
+                    }
+                }
+                else{
+                    if(i%2==1){
+                        jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.png"));
+                        jb[i][j].setBounds(button_x + 60 * i, button_y + 66 * j, 50, 50);
+                        contentPane.add(jb[i][j]);
+                        continue;
+                    }
+                }
                 if (this.reservedSeat.contains(seatNum) == true) {
-                    jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.png"));
+                    jb[i][j].setIcon(new ImageIcon("./image/alreadybutton.png"));
+                    jb[i][j].setBounds(button_x + 60 * i, button_y + 66 * j, 50, 50);
+                     contentPane.add(jb[i][j]);
+                    continue;
                 } else {
-
                     jb[i][j].addMouseListener(new MouseAdapter() {
                         @Override
-                        public void mouseClicked(MouseEvent e) {
+                        //public void mouseClicked(MouseEvent e) {
+                        public void mousePressed(MouseEvent e) {
                             JToggleButton button = (JToggleButton) e.getSource();
                             System.out.println(choice + button.getText());
                             if (choice == count) {
@@ -91,7 +117,7 @@ public class seatFrame extends javax.swing.JFrame {
 
                                     choice -= 1;
                                     my.selectedSeat.remove((Integer) (seatNum));
-                                    button.setIcon(new ImageIcon());
+                                    button.setBackground(null);
                                 } else {
                                     JOptionPane.showMessageDialog(null, "모두 선택하셨습니다.");
                                 }
@@ -101,29 +127,38 @@ public class seatFrame extends javax.swing.JFrame {
                                     System.out.println(my.selectedSeat);
                                     choice += 1;
                                     my.selectedSeat.add(seatNum);
-                                    button.setIcon(new ImageIcon("./image/choosebutton.png"));
+                                    //button.setIcon(new ImageIcon("./image/choosebutton.png"));
+                                    button.setBackground(new Color(229,9,20));
                                 } else if (my.selectedSeat.contains(seatNum) == true) {
                                     System.out.println("감소 2");
                                     System.out.println(my.selectedSeat);
                                     choice -= 1;
                                     my.selectedSeat.remove((Integer) (seatNum));
-                                    button.setIcon(new ImageIcon());
+                                    //button.setIcon(new ImageIcon());
+                                    button.setBackground(null);
                                 }
                             }
                         }
-
+                        
                         @Override
                         public void mouseEntered(MouseEvent e) {
                             JToggleButton button = (JToggleButton) e.getSource();
-                            button.setBackground(new Color(200, 125, 125));
+                            if(button.isSelected()==false && choice!=count)
+                            {
+                                button.setBackground(new Color(229,9,20));
+                            }
                         }
 
                         @Override
                         public void mouseExited(MouseEvent e) {
                             JToggleButton button = (JToggleButton) e.getSource();
-                            button.setBackground(new Color(170, 170, 170));
+                            if(button.isSelected()==false)
+                            {
+                                button.setBackground(null);
+                            }
 
                         }
+                        
                     });
                 }
 
@@ -154,7 +189,7 @@ public class seatFrame extends javax.swing.JFrame {
                 // my.getIcon().paintIcon(this, g, 133, 30);
                 setOpaque(false); // 그림을 표시하게 설정,투명하게 조절
                 super.paintComponent(g);
-            }
+            }   
         };
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);

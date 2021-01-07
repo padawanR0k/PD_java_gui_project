@@ -60,6 +60,11 @@ public class mainFrame {
 
 	private void initialize() {
 		frame = new JFrame();
+		try{ // mac에서 Color객체 채울때 필요
+			javax.swing.UIManager.setLookAndFeel("com.apple.laf.AquaLookAndFeel");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 		jb = new JButton[5];
 		for (int i = 0; i < 5; i++) {
 			jb[i] = new JButton();

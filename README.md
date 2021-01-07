@@ -1,6 +1,6 @@
 # JAVA GUI PROJECT - PLAYBOX
 
-[![PALYBOX](Image/playbox.png)](https://youtu.be/Sh_Pzu-7seQ)
+[![PALYBOX](image/playbox.png)](https://youtu.be/Sh_Pzu-7seQ)
 
 ## Introduction
 

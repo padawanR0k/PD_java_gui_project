@@ -75,30 +75,27 @@ public class seatFrame extends javax.swing.JFrame {
         }catch(Exception e){
             e.printStackTrace();
         }
+        
+        createButton mymaker = new createButton();
 
         // 버튼 배치
         JToggleButton[][] jb = new JToggleButton[10][8];
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 8; j++) {
                 int seatNum = j * 10 + i;
-                jb[i][j] = new JToggleButton((char) (65 + j) + "" + i); // 아스키
-                //jb[i][j].setBackground(Color.RED);
                 if (j%2==0){
                     if(i%2==0){
-                        jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.png"));
-                        jb[i][j].setBounds(button_x + 60 * i, button_y + 66 * j, 50, 50);
-                        contentPane.add(jb[i][j]);
+                        contentPane.add(mymaker.createJToggleButton(i, j));
                         continue;
                     }
                 }
                 else{
                     if(i%2==1){
-                        jb[i][j].setIcon(new ImageIcon("./image/choosebutton2.png"));
-                        jb[i][j].setBounds(button_x + 60 * i, button_y + 66 * j, 50, 50);
-                        contentPane.add(jb[i][j]);
+                        contentPane.add(mymaker.createJToggleButton(i, j));
                         continue;
                     }
                 }
+                jb[i][j] = new JToggleButton((char) (65 + j) + "" + i); // 아스키
                 if (this.reservedSeat.contains(seatNum) == true) {
                     jb[i][j].setIcon(new ImageIcon("./image/alreadybutton.png"));
                     jb[i][j].setBounds(button_x + 60 * i, button_y + 66 * j, 50, 50);
@@ -113,9 +110,6 @@ public class seatFrame extends javax.swing.JFrame {
                             System.out.println(choice + button.getText());
                             if (choice == count) {
                                 if (my.selectedSeat.contains(seatNum)) {
-                                    System.out.println("감소 1");
-                                    System.out.println(my.selectedSeat);
-
                                     choice -= 1;
                                     my.selectedSeat.remove((Integer) (seatNum));
                                     button.setBackground(null);
@@ -124,18 +118,12 @@ public class seatFrame extends javax.swing.JFrame {
                                 }
                             } else {
                                 if (my.selectedSeat.contains(seatNum) == false) {
-                                    System.out.println("증가 11");
-                                    System.out.println(my.selectedSeat);
                                     choice += 1;
                                     my.selectedSeat.add(seatNum);
-                                    //button.setIcon(new ImageIcon("./image/choosebutton.png"));
                                     button.setBackground(new Color(229,9,20));
                                 } else if (my.selectedSeat.contains(seatNum) == true) {
-                                    System.out.println("감소 2");
-                                    System.out.println(my.selectedSeat);
                                     choice -= 1;
                                     my.selectedSeat.remove((Integer) (seatNum));
-                                    //button.setIcon(new ImageIcon());
                                     button.setBackground(null);
                                 }
                             }
